@@ -175,7 +175,7 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 	// Report discovery
 
 	/**
-	 * Get a list with object data (id, title, type, description) of all
+	 * Get a list with object data (id, title, type, description, icon_small) of all
 	 * Report Objects in the system that are not in the trash. The id is
 	 * the obj_id, not the ref_id.
 	 *
@@ -204,8 +204,13 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 			// this actually is the object type
 			$type = $plugin->getId();
 
+			$icon = ilRepositoryObjectPlugin::_getIcon($type, "small");
+
 			// second parameter is $a_omit_trash
-			$obj_data[] = ilObject::_getObjectsDataForType($type, true);
+			$obj_data[] = array_map(function(&$data) use (&$icon) {
+					$data["icon"] = $icon;
+					return $data;
+				}, ilObject::_getObjectsDataForType($type, true));
 		}
 
 		return call_user_func_array("array_merge", $obj_data);
