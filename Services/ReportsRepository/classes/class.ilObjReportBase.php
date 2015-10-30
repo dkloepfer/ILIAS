@@ -206,12 +206,13 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 
 			$icon = ilRepositoryObjectPlugin::_getIcon($type, "small");
 
-			// second parameter is $a_omit_trash
 			$obj_data[] = array_map(function(&$data) use (&$icon) {
+					// adjust data to fir documentation.
 					$data["obj_id"] = $data["id"];
 					unset($data["id"]);
 					$data["icon"] = $icon;
 					return $data;
+											// second parameter is $a_omit_trash
 				}, ilObject::_getObjectsDataForType($type, true));
 		}
 
