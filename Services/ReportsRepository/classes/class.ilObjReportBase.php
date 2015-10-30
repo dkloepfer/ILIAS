@@ -175,7 +175,7 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 	// Report discovery
 
 	/**
-	 * Get a list with object data (id, title, type, description, icon_small) of all
+	 * Get a list with object data (obj_id, title, type, description, icon_small) of all
 	 * Report Objects in the system that are not in the trash. The id is
 	 * the obj_id, not the ref_id.
 	 *
@@ -208,11 +208,45 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 
 			// second parameter is $a_omit_trash
 			$obj_data[] = array_map(function(&$data) use (&$icon) {
+					$data["obj_id"] = $data["id"];
+					unset($data["id"]);
 					$data["icon"] = $icon;
 					return $data;
 				}, ilObject::_getObjectsDataForType($type, true));
 		}
 
 		return call_user_func_array("array_merge", $obj_data);
+	}
+
+	/**
+	 * Get a list of all reports visible to the given user. Returns a list with entries
+	 * title.obj_id => (obj_id, title, type, description, icon). If a report is visible via two different
+	 * ref_ids only one of those will appear in the result.
+	 *
+	 * @param	ilObjUser $user
+	 * @return	array
+	 */
+	static public function getVisibleReportsObjectData(ilObjUser $user) {
+		require_once("Services/Object/classes/class.ilObject.php");
+
+		global $ilAccess;
+
+		$reports = self::getReportsObjectData();
+
+		$visible_reports = array();
+
+		foreach ($reports as $key => &$report) {
+			$obj_id = $report["obj_id"];
+			$type = $report["type"];
+			foreach (ilObject::_getAllReferences($report["obj_id"]) as $ref_id) {
+				if ($ilAccess->checkAccessOfUser($user->getId(), "read", null, $ref_id)) {//, $type, $obj_id)) {
+					$report["ref_id"] = $ref_id;
+					$visible_reports[$key] = $report;
+					break;
+				}
+			}
+		}
+
+		return $visible_reports;
 	}
 }
