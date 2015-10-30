@@ -220,8 +220,8 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 
 	/**
 	 * Get a list of all reports visible to the given user. Returns a list with entries
-	 * title.obj_id => (obj_id, title, type, description, icon). If a report is visible via two different
-	 * ref_ids only one of those will appear in the result.
+	 * title.obj_id => (obj_id, title, type, description, icon). If a report is visible
+	 * via two different ref_ids only one of those will appear in the result.
 	 *
 	 * @param	ilObjUser $user
 	 * @return	array
