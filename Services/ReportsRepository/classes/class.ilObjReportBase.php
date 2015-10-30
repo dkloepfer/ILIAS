@@ -171,4 +171,42 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 	public function getRelevantaParameters() {
 		return $this->relevant_parameters;
 	}
+
+	// Report discovery
+
+	/**
+	 * Get a list with object data (id, title, type, description) of all
+	 * Report Objects in the system that are not in the trash.
+	 *
+	 * @return array
+	 */
+	static public function getReportObjectData() {
+		require_once("Services/Repository/classes/class.ilRepositoryObjectPlugin.php");
+
+		global $ilPluginAdmin, $tree;
+
+		$c_type = ilRepositoryObjectPlugin::getComponentType();
+		$c_name = ilRepositoryObjectPlugin::getComponentName();
+		$slot_id = ilRepositoryObjectPlugin::getSlotId();
+		$plugin_names = $ilPluginAdmin->getActivePluginsForSlot($c_type, $c_name, $slot_id);
+
+		$obj_data = array();
+
+		foreach ($plugin_names as $plugin_name) {
+			$plugin = $ilPluginAdmin->getPluginObject($c_type, $c_name, $slot_id, $plugin_name);
+			assert($plugin instanceof ilRepositoryObjectPlugin);
+
+			if (!($plugin instanceof ilReportBasePlugin)) {
+				continue;
+			}
+
+			// this actually is the object type
+			$type = $plugin->getId();
+
+			// second parameter is $a_omit_trash
+			$obj_data[] = ilObject::_getObjectsDataForType($type, true);
+		}
+
+		return call_user_func_array("array_merge", $obj_data);
+	}
 }
