@@ -176,7 +176,8 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 
 	/**
 	 * Get a list with object data (id, title, type, description) of all
-	 * Report Objects in the system that are not in the trash.
+	 * Report Objects in the system that are not in the trash. The id is
+	 * the obj_id, not the ref_id.
 	 *
 	 * @return array
 	 */
