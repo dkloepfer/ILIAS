@@ -183,7 +183,7 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 	static public function getReportObjectData() {
 		require_once("Services/Repository/classes/class.ilRepositoryObjectPlugin.php");
 
-		global $ilPluginAdmin, $tree;
+		global $ilPluginAdmin;
 
 		$c_type = ilRepositoryObjectPlugin::getComponentType();
 		$c_name = ilRepositoryObjectPlugin::getComponentName();
