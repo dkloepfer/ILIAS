@@ -1,5 +1,6 @@
 
 # /
+*.orig
 .DS_Store
 /.buildpath
 /.htaccess
