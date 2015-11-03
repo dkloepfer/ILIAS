@@ -21,6 +21,9 @@ require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 class gevMainMenuGUI extends ilMainMenuGUI {
 	const IL_STANDARD_ADMIN = "gev_ilias_admin_menu";
 	const GEV_REPORTING_MENU = "gev_reporting_menu";
+
+	const HAS_REPORTING_MENU_RECALCULATION_IN_SECS = 60;
+
 	/**
 	 * @var  gevUserUtils
 	 */
@@ -330,8 +333,15 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		return $this->getDropDown($entries)->getHTML();
 	}
 
+	// Stores the info whether a user has a reporting menu in the session of the user to
+	// only calculate it once. Will reuse that value on later calls. 
 	protected function hasReportingMenu() {
-		return     $this->canViewReport("gev_report_billing")
+		$has_reporting_menu = ilSession::get("gev_has_reporting_menu");
+		$last_permission_calculation = ilSession::get("gev_has_reporting_menu_calculation_ts");
+		if ( $has_reporting_menu === null
+		||   $last_permission_calculation + self::HAS_REPORTING_MENU_RECALCULATION_IN_SECS < time()) {
+			$has_reporting_menu
+				=  $this->canViewReport("gev_report_billing")
 				|| $this->canViewReport("gev_report_attendance_by_employee")
 				|| $this->canViewReport("gev_report_bookingbyvenue")
 				|| $this->canViewReport("gev_report_employee_edu_bio")
@@ -345,6 +355,11 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 				|| $this->canViewReport("gev_report_trainer_workload")
 				|| $this->canViewReport("gev_report_trainer_operation_by_orgu_trainer")
 				;
+			ilSession::set("gev_has_reporting_menu", $has_reporting_menu);
+			ilSession::set("gev_has_reporting_menu_calculation_ts", time());
+		}
+
+		return $has_reporting_menu;
 	}
 
 	protected function canViewReport($report_name) {
