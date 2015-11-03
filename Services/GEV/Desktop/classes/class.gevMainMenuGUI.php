@@ -239,17 +239,17 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 			$this->_renderAdminMenu($a_tpl);
 		} 
 		else {
-			$a_tpl->setCurrentBlock("dropdown_entry");
 			
 			$trigger_id = $a_id;
 			$target_id = $a_id."_ov";
 			
-			$a_tpl->setVariable("ENTRY_ID", 'id="'.$trigger_id.'"');
-			$a_tpl->setVariable("ENTRY_ID_OV", 'id="'.$target_id.'"');
-			$this->_setActiveClass($a_tpl, $a_id);
-			$a_tpl->setVariable("ENTRY_TITLE", $a_entry[3]);
+			$tpl = new ilTemplate("tpl.gev_main_menu_entry.html", true, true, "Services/GEV/Desktop");
+			$tpl->setVariable("ENTRY_ID", 'id="'.$trigger_id.'"');
+			$tpl->setVariable("ENTRY_ID_OV", 'id="'.$target_id.'"');
+			$this->_setActiveClass($tpl, $a_id);
+			$tpl->setVariable("ENTRY_TITLE", $a_entry[3]);
 			
-			$a_tpl->setVariable("ENTRY_CONT", $this->_renderDropDown($a_entry[2]));
+			$tpl->setVariable("ENTRY_CONT", $this->_renderDropDown($a_entry[2]));
 			
 			$ov = new ilOverlayGUI($target_id);
 			$ov->setTrigger($trigger_id);
@@ -257,6 +257,8 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 			$ov->setAutoHide(false);
 			$ov->add();
 			
+			$a_tpl->setCurrentBlock("multi_entry");
+			$a_tpl->setVariable("CONTENT", $tpl->get());
 			$a_tpl->parseCurrentBlock();
 		}
 	}
