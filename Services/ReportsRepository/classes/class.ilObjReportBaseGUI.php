@@ -62,7 +62,7 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 	* Besides usual report commands (exportXLS, view, ...) showMenu goes here
 	*/
 	final public function performCommand() {
-		$cmd = $this->gCtrl->getCmd();
+		$cmd = $this->gCtrl->getCmd("showContent");
 			        
 		switch ($cmd) {
 			case "saveSettings":
