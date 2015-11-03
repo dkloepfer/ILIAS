@@ -20,6 +20,7 @@ require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 
 class gevMainMenuGUI extends ilMainMenuGUI {
 	const IL_STANDARD_ADMIN = "gev_ilias_admin_menu";
+	const GEV_REPORTING_MENU = "gev_reporting_menu";
 	/**
 	 * @var  gevUserUtils
 	 */
@@ -44,6 +45,18 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		}
 
 		$this->gLng->loadLanguageModule("gev");
+	}
+
+	public function executeCommand() {
+		$cmd = $this->gCtrl->getCmd();
+		switch ($cmd) {
+			case "getReportingMenuDropDown":
+				assert($this->gCtrl->isAsynch());
+				echo $this->getReportingMenuDropDown();
+				die();
+			default:
+				throw new Exception("gevMainMenuGUI: Unknown Command '$cmd'.");
+		}
 	}
 
 	public function renderMainMenuListEntries($a_tpl, $a_call_get = true) {
@@ -163,21 +176,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 				, "gev_spec_course_approval" => array(true, "NYI!",$this->gLng->txt("gev_spec_course_approval"))
 				, "gev_spec_course_check" => array(true, "NYI!",$this->gLng->txt("gev_spec_course_check"))
 				), $this->gLng->txt("gev_others_menu"))
-			, "gev_reporting_menu" => array(false, $has_reporting_menu, array(
-				  "gev_report_attendance_by_employee" => array($report_permission_attendancebyuser, "ilias.php?baseClass=gevDesktopGUI&cmd=toReportAttendanceByEmployee",$this->gLng->txt("gev_report_attendance_by_employee"))
-				, "gev_report_employee_edu_bio" => array($report_permission_employee_edu_bio, "ilias.php?baseClass=gevDesktopGUI&cmd=toReportEmployeeEduBios",$this->gLng->txt("gev_report_employee_edu_bios"))
-				, "gev_report_billing" => array($report_permission_billing, "ilias.php?baseClass=gevDesktopGUI&cmd=toBillingReport",$this->gLng->txt("gev_report_billing"))
-				, "gev_report_bookingbyvenue" => array($report_permission_bookingsbyvenue, "ilias.php?baseClass=gevDesktopGUI&cmd=toReportBookingsByVenue",$this->gLng->txt("gev_report_bookingbyvenue"))
-				, "gev_report_trainer_operation_by_tep_category" => array($report_permission_traineroperationbytepcategory, "ilias.php?baseClass=gevDesktopGUI&cmd=toReportTrainerOperationByTEPCategory",$this->gLng->txt("gev_report_trainer_operation_by_tep_category"))
-				, "gev_report_attendance_by_orgunit" => array($report_permission_attendancebyorgunit, "ilias.php?baseClass=gevDesktopGUI&cmd=toReportAttendanceByOrgUnit",$this->gLng->txt("gev_report_attendancebyorgunit"))
-				, "gev_report_attendance_by_coursetemplate" => array($report_permission_attendancebycoursetemplate, "ilias.php?baseClass=gevDesktopGUI&cmd=toReportAttendanceByCourseTemplate",$this->gLng->txt("gev_report_attendancebycoursetemplate"))
-				, "gev_report_wbd_edupoints" => array($report_permission_wbd, "ilias.php?baseClass=gevDesktopGUI&cmd=toReportWBDEdupoints",$this->gLng->txt("gev_report_wbd_edupoints"))
-				, "gev_report_wbd_errors" => array($report_permission_wbd, "ilias.php?baseClass=gevDesktopGUI&cmd=toWBDErrors",$this->gLng->txt("gev_report_wbd_errors"))
-				, "gev_report_dbv_report" => array($report_permission_dbv, "ilias.php?baseClass=gevDesktopGUI&cmd=toDBVReport",$this->gLng->txt("gev_report_dbv_report"))
-				, "gev_report_dbv_report_superior" => array($report_permission_dbv_superior, "ilias.php?baseClass=gevDesktopGUI&cmd=toDBVReportSuperior",$this->gLng->txt("gev_report_dbv_report_superior"))
-				, "gev_report_trainer_workload" => array(($this->gUserUtils && $this->gUserUtils->isAdmin()), "ilias.php?baseClass=gevDesktopGUI&cmd=toTrainerWorkload",$this->gLng->txt("gev_report_trainer_workload"))
-				, "gev_report_trainer_operation_by_orgu_trainer" => array(($this->gUserUtils && $this->gUserUtils->isAdmin()), "ilias.php?baseClass=gevDesktopGUI&cmd=toTrainerOperationByOrgUnitAndTrainer",$this->gLng->txt("gev_report_trainer_operation_by_orgu_trainer"))
-				), $this->gLng->txt("gev_reporting_menu"))
+			, self::GEV_REPORTING_MENU => array(false, $has_reporting_menu, null)
 
 			, "gev_admin_menu" => array(false, $has_managment_menu, array(
 				  "gev_course_mgmt" => array($manage_courses, "goto.php?target=root_1",$this->gLng->txt("gev_course_mgmt"))
@@ -237,6 +236,9 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 	protected function _renderDropDownEntry($a_tpl, $a_id, $a_entry) {
 		if ($a_id == self::IL_STANDARD_ADMIN) {
 			$this->_renderAdminMenu($a_tpl);
+		}
+		else if ($a_id == self::GEV_REPORTING_MENU) {
+			$this->_renderReportingMenu($a_tpl);
 		} 
 		else {
 			
@@ -249,7 +251,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 			$this->_setActiveClass($tpl, $a_id);
 			$tpl->setVariable("ENTRY_TITLE", $a_entry[3]);
 			
-			$tpl->setVariable("ENTRY_CONT", $this->_renderDropDown($a_entry[2]));
+			$tpl->setVariable("ENTRY_CONT", $this->getDropDown($a_entry[2])->getHTML());
 			
 			$ov = new ilOverlayGUI($target_id);
 			$ov->setTrigger($trigger_id);
@@ -263,7 +265,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		}
 	}
 	
-	protected function _renderDropDown($a_entries) {
+	protected function getDropDown($a_entries) {
 		$gl = new ilGroupedListGUI();
 		
 		foreach($a_entries as $id => $entry) {
@@ -275,7 +277,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 			}
 		}
 		
-		return $gl->getHTML();
+		return $gl;
 	}
 	
 	protected function _renderAdminMenu($a_tpl) {
@@ -295,6 +297,57 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		$a_tpl->setCurrentBlock("multi_entry");
 		$a_tpl->setVariable("CONTENT", $selection->getHTML());
 		$a_tpl->parseCurrentBlock();
+	}
+
+	protected function _renderReportingMenu($a_tpl) {
+		require_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+
+		$selection = new ilAdvancedSelectionListGUI();
+
+		$selection->setSelectionHeaderSpanClass("MMSpan");
+		$selection->setItemLinkClass("small");
+		$selection->setUseImages(false);
+
+		$selection->setListTitle($this->gLng->txt(self::GEV_REPORTING_MENU));
+		$selection->setId(self::GEV_REPORTING_MENU);
+		$selection->setAsynch(true);
+		$selection->setAsynchUrl("ilias.php?baseClass=gevMainMenuGUI&cmd=getReportingMenuDropDown&cmdMode=asynch");
+
+		$a_tpl->setCurrentBlock("multi_entry");
+		$a_tpl->setVariable("CONTENT", $selection->getHTML());
+		$a_tpl->parseCurrentBlock();
+	}
+
+	protected function getReportingMenuDropDown() {
+		require_once("Services/GEV/Reports/classes/class.gevReportingPermissions.php");
+		$report_permission_billing = ($this->gUserUtils && gevReportingPermissions::getInstance($this->gUser->getId())->viewBillingReport());
+		$report_permission_attendancebyuser =  ($this->gUserUtils && ($this->gUserUtils->isAdmin() || $this->gUserUtils->isSuperior()));
+		$report_permission_bookingsbyvenue =  ($this->gUserUtils && ($this->gUserUtils->isAdmin() || $this->gUserUtils->hasRoleIn(array("Veranstalter"))));
+		$report_permission_employee_edu_bio = ($this->gUserUtils && ($this->gUserUtils->isAdmin() || $this->gUserUtils->hasRoleIn(array("OD-Betreuer")) || $this->gUserUtils->isSuperior()));
+		$report_permission_attendancebyorgunit = ($this->gUserUtils && ($this->gUserUtils->isAdmin() ||  $this->gUserUtils->hasRoleIn(array("Admin-Ansicht"))));
+		$report_permission_attendancebycoursetemplate = ($this->gUserUtils && $this->gUserUtils->isAdmin());
+		$report_permission_wbd = ($this->gUserUtils && $this->gUserUtils->isAdmin());
+		$report_permission_traineroperationbytepcategory = ($this->gUserUtils && $this->gUserUtils->isAdmin());
+		$report_permission_dbv = ($this->gUserUtils && $this->gUserUtils->hasRoleIn(array("DBV-Fin-UVG")));
+		$report_permission_dbv_superior = ($this->gUserUtils && ($this->gUserUtils->isSuperior() || $this->gUserUtils->isAdmin()));
+
+		$entries = array
+			( "gev_report_attendance_by_employee" => array($report_permission_attendancebyuser, "ilias.php?baseClass=gevDesktopGUI&cmd=toReportAttendanceByEmployee",$this->gLng->txt("gev_report_attendance_by_employee"))
+			, "gev_report_employee_edu_bio" => array($report_permission_employee_edu_bio, "ilias.php?baseClass=gevDesktopGUI&cmd=toReportEmployeeEduBios",$this->gLng->txt("gev_report_employee_edu_bios"))
+			, "gev_report_billing" => array($report_permission_billing, "ilias.php?baseClass=gevDesktopGUI&cmd=toBillingReport",$this->gLng->txt("gev_report_billing"))
+			, "gev_report_bookingbyvenue" => array($report_permission_bookingsbyvenue, "ilias.php?baseClass=gevDesktopGUI&cmd=toReportBookingsByVenue",$this->gLng->txt("gev_report_bookingbyvenue"))
+			, "gev_report_trainer_operation_by_tep_category" => array($report_permission_traineroperationbytepcategory, "ilias.php?baseClass=gevDesktopGUI&cmd=toReportTrainerOperationByTEPCategory",$this->gLng->txt("gev_report_trainer_operation_by_tep_category"))
+			, "gev_report_attendance_by_orgunit" => array($report_permission_attendancebyorgunit, "ilias.php?baseClass=gevDesktopGUI&cmd=toReportAttendanceByOrgUnit",$this->gLng->txt("gev_report_attendancebyorgunit"))
+			, "gev_report_attendance_by_coursetemplate" => array($report_permission_attendancebycoursetemplate, "ilias.php?baseClass=gevDesktopGUI&cmd=toReportAttendanceByCourseTemplate",$this->gLng->txt("gev_report_attendancebycoursetemplate"))
+			, "gev_report_wbd_edupoints" => array($report_permission_wbd, "ilias.php?baseClass=gevDesktopGUI&cmd=toReportWBDEdupoints",$this->gLng->txt("gev_report_wbd_edupoints"))
+			, "gev_report_wbd_errors" => array($report_permission_wbd, "ilias.php?baseClass=gevDesktopGUI&cmd=toWBDErrors",$this->gLng->txt("gev_report_wbd_errors"))
+			, "gev_report_dbv_report" => array($report_permission_dbv, "ilias.php?baseClass=gevDesktopGUI&cmd=toDBVReport",$this->gLng->txt("gev_report_dbv_report"))
+			, "gev_report_dbv_report_superior" => array($report_permission_dbv_superior, "ilias.php?baseClass=gevDesktopGUI&cmd=toDBVReportSuperior",$this->gLng->txt("gev_report_dbv_report_superior"))
+			, "gev_report_trainer_workload" => array(($this->gUserUtils && $this->gUserUtils->isAdmin()), "ilias.php?baseClass=gevDesktopGUI&cmd=toTrainerWorkload",$this->gLng->txt("gev_report_trainer_workload"))
+			, "gev_report_trainer_operation_by_orgu_trainer" => array(($this->gUserUtils && $this->gUserUtils->isAdmin()), "ilias.php?baseClass=gevDesktopGUI&cmd=toTrainerOperationByOrgUnitAndTrainer",$this->gLng->txt("gev_report_trainer_operation_by_orgu_trainer"))
+			);
+
+		return $this->getDropDown($entries)->getHTML();
 	}
 	
 	protected function _setActiveClass($a_tpl, $a_title) {

@@ -4475,3 +4475,7 @@ gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_r
 
 ?>
 
+<#173>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
