@@ -311,55 +311,72 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 
 	protected function getReportingMenuDropDown() {
 		require_once("Services/GEV/Reports/classes/class.gevReportingPermissions.php");
-		$report_permission_billing = ($this->gUserUtils && gevReportingPermissions::getInstance($this->gUser->getId())->viewBillingReport());
-		$report_permission_attendancebyuser =  ($this->gUserUtils && ($this->gUserUtils->isAdmin() || $this->gUserUtils->isSuperior()));
-		$report_permission_bookingsbyvenue =  ($this->gUserUtils && ($this->gUserUtils->isAdmin() || $this->gUserUtils->hasRoleIn(array("Veranstalter"))));
-		$report_permission_employee_edu_bio = ($this->gUserUtils && ($this->gUserUtils->isAdmin() || $this->gUserUtils->hasRoleIn(array("OD-Betreuer")) || $this->gUserUtils->isSuperior()));
-		$report_permission_attendancebyorgunit = ($this->gUserUtils && ($this->gUserUtils->isAdmin() ||  $this->gUserUtils->hasRoleIn(array("Admin-Ansicht"))));
-		$report_permission_attendancebycoursetemplate = ($this->gUserUtils && $this->gUserUtils->isAdmin());
-		$report_permission_wbd = ($this->gUserUtils && $this->gUserUtils->isAdmin());
-		$report_permission_traineroperationbytepcategory = ($this->gUserUtils && $this->gUserUtils->isAdmin());
-		$report_permission_dbv = ($this->gUserUtils && $this->gUserUtils->hasRoleIn(array("DBV-Fin-UVG")));
-		$report_permission_dbv_superior = ($this->gUserUtils && ($this->gUserUtils->isSuperior() || $this->gUserUtils->isAdmin()));
-
 		$entries = array
-			( "gev_report_attendance_by_employee" => array($report_permission_attendancebyuser, "ilias.php?baseClass=gevDesktopGUI&cmd=toReportAttendanceByEmployee",$this->gLng->txt("gev_report_attendance_by_employee"))
-			, "gev_report_employee_edu_bio" => array($report_permission_employee_edu_bio, "ilias.php?baseClass=gevDesktopGUI&cmd=toReportEmployeeEduBios",$this->gLng->txt("gev_report_employee_edu_bios"))
-			, "gev_report_billing" => array($report_permission_billing, "ilias.php?baseClass=gevDesktopGUI&cmd=toBillingReport",$this->gLng->txt("gev_report_billing"))
-			, "gev_report_bookingbyvenue" => array($report_permission_bookingsbyvenue, "ilias.php?baseClass=gevDesktopGUI&cmd=toReportBookingsByVenue",$this->gLng->txt("gev_report_bookingbyvenue"))
-			, "gev_report_trainer_operation_by_tep_category" => array($report_permission_traineroperationbytepcategory, "ilias.php?baseClass=gevDesktopGUI&cmd=toReportTrainerOperationByTEPCategory",$this->gLng->txt("gev_report_trainer_operation_by_tep_category"))
-			, "gev_report_attendance_by_orgunit" => array($report_permission_attendancebyorgunit, "ilias.php?baseClass=gevDesktopGUI&cmd=toReportAttendanceByOrgUnit",$this->gLng->txt("gev_report_attendancebyorgunit"))
-			, "gev_report_attendance_by_coursetemplate" => array($report_permission_attendancebycoursetemplate, "ilias.php?baseClass=gevDesktopGUI&cmd=toReportAttendanceByCourseTemplate",$this->gLng->txt("gev_report_attendancebycoursetemplate"))
-			, "gev_report_wbd_edupoints" => array($report_permission_wbd, "ilias.php?baseClass=gevDesktopGUI&cmd=toReportWBDEdupoints",$this->gLng->txt("gev_report_wbd_edupoints"))
-			, "gev_report_wbd_errors" => array($report_permission_wbd, "ilias.php?baseClass=gevDesktopGUI&cmd=toWBDErrors",$this->gLng->txt("gev_report_wbd_errors"))
-			, "gev_report_dbv_report" => array($report_permission_dbv, "ilias.php?baseClass=gevDesktopGUI&cmd=toDBVReport",$this->gLng->txt("gev_report_dbv_report"))
-			, "gev_report_dbv_report_superior" => array($report_permission_dbv_superior, "ilias.php?baseClass=gevDesktopGUI&cmd=toDBVReportSuperior",$this->gLng->txt("gev_report_dbv_report_superior"))
-			, "gev_report_trainer_workload" => array(($this->gUserUtils && $this->gUserUtils->isAdmin()), "ilias.php?baseClass=gevDesktopGUI&cmd=toTrainerWorkload",$this->gLng->txt("gev_report_trainer_workload"))
-			, "gev_report_trainer_operation_by_orgu_trainer" => array(($this->gUserUtils && $this->gUserUtils->isAdmin()), "ilias.php?baseClass=gevDesktopGUI&cmd=toTrainerOperationByOrgUnitAndTrainer",$this->gLng->txt("gev_report_trainer_operation_by_orgu_trainer"))
+			( "gev_report_attendance_by_employee" => array($this->canViewReport("gev_report_attendance_by_employee"), "ilias.php?baseClass=gevDesktopGUI&cmd=toReportAttendanceByEmployee",$this->gLng->txt("gev_report_attendance_by_employee"))
+			, "gev_report_employee_edu_bio" => array($this->canViewReport("gev_report_employee_edu_bio"), "ilias.php?baseClass=gevDesktopGUI&cmd=toReportEmployeeEduBios",$this->gLng->txt("gev_report_employee_edu_bios"))
+			, "gev_report_billing" => array($this->canViewReport("gev_report_billing"), "ilias.php?baseClass=gevDesktopGUI&cmd=toBillingReport",$this->gLng->txt("gev_report_billing"))
+			, "gev_report_bookingbyvenue" => array($this->canViewReport("gev_report_bookingbyvenue"), "ilias.php?baseClass=gevDesktopGUI&cmd=toReportBookingsByVenue",$this->gLng->txt("gev_report_bookingbyvenue"))
+			, "gev_report_trainer_operation_by_tep_category" => array($this->canViewReport("gev_report_trainer_operation_by_tep_category"), "ilias.php?baseClass=gevDesktopGUI&cmd=toReportTrainerOperationByTEPCategory",$this->gLng->txt("gev_report_trainer_operation_by_tep_category"))
+			, "gev_report_attendance_by_orgunit" => array($this->canViewReport("gev_report_attendance_by_orgunit"), "ilias.php?baseClass=gevDesktopGUI&cmd=toReportAttendanceByOrgUnit",$this->gLng->txt("gev_report_attendancebyorgunit"))
+			, "gev_report_attendance_by_coursetemplate" => array($this->canViewReport("gev_report_attendance_by_coursetemplate"), "ilias.php?baseClass=gevDesktopGUI&cmd=toReportAttendanceByCourseTemplate",$this->gLng->txt("gev_report_attendancebycoursetemplate"))
+			, "gev_report_wbd_edupoints" => array($this->canViewReport("gev_report_wbd_edupoints"), "ilias.php?baseClass=gevDesktopGUI&cmd=toReportWBDEdupoints",$this->gLng->txt("gev_report_wbd_edupoints"))
+			, "gev_report_wbd_errors" => array($this->canViewReport("gev_report_wbd_errors"), "ilias.php?baseClass=gevDesktopGUI&cmd=toWBDErrors",$this->gLng->txt("gev_report_wbd_errors"))
+			, "gev_report_dbv_report" => array($this->canViewReport("gev_report_dbv_report"), "ilias.php?baseClass=gevDesktopGUI&cmd=toDBVReport",$this->gLng->txt("gev_report_dbv_report"))
+			, "gev_report_dbv_report_superior" => array($this->canViewReport("gev_report_dbv_report_superior"), "ilias.php?baseClass=gevDesktopGUI&cmd=toDBVReportSuperior",$this->gLng->txt("gev_report_dbv_report_superior"))
+			, "gev_report_trainer_workload" => array($this->canViewReport("gev_report_trainer_workload"), "ilias.php?baseClass=gevDesktopGUI&cmd=toTrainerWorkload",$this->gLng->txt("gev_report_trainer_workload"))
+			, "gev_report_trainer_operation_by_orgu_trainer" => array($this->canViewReport("gev_report_trainer_operation_by_orgu_trainer"), "ilias.php?baseClass=gevDesktopGUI&cmd=toTrainerOperationByOrgUnitAndTrainer",$this->gLng->txt("gev_report_trainer_operation_by_orgu_trainer"))
 			);
 
 		return $this->getDropDown($entries)->getHTML();
 	}
 
 	protected function hasReportingMenu() {
-		require_once("Services/GEV/Reports/classes/class.gevReportingPermissions.php");
-		$report_permission_billing = ($this->gUserUtils && gevReportingPermissions::getInstance($this->gUser->getId())->viewBillingReport());
-		$report_permission_attendancebyuser =  ($this->gUserUtils && ($this->gUserUtils->isAdmin() || $this->gUserUtils->isSuperior()));
-		$report_permission_bookingsbyvenue =  ($this->gUserUtils && ($this->gUserUtils->isAdmin() || $this->gUserUtils->hasRoleIn(array("Veranstalter"))));
-		$report_permission_employee_edu_bio = ($this->gUserUtils && ($this->gUserUtils->isAdmin() || $this->gUserUtils->hasRoleIn(array("OD-Betreuer")) || $this->gUserUtils->isSuperior()));
-		$report_permission_attendancebyorgunit = ($this->gUserUtils && ($this->gUserUtils->isAdmin() ||  $this->gUserUtils->hasRoleIn(array("Admin-Ansicht"))));
-		$report_permission_attendancebycoursetemplate = ($this->gUserUtils && $this->gUserUtils->isAdmin());
-		$report_permission_wbd = ($this->gUserUtils && $this->gUserUtils->isAdmin());
-		$report_permission_traineroperationbytepcategory = ($this->gUserUtils && $this->gUserUtils->isAdmin());
-		$report_permission_dbv = ($this->gUserUtils && $this->gUserUtils->hasRoleIn(array("DBV-Fin-UVG")));
-		$report_permission_dbv_superior = ($this->gUserUtils && ($this->gUserUtils->isSuperior() || $this->gUserUtils->isAdmin()));
+		return     $this->canViewReport("gev_report_billing")
+				|| $this->canViewReport("gev_report_attendance_by_employee")
+				|| $this->canViewReport("gev_report_bookingbyvenue")
+				|| $this->canViewReport("gev_report_employee_edu_bio")
+				|| $this->canViewReport("gev_report_trainer_operation_by_tep_category")
+				|| $this->canViewReport("gev_report_attendance_by_orgunit")
+				|| $this->canViewReport("gev_report_attendance_by_coursetemplate")
+				|| $this->canViewReport("gev_report_wbd_edupoints")
+				|| $this->canViewReport("gev_report_wbd_errors")
+				|| $this->canViewReport("gev_report_dbv_report")
+				|| $this->canViewReport("gev_report_dbv_report_superior")
+				|| $this->canViewReport("gev_report_trainer_workload")
+				|| $this->canViewReport("gev_report_trainer_operation_by_orgu_trainer")
+				;
+	}
 
-		return $report_permission_billing 
-				|| $report_permission_attendancebyuser 
-				|| $report_permission_bookingsbyvenue 
-				|| $report_permission_employee_edu_bio
-				|| $report_permission_wbd
-				|| $report_permission_attendancebyorgunit; //$report_permission_attendancebyuser; // || ....
+	protected function canViewReport($report_name) {
+		require_once("Services/GEV/Reports/classes/class.gevReportingPermissions.php");
+		switch ($report_name) {
+			case "gev_report_attendance_by_employee":
+				return $this->gUserUtils && ($this->gUserUtils->isAdmin() || $this->gUserUtils->isSuperior());
+			case "gev_report_employee_edu_bio":
+				return $this->gUserUtils && ($this->gUserUtils->isAdmin() || $this->gUserUtils->hasRoleIn(array("OD-Betreuer")) || $this->gUserUtils->isSuperior());
+			case "gev_report_billing":
+				return $this->gUserUtils && gevReportingPermissions::getInstance($this->gUser->getId())->viewBillingReport();
+			case "gev_report_bookingbyvenue":
+				return $this->gUserUtils && ($this->gUserUtils->isAdmin() || $this->gUserUtils->hasRoleIn(array("Veranstalter")));
+			case "gev_report_trainer_operation_by_tep_category":
+				return $this->gUserUtils && $this->gUserUtils->isAdmin();
+			case "gev_report_attendance_by_orgunit":
+				return $this->gUserUtils && ($this->gUserUtils->isAdmin() ||  $this->gUserUtils->hasRoleIn(array("Admin-Ansicht")));
+			case "gev_report_attendance_by_coursetemplate":
+				return $this->gUserUtils && $this->gUserUtils->isAdmin();
+			case "gev_report_wbd_edupoints":
+			case "gev_report_wbd_errors":
+				return $this->gUserUtils && $this->gUserUtils->isAdmin();
+			case "gev_report_dbv_report":
+				return $this->gUserUtils && $this->gUserUtils->hasRoleIn(array("DBV-Fin-UVG"));
+			case "gev_report_dbv_report_superior":
+				return $this->gUserUtils && ($this->gUserUtils->isSuperior() || $this->gUserUtils->isAdmin());
+			case "gev_report_trainer_workload":
+			case "gev_report_trainer_operation_by_orgu_trainer":
+				return $this->gUserUtils && $this->gUserUtils->isAdmin();
+			default:
+				throw new Exception("Can't tell permission for unknown report $report_name");
+		}
 	}
 }
 
