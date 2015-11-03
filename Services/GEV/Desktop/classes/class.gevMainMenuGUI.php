@@ -314,6 +314,8 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 
 	protected function getReportingMenuDropDown() {
 		require_once("Services/GEV/Reports/classes/class.gevReportingPermissions.php");
+		require_once("Services/Link/classes/class.ilLink.php");
+		require_once("Services/ReportsRepository/classes/class.ilObjReportBase.php");
 		$entries = array
 			( "gev_report_attendance_by_employee" => array($this->canViewReport("gev_report_attendance_by_employee"), "ilias.php?baseClass=gevDesktopGUI&cmd=toReportAttendanceByEmployee",$this->gLng->txt("gev_report_attendance_by_employee"))
 			, "gev_report_employee_edu_bio" => array($this->canViewReport("gev_report_employee_edu_bio"), "ilias.php?baseClass=gevDesktopGUI&cmd=toReportEmployeeEduBios",$this->gLng->txt("gev_report_employee_edu_bios"))
@@ -330,16 +332,29 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 			, "gev_report_trainer_operation_by_orgu_trainer" => array($this->canViewReport("gev_report_trainer_operation_by_orgu_trainer"), "ilias.php?baseClass=gevDesktopGUI&cmd=toTrainerOperationByOrgUnitAndTrainer",$this->gLng->txt("gev_report_trainer_operation_by_orgu_trainer"))
 			);
 
-		return $this->getDropDown($entries)->getHTML();
+		$grouped_list = $this->getDropDown($entries);
+
+		$visible_repo_reports = ilObjReportBase::getVisibleReportsObjectData($this->gUser);
+		foreach ($visible_repo_reports as $info) {
+			$link = ilLink::_getStaticLink($info["ref_id"], $info["type"]);
+			$grouped_list->addEntry($info["title"], $link, "_top");
+		}
+
+		return $grouped_list->getHTML();
 	}
 
 	// Stores the info whether a user has a reporting menu in the session of the user to
 	// only calculate it once. Will reuse that value on later calls. 
 	protected function hasReportingMenu() {
+		
 		$has_reporting_menu = ilSession::get("gev_has_reporting_menu");
 		$last_permission_calculation = ilSession::get("gev_has_reporting_menu_calculation_ts");
 		if ( $has_reporting_menu === null
 		||   $last_permission_calculation + self::HAS_REPORTING_MENU_RECALCULATION_IN_SECS < time()) {
+			require_once("Services/ReportsRepository/classes/class.ilObjReportBase.php");
+
+			$visible_repo_reports = ilObjReportBase::getVisibleReportsObjectData($this->gUser);
+
 			$has_reporting_menu
 				=  $this->canViewReport("gev_report_billing")
 				|| $this->canViewReport("gev_report_attendance_by_employee")
@@ -354,6 +369,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 				|| $this->canViewReport("gev_report_dbv_report_superior")
 				|| $this->canViewReport("gev_report_trainer_workload")
 				|| $this->canViewReport("gev_report_trainer_operation_by_orgu_trainer")
+				|| count($visible_repo_reports) > 0
 				;
 			ilSession::set("gev_has_reporting_menu", $has_reporting_menu);
 			ilSession::set("gev_has_reporting_menu_calculation_ts", time());
