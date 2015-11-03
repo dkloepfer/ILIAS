@@ -265,21 +265,6 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		}
 	}
 	
-	protected function getDropDown($a_entries) {
-		$gl = new ilGroupedListGUI();
-		
-		foreach($a_entries as $id => $entry) {
-			if ($entry === null) {
-				$gl->addSeperator();
-			}
-			else if ($entry[0]) {
-				$gl->addEntry($entry[2], $entry[1], "_top");
-			}
-		}
-		
-		return $gl;
-	}
-	
 	protected function _renderAdminMenu($a_tpl) {
 		require_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 		
@@ -318,6 +303,30 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		$a_tpl->parseCurrentBlock();
 	}
 
+	protected function _setActiveClass($a_tpl, $a_title) {
+		if($this->active == $a_title) {
+			$a_tpl->setVariable("MM_CLASS", "MMActive");
+		}
+		else {
+			$a_tpl->setVariable("MM_CLASS", "MMInactive");
+		}
+	}
+
+	protected function getDropDown($a_entries) {
+		$gl = new ilGroupedListGUI();
+		
+		foreach($a_entries as $id => $entry) {
+			if ($entry === null) {
+				$gl->addSeperator();
+			}
+			else if ($entry[0]) {
+				$gl->addEntry($entry[2], $entry[1], "_top");
+			}
+		}
+		
+		return $gl;
+	}
+
 	protected function getReportingMenuDropDown() {
 		require_once("Services/GEV/Reports/classes/class.gevReportingPermissions.php");
 		$report_permission_billing = ($this->gUserUtils && gevReportingPermissions::getInstance($this->gUser->getId())->viewBillingReport());
@@ -348,15 +357,6 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 			);
 
 		return $this->getDropDown($entries)->getHTML();
-	}
-	
-	protected function _setActiveClass($a_tpl, $a_title) {
-		if($this->active == $a_title) {
-			$a_tpl->setVariable("MM_CLASS", "MMActive");
-		}
-		else {
-			$a_tpl->setVariable("MM_CLASS", "MMInactive");
-		}
 	}
 }
 
