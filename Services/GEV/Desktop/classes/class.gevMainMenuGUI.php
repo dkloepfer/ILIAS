@@ -279,7 +279,6 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 	}
 	
 	protected function _renderAdminMenu($a_tpl) {
-		$a_tpl->setCurrentBlock("admin_entry");
 		require_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 		
 		$selection = new ilAdvancedSelectionListGUI();
@@ -293,7 +292,8 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		$selection->setAsynch(true);
 		$selection->setAsynchUrl("ilias.php?baseClass=ilAdministrationGUI&cmd=getDropDown&cmdMode=asynch");
 		
-		$a_tpl->setVariable("ADMIN_DROP_DOWN", $selection->getHTML());
+		$a_tpl->setCurrentBlock("multi_entry");
+		$a_tpl->setVariable("CONTENT", $selection->getHTML());
 		$a_tpl->parseCurrentBlock();
 	}
 	
