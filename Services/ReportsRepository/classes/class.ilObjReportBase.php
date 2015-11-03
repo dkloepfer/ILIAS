@@ -248,6 +248,7 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 			}
 		}
 
+		ksort($visible_reports, SORT_NATURAL | SORT_FLAG_CASE);
 		return $visible_reports;
 	}
 }
