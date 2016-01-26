@@ -8,13 +8,13 @@ require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 
 
 /**
- * Generali mail data for Webinar Reminder
+ * Generali mail data for virtual Trainings
  *
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  * @version $Id$
  */
 
-class gevWebinarMailData extends gevCrsMailData {
+class gevVirtualTrainingMailData extends gevCrsMailData {
 
 	public function __construct($a_recipient,$a_gender) {
 		$this->usr_utils = gevUserUtils::getInstance($a_recipient);

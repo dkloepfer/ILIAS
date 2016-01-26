@@ -2,7 +2,7 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Class gevReminderWebinarAutoMail
+* Class gevVirtualTrainingAutoMail
 *
 * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
 */
@@ -10,9 +10,9 @@
 require_once ("./Services/Mailing/classes/class.ilAutoMail.php");
 require_once ("./Services/GEV/Utils/classes/class.gevCourseUtils.php");
 
-abstract class gevWebinarAutoMail extends ilAutoMail {
+abstract class gevVirtualTrainingAutoMail extends ilAutoMail {
 
-	private static $template_type = "WebinarMail";
+	private static $template_type = "VirtualTrainingMail";
 
 	public function __construct($a_id, $crs_id) {
 		global $ilDB, $ilCtrl, $ilias, $ilSetting, $ilUser;
@@ -174,8 +174,8 @@ abstract class gevWebinarAutoMail extends ilAutoMail {
 		$this->initTemplateObjects($a_templ_id, "de");
 		$rec_gender = $this->getGenderForTemplate($a_recipient);
 
-		require_once "./Services/GEV/Mailing/classes/class.gevWebinarMailData.php";
-		$mail_data = new gevWebinarMailData($a_recipient,$rec_gender);
+		require_once "./Services/GEV/Mailing/classes/class.gevVirtualTrainingMailData.php";
+		$mail_data = new gevVirtualTrainingMailData($a_recipient,$rec_gender);
 		$mail_data->initCourseData($this->getCourseUtils());
 
 		$adapter = $this->template_settings->getAdapterClassInstance();

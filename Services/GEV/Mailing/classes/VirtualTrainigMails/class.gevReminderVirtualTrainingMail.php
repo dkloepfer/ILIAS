@@ -1,8 +1,8 @@
 <?php
 
-require_once("Services/GEV/Mailing/classes/class.gevWebinarAutoMail.php");
+require_once("Services/GEV/Mailing/classes/class.gevVirtualTrainingAutoMail.php");
 
-class gevReminderWebinarMail extends gevWebinarAutoMail {
+class gevReminderVirtualTrainingMail extends gevVirtualTrainingAutoMail {
 	const MINUTES_BEFORE_START = 60;
 	const VC_NAME_AT_AND_T = "AT&T Connect";
 

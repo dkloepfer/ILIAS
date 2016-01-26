@@ -5,17 +5,17 @@ require_once("Services/Mailing/classes/class.ilAutoMails.php");
 require_once("Services/Mailing/classes/class.ilMailLog.php");
 
 /**
-* Class gevReminderWebinarMails
+* Class gevVirtualTrainingAutoMails
 *
 * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
 */
 
-class gevWebinarAutoMails extends ilAutoMails {
+class gevVirtualTrainingAutoMails extends ilAutoMails {
 	const MAIL_LOG_ID = 43;
 	
 	public function __construct($crs_id) {
 		$this->mail_data = array(
-		  "reminder_webinare"	=> "gevReminderWebinarMail"
+		  "reminder_virtual_training"	=> "gevReminderVirtualTrainingMail"
 		);
 
 		parent::__construct($crs_id);
@@ -43,7 +43,7 @@ class gevWebinarAutoMails extends ilAutoMails {
 			throw new Exception("Unknown AutoMailID: ".$a_id);
 		}
 
-		require_once("./Services/GEV/Mailing/classes/WebinarMails/class.".$this->mail_data[$a_id].".php");
+		require_once("./Services/GEV/Mailing/classes/VirtualTrainigMails/class.".$this->mail_data[$a_id].".php");
 		return new $this->mail_data[$a_id]($a_id, $this->obj_id);
 	}
 

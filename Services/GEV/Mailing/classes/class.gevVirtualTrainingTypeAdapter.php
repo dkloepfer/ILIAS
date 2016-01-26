@@ -4,15 +4,15 @@
 require_once ("Services/GEV/Mailing/classes/class.gevCrsMailTypeAdapter.php");
 
 /**
- * GEV mail placeholders for Webinar
+ * GEV mail placeholders for virtual Trainings
  *
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  * @version $Id$
  */
-class gevWebinarTypeAdapter extends gevCrsMailTypeAdapter {
+class gevVirtualTrainingTypeAdapter extends gevCrsMailTypeAdapter {
 	private $placeholders = null;
 	
 	public function getCategoryNameLocalized($category_name, $lng) {
-		return 'webinar';
+		return 'virtual_training';
 	}
 }
