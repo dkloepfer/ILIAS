@@ -316,13 +316,13 @@ class ilCourseCertificateAdapter extends ilCertificateAdapter
 			$edu_tracking = $this->getFirstChildOfByType($crs_ref_id, "xetr");
 			if($edu_tracking) {
 				$et_action = $edu_tracking->getActionsFor("IDD");
-				$ret["IDD_TIME"] = $this->transformIDDLearningTimeToString($et_action->select()->getMinutes())." ".$this->g_lng->txt("form_hours");
+				$ret["IDD_TIME"] = $this->transformIDDLearningTimeToString($et_action->select()->getMinutes());
 			}
 
 			$course_member = $this->getFirstChildOfByType($crs_ref_id, "xcmb");
 			if($course_member) {
 				$cmb_actions = $course_member->getActions();
-				$ret["IDD_USER_TIME"] = $this->transformIDDLearningTimeToString($cmb_actions->getMinutesFor($user_id))." ".$this->g_lng->txt("form_hours");
+				$ret["IDD_USER_TIME"] = $this->transformIDDLearningTimeToString($cmb_actions->getMinutesFor($user_id));
 			}
 		}
 
