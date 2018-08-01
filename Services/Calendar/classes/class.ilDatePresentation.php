@@ -161,9 +161,11 @@ class ilDatePresentation
 				{
 					$date_str = $lng->txt(self::$weekdays[$date->get(IL_CAL_FKT_DATE, 'w')]) . ", 	";
 				}
+				// cat-tms-patch start we need long month
 				$date_str.= $date->get(IL_CAL_FKT_DATE, 'd') . '. ' .
-					ilCalendarUtil::_numericMonthToString($date_info['mon'], false) . ' ' .
+					ilCalendarUtil::_numericMonthToString($date_info['mon'], true) . ' ' .
 					$date_info['year'];
+				// cat-tms-patch end
 			}
 		}
 		else
