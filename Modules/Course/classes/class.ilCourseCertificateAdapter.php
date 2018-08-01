@@ -254,8 +254,8 @@ class ilCourseCertificateAdapter extends ilCertificateAdapter
 	protected function getTMSVariablesDescription() {
 		$ret = array();
 		$ret["COURSE_TYPE"] = $this->g_lng->txt("pl_course_type");
-		$ret["COURSE_STARTDATE"] = $this->g_lng->txt("pl_course_start_date");
-		$ret["COURSE_ENDDATE"] = $this->g_lng->txt("pl_course_end_date");
+		$ret["COURSE_START_DATE"] = $this->g_lng->txt("pl_course_start_date");
+		$ret["COURSE_END_DATE"] = $this->g_lng->txt("pl_course_end_date");
 
 		if(\ilPluginAdmin::isPluginActive('xetr')) { //edutracking
 			$ret["IDD_TIME"] = $this->g_lng->txt("pl_idd_learning_time");
@@ -271,8 +271,8 @@ class ilCourseCertificateAdapter extends ilCertificateAdapter
 	 */
 	protected function getTMSVariablesForPreview() {
 		$ret = array();
-		$ret["COURSE_STARTDATE"] = ilDatePresentation::formatDate(new ilDate(time() - (24 * 60 * 60 * 10), IL_CAL_UNIX));
-		$ret["COURSE_ENDDATE"] = ilDatePresentation::formatDate(new ilDate(time() - (24 * 60 * 60 * 5), IL_CAL_UNIX));
+		$ret["COURSE_START_DATE"] = ilDatePresentation::formatDate(new ilDate(time() - (24 * 60 * 60 * 10), IL_CAL_UNIX));
+		$ret["COURSE_END_DATE"] = ilDatePresentation::formatDate(new ilDate(time() - (24 * 60 * 60 * 5), IL_CAL_UNIX));
 		$ret["COURSE_TYPE"] = $this->g_lng->txt("pl_course_type_preview");
 
 		if(\ilPluginAdmin::isPluginActive('xetr')) { //edutracking
@@ -296,12 +296,12 @@ class ilCourseCertificateAdapter extends ilCertificateAdapter
 
 		$crs_start = $this->object->getCourseStart();
 		if($crs_start === null) {
-			$ret["COURSE_STARTDATE"] = null;
-			$ret["COURSE_ENDDATE"] = null;
+			$ret["COURSE_START_DATE"] = null;
+			$ret["COURSE_END_DATE"] = null;
 		} else {
 			$crs_end = $this->object->getCourseEnd();
-			$ret["COURSE_STARTDATE"] = ilDatePresentation::formatDate($crs_start);
-			$ret["COURSE_ENDDATE"] = ilDatePresentation::formatDate($crs_end);
+			$ret["COURSE_START_DATE"] = ilDatePresentation::formatDate($crs_start);
+			$ret["COURSE_END_DATE"] = ilDatePresentation::formatDate($crs_end);
 		}
 
 		if(\ilPluginAdmin::isPluginActive('xccl')) { //course classification
