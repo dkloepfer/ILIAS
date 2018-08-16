@@ -99,7 +99,6 @@ class ilTMSICalBuilder implements Mailing\ICalBuilder
 				->setDtEnd(new \DateTime($date['end']))
 				->setNoTime(false)
 				->setLocation($venue, $venue)
-				->setUseTimezone(true)
 				->setSummary($title)
 				->setDescription($description);
 			$calendar
@@ -116,7 +115,6 @@ class ilTMSICalBuilder implements Mailing\ICalBuilder
 					->setDtEnd(new \DateTime($end))
 					->setNoTime(false)
 					->setLocation($venue, $venue)
-					->setUseTimezone(true)
 					->setSummary($title)
 					->setDescription($description);
 				$calendar
