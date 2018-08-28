@@ -84,8 +84,8 @@ class ilSessionAppEventListener {
 		foreach ($sessions as $session)
 		{
 			$appointment 	= $session->getFirstAppointment();
-			$start_time 	= $appointment->getStart()->get(IL_CAL_FKT_DATE, "H:i:s", "UTC");
-			$end_time 		= $appointment->getEnd()->get(IL_CAL_FKT_DATE, "H:i:s", "UTC");
+			$start_time 	= $appointment->getStart()->get(IL_CAL_FKT_DATE, "H:i:s");
+			$end_time 		= $appointment->getEnd()->get(IL_CAL_FKT_DATE, "H:i:s");
 			$offset 		= $appointment->getDaysOffset();
 
 			$start_date 	= self::createDateTime(date("Y-m-d"), $start_time);
@@ -97,32 +97,6 @@ class ilSessionAppEventListener {
 				$clac_crs_start->increment(ilDateTime::DAY, --$offset);
 
 				$date 		= $clac_crs_start->get(IL_CAL_FKT_DATE, "Y-m-d");
-
-				//Check the new date must be manipulated in case of time zone changes
-				$checker = self::getTimezoneChecker();
-				$old_start_date = DateTime::createFromFormat("Y-m-d", $appointment->getStart()->get(IL_CAL_FKT_DATE, "Y-m-d", "UTC"));
-				$new_start_date = DateTime::createFromFormat("Y-m-d", $date);
-
-				if($checker->isSummerTime($old_start_date) && !$checker->isSummerTime($new_start_date)) {
-					$start = explode(":", $start_time);
-					$start[0] = str_pad((int)$start[0] + 1, 2, "0", STR_PAD_LEFT);
-					$start_time = join(":", $start);
-
-					$end = explode(":", $end_time);
-					$end[0] = str_pad((int)$end[0] + 1, 2, "0", STR_PAD_LEFT);
-					$end_time = join(":", $end);
-				}
-
-				if(!$checker->isSummerTime($old_start_date) && $checker->isSummerTime($new_start_date)) {
-					$start = explode(":", $start_time);
-					$start[0] = str_pad((int)$start[0] - 1, 2, "0", STR_PAD_LEFT);
-					$start_time = join(":", $start);
-
-					$end = explode(":", $end_time);
-					$end[0] = str_pad((int)$end[0] - 1, 2, "0", STR_PAD_LEFT);
-					$end_time = join(":", $end);
-				}
-				// End check
 
 				$start_date = self::createDateTime($date, $start_time);
 				$end_date 	= self::createDateTime($date, $end_time);
@@ -277,7 +251,7 @@ class ilSessionAppEventListener {
 	 */
 	protected static function createDateTime($date, $time)
 	{
-		return new ilDateTime($date." ".$time, IL_CAL_DATETIME, 'UTC');
+		return new ilDateTime($date." ".$time, IL_CAL_DATETIME);
 	}
 }
 // cat-tms-patch end
