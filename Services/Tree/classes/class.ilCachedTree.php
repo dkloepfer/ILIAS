@@ -22,6 +22,7 @@ class ilCachedTree extends ilTree
 	public function __construct(\ilTree $other, \ilGlobalCache $global_cache)
 	{
 		$this->other = $other;
+		$this->global_cache = $global_cache;
 	}
 	
 	/**
