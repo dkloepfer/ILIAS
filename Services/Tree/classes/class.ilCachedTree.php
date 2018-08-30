@@ -328,7 +328,7 @@ class ilCachedTree extends ilTree
 	*/
 	function getChildsByType($a_node_id,$a_type)
 	{
-		return $this->other->getChildsByTyp($a_node_id, $a_type);
+		return $this->other->getChildsByType($a_node_id, $a_type);
 	}
 
 
