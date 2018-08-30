@@ -292,7 +292,7 @@ class ilCachedTree extends ilTree
 		if ($tree_id === null) {
 			$tree_id = $this->other->getTreeId();
 		}
-		return "node_".$tree_id."_".$a_node_id;
+		return "node_".$tree_id."_".$node_id;
 	}
 
 	protected function purgeCache($node_id) {
