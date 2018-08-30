@@ -247,7 +247,59 @@ class ilCachedTree extends ilTree
 	*/
 	function getChilds($a_node_id, $a_order = "", $a_direction = "ASC")
 	{
-		return $this->other->getChilds($a_node_id, $a_order, $a_direction);
+		$key = $this->getCacheKey($a_node_id);
+		if (isset($this->cache[$a_node_id])) {
+			$data = $this->cache[$a_node_id];
+		}
+		else if ($this->global_cache->exists($key)) {
+			$data = $this->global_cache->get($key);
+			$this->cache[$a_node_id] = $data;
+		}
+		else {
+			$data = $this->other->getChilds($a_node_id);
+			$this->cache[$a_node_id] = $data;
+			$this->global_cache->set($key, $data);
+		}
+
+		if ($a_order !== "") {
+			usort($data, function($l,$r) use ($a_order) {
+				$l = $l[$a_order];
+				$r = $r[$a_order];
+				if ($l == $r) {
+					return 0;
+				}
+				if ($l < $r) {
+					return -1;
+				}
+				return 1;
+			});
+		}
+
+		if ($a_direction !== "ASC") {
+			$data = array_reverse($data);
+		}
+
+		return $data;
+	}
+
+	/**
+	 * @var	array
+	 */
+	protected $cache;
+
+	protected function getCacheKey($node_id, $tree_id = null) {
+		if ($tree_id === null) {
+			$tree_id = $this->other->getTreeId();
+		}
+		return "node_".$tree_id."_".$a_node_id;
+	}
+
+	protected function purgeCache($node_id) {
+		$key = $this->getCacheKey($node_id);
+		unset($this->cache[$key]);
+		$parent = $this->getParentId($node_id);
+		$this->purgeCache($parent);
+		$this->global_cache->delete($node_id);
 	}
 
 	/**
@@ -305,6 +357,8 @@ class ilCachedTree extends ilTree
 	 */
 	public function insertNodeFromTrash($a_source_id, $a_target_id, $a_tree_id, $a_pos = IL_LAST_NODE, $a_reset_deleted_date = false)
 	{
+		$this->purgeCache($a_source_id);
+		$this->purgeCache($a_target_id);
 		return $this->other->insertNodeFromTrash($a_source_id, $a_target_id, $a_tree_id, $a_pos, $a_reset_deleted_date);
 	}
 	
@@ -319,6 +373,7 @@ class ilCachedTree extends ilTree
 	*/
 	public function insertNode($a_node_id, $a_parent_id, $a_pos = IL_LAST_NODE, $a_reset_deletion_date = false)
 	{
+		$this->purgeCache($a_parent_id);
 		return $this->other->insertNode($a_node_id, $a_parent_id, $a_pos, $a_reset_deletion_date);
 	}
 	
@@ -386,6 +441,7 @@ class ilCachedTree extends ilTree
 	 */
 	function deleteTree($a_node)
 	{
+		$this->purgeCache($a_node);
 		return $this->other->deleteTree($a_node);
 	}
 	
@@ -668,6 +724,7 @@ class ilCachedTree extends ilTree
 	 */
 	public function moveToTrash($a_node_id, $a_set_deleted = false)
 	{
+		$this->purgeCache($a_node_id);
 		return $this->other->moveToTrash($a_node_id, $a_set_deleted);
 	}
 
@@ -683,6 +740,7 @@ class ilCachedTree extends ilTree
 	 */
 	public function saveSubTree($a_node_id, $a_set_deleted = false)
 	{
+		$this->purgeCache($a_node_id);
 		return $this->other->saveSubTree($a_node_id, $a_set_deleted);
 	}
 
@@ -858,6 +916,7 @@ class ilCachedTree extends ilTree
 	*/
 	function renumber($node_id = 1, $i = 1)
 	{
+		$this->purgeCache($node_id);
 		return $this->other->renumber($node_id, $i);
 	}
 
@@ -873,6 +932,7 @@ class ilCachedTree extends ilTree
 	*/
 	function __renumber($node_id = 1, $i = 1)
 	{
+		$this->purgeCache($node_id);
 		return $this->other->__renumber($node_id, $i);
 	}
 
@@ -956,6 +1016,8 @@ class ilCachedTree extends ilTree
 	 */
 	public function moveTree($a_source_id, $a_target_id, $a_location = self::POS_LAST_NODE)
 	{
+		$this->purgeCache($a_source_id);
+		$this->purgeCache($a_target_id);
 		return $this->other->moveTree($a_source_id, $a_target_id, $a_location);
 	}
 	
@@ -1003,6 +1065,7 @@ class ilCachedTree extends ilTree
 	
 	public function deleteNode($a_tree_id,$a_node_id)
 	{
+		$this->purgeCache($a_node_id, $a_tree_id);
 		return $this->other->deleteNode($a_tree_id, $a_node_id);
 	}
 
