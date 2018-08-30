@@ -254,6 +254,10 @@ class ilCachedTree extends ilTree
 		}
 		else if ($this->global_cache->exists($key)) {
 			$data = $this->global_cache->get($key);
+			// this takes care of an cache quirk, where empty array is null
+			if ($data === null) {
+				$data = [];
+			}
 			$this->cache[$a_node_id] = $data;
 		}
 		else {
