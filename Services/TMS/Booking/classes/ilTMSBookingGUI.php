@@ -164,6 +164,7 @@ abstract class ilTMSBookingGUI {
 				array(
 					Wizard\Player::TXT_TITLE => $this->g_lng->txt('booking_with_approval'),
 					Wizard\Player::TXT_CONFIRM => $this->g_lng->txt('booking_confirm_with_approval'),
+					'booking_request_created' => $this->g_lng->txt('booking_request_created')
 				),
 				$this->getTranslations()
 			);
