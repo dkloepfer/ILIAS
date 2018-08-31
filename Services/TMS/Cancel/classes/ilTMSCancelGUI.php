@@ -161,7 +161,6 @@ abstract class ilTMSCancelGUI  extends Wizard\Player {
 				static::TXT_TITLE => $this->g_lng->txt('canceling'),
 				static::TXT_OVERVIEW_DESCRIPTION => $this->g_lng->txt('cancel_overview_description'),
 				static::TXT_CONFIRM => $this->g_lng->txt('cancel_confirm'),
-
 				static::TXT_CANCEL => $this->g_lng->txt(static::TXT_CANCEL),
 				static::TXT_NEXT => $this->g_lng->txt(static::TXT_NEXT),
 				static::TXT_PREVIOUS => $this->g_lng->txt(static::TXT_PREVIOUS),
