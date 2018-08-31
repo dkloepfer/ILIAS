@@ -14354,3 +14354,5 @@ tms#:#booking_confirm_with_approval#:#Verbindliche Buchungsanfrage stellen
 tms#:#booking_request_created#:#Buchungsanfrage gestellt
 tms#:#abort#:#abbrechen
 tms#:#aborted#:#Vorgang abgebrochen
+tms#:#no_approvers_for_user#:#In der Organisationsstruktur sind keine übergeordneten Benutzer mit der benötigten Position vorhanden. Die Buchungsanfrage kann nicht bearbeitet werden.
+
