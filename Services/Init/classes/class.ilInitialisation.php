@@ -1228,7 +1228,7 @@ class ilInitialisation
 		require_once "./Services/Tree/classes/class.ilTree.php";
 		$tree = new ilTree(ROOT_FOLDER_ID);
 		// cat-tms-patch start
-		$global_cache = ilGlobalCache::getInstance(ilGlobalCache::COMP_COMPONENT);
+		$global_cache = ilGlobalCache::getInstance(ilGlobalCache::COMP_TREE);
 		if ($global_cache->isActive()) {
 			require_once "./Services/Tree/classes/class.ilCachedTree.php";
 			$tree = new ilCachedTree($tree, $global_cache);
