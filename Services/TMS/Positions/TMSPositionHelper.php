@@ -293,7 +293,7 @@ class TMSPositionHelper
 	 */
 	protected function acquireUsersWithPositionFromOrgu(int $orgu_id, int $position): array
 	{
-		if($orgu_id === self::ORGU_ROOT) {
+		if($orgu_id === self::ORGU_ROOT || $orgu_id === 0) {
 			return [];
 		}
 
