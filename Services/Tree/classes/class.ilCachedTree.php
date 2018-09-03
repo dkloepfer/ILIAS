@@ -302,13 +302,13 @@ class ilCachedTree extends ilTree
 	protected function purgeCache($node_id) {
 		$key = $this->getCacheKey($node_id);
 		unset($this->cache[$key]);
-		$this->global_cache->delete($node_id);
+		$this->global_cache->delete($keys);
 
 		$path = $this->getPathFull($node_id);
 		foreach ($path as $node_id) {
 			$key = $this->getCacheKey($node_id);
 			unset($this->cache[$key]);
-			$this->global_cache->delete($node_id);
+			$this->global_cache->delete($key);
 		}
 	}
 
@@ -383,6 +383,7 @@ class ilCachedTree extends ilTree
 	*/
 	public function insertNode($a_node_id, $a_parent_id, $a_pos = IL_LAST_NODE, $a_reset_deletion_date = false)
 	{
+		$this->purgeCache($a_node_id);
 		$this->purgeCache($a_parent_id);
 		return $this->other->insertNode($a_node_id, $a_parent_id, $a_pos, $a_reset_deletion_date);
 	}
