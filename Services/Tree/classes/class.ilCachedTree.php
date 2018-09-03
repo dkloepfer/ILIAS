@@ -302,7 +302,7 @@ class ilCachedTree extends ilTree
 	protected function purgeCache($node_id) {
 		$key = $this->getCacheKey($node_id);
 		unset($this->cache[$key]);
-		$this->global_cache->delete($keys);
+		$this->global_cache->delete($key);
 
 		$path = $this->getPathFull($node_id);
 		foreach ($path as $node_id) {
