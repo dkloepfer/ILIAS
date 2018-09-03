@@ -14353,3 +14353,7 @@ tms#:#booking_with_approval#:#Buchen mit Genehmigung
 tms#:#booking_confirm_with_approval#:#Verbindliche Buchungsanfrage stellen
 tms#:#s_by_name_asc#:#Name: aufsteigend
 tms#:#s_by_name_desc#:#Name: absteigend
+tms#:#booking_request_created#:#Die Buchungsanfrage für das Training "%s" wurde für Sie gestellt.
+tms#:#abort#:#abbrechen
+tms#:#aborted#:#Vorgang abgebrochen
+tms#:#no_approvers_for_user#:#In der Organisationsstruktur sind keine übergeordneten Benutzer mit der benötigten Position vorhanden. Die Buchungsanfrage kann nicht bearbeitet werden.

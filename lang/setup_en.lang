@@ -603,6 +603,8 @@ cache_activate_ilctrl#:#Control Flow
 cache_activate_comp#:#Components
 cache_activate_tpl#:#Template (HTML)
 cache_activate_events#:#Events
+cache_activate_plugins#:#Plugins
+cache_activate_tree#:#Tree
 cache_activated_components#:#Activated Components
 cache_flush#:#Flush all caches
 cache_activate_tpl_blocks#:#Template (Blocks)

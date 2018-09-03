@@ -164,6 +164,7 @@ abstract class ilTMSBookingGUI {
 				array(
 					Wizard\Player::TXT_TITLE => $this->g_lng->txt('booking_with_approval'),
 					Wizard\Player::TXT_CONFIRM => $this->g_lng->txt('booking_confirm_with_approval'),
+					'booking_request_created' => $this->g_lng->txt('booking_request_created')
 				),
 				$this->getTranslations()
 			);
@@ -225,6 +226,14 @@ abstract class ilTMSBookingGUI {
 			$ilias_bindings->redirectToPreviousLocation(array($ilias_bindings->txt('course_overbooked')), false);
 			return;
 		}
+		catch (Booking\NoApproversForUserException $e) {
+			//the exception is thrown in BookingApprovals/EventHandler;
+			$state_db->delete($this->getState($state_db, $wizard));
+			$wizard->finish();
+			$ilias_bindings->redirectToPreviousLocation(array($ilias_bindings->txt('no_approvers_for_user')), false);
+			return;
+		}
+
 
 		assert('is_string($content)');
 		$this->g_tpl->setContent($content);

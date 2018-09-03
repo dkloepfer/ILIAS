@@ -30,6 +30,9 @@ class ilGlobalCache {
 	const COMP_EVENTS = 'events';
 	const COMP_TPL_BLOCKS = 'tpl_blocks';
 	const COMP_TPL_VARIABLES = 'tpl_variables';
+	// cat-tms patch start
+	const COMP_TREE = 'tree';
+	// cat-tms patch end 
 	/**
 	 * @var array
 	 */
@@ -64,6 +67,10 @@ class ilGlobalCache {
 		self::COMP_TPL_BLOCKS,
 		self::COMP_TPL_VARIABLES,
 		self::COMP_EVENTS,
+		self::COMP_PLUGINS,
+		// cat-tms patch start
+		self::COMP_TREE,
+		// cat-tms patch end 
 	);
 	/**
 	 * @var array
