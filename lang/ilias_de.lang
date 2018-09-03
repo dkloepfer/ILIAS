@@ -14351,6 +14351,8 @@ tms#:#placeholder_desc_target_user_login#:#Referenzierter Benutzer, Login
 tms#:#placeholder_desc_target_user_email#:#Referenzierter Benutzer, E-Mail
 tms#:#booking_with_approval#:#Buchen mit Genehmigung
 tms#:#booking_confirm_with_approval#:#Verbindliche Buchungsanfrage stellen
+tms#:#s_by_name_asc#:#Name: aufsteigend
+tms#:#s_by_name_desc#:#Name: absteigend
 tms#:#booking_request_created#:#Die Buchungsanfrage für das Training "%s" wurde für Sie gestellt.
 tms#:#abort#:#abbrechen
 tms#:#aborted#:#Vorgang abgebrochen
