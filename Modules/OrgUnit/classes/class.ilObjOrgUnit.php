@@ -508,9 +508,11 @@ class ilObjOrgUnit extends ilContainer {
 		}
 
 		// Delete all position assignments to this object.
+		// cat-tms-patch 1865 start
 		$assignments = ilOrgUnitUserAssignment::where(array(
-			'orgu_id'     => $this->getId(),
+			'orgu_id'     => $this->getRefId(),
 		))->get();
+		// cat-tms-patch end
 		foreach ($assignments as $assignment) {
 			$assignment->delete();
 		}

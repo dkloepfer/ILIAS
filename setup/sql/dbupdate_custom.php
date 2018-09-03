@@ -393,3 +393,13 @@ $ilDB->manipulate($query);
 	$provider_db = new CaT\Ente\ILIAS\ilProviderDB($DIC->database(), $tree, $cache);
 	$provider_db->addIndizes();
 ?>
+<#34>
+<?php
+$query = 'DELETE il_orgu_ua'
+		.'	FROM il_orgu_ua'
+		.'	LEFT JOIN object_reference'
+		.'		ON orgu_id = ref_id'
+		.'	WHERE ref_id IS NULL';
+global $DIC;
+$DIC->database()->manipulate($query);
+?>
