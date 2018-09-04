@@ -210,7 +210,7 @@ class ilTrainingSearchGUI {
 	}
 
 	/**
-	 * Add missing filter params to flat post, since trees may not be saved.
+	 * Carry filter params to consecutive calls of class.
 	 */
 	protected function saveParameter(array $filter_params)
 	{
