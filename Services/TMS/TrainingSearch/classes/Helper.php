@@ -11,6 +11,8 @@ class Helper {
 	const F_TYPE = "f_type";
 	const F_TOPIC = "f_topic";
 	const F_DURATION = "f_duration";
+	const F_DURATION_START = "f_duration_start";
+	const F_DURATION_END = "f_duration_end";
 	const F_SORT_VALUE = "f_sort_value";
 	const F_ONLY_BOOKABLE = "f_only_bookable";
 	const F_IDD_RELEVANT = "f_idd_relevant";
@@ -224,6 +226,15 @@ class Helper {
 
 		if(array_key_exists(self::F_DURATION, $values)) {
 			$filter[self::F_DURATION] = $values[self::F_DURATION];
+			$filter[self::F_DURATION_START] = $values[self::F_DURATION]['start'];
+			$filter[self::F_DURATION_END] = $values[self::F_DURATION]['end'];
+		} elseif(array_key_exists(self::F_DURATION_START, $values)
+				&& array_key_exists(self::F_DURATION_END, $values)) {
+			$filter[self::F_DURATION] =
+				['start' => $values[self::F_DURATION_START]
+				,'end' => $values[self::F_DURATION_END]];
+			$filter[self::F_DURATION_START] = $values[self::F_DURATION_START];
+			$filter[self::F_DURATION_END] = $values[self::F_DURATION_END];
 		}
 
 		$filter[self::F_ONLY_BOOKABLE] = (bool)$values[self::F_ONLY_BOOKABLE];
