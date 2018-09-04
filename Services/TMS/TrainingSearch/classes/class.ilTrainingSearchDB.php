@@ -269,6 +269,7 @@ class ilTrainingSearchDB implements TrainingSearchDB {
 
 			if($start_date) {
 				if(array_key_exists(Helper::F_DURATION, $filter)
+					&& $this->filter->checkDurationKeys($filter[Helper::F_DURATION])
 					&& !$this->filter->courseInFilterPeriod($start_date, $filter[Helper::F_DURATION]["start"], $filter[Helper::F_DURATION]["end"])
 				) {
 					unset($crs_infos[$key]);

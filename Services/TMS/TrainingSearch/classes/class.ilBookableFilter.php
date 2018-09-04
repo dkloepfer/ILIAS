@@ -193,6 +193,24 @@ class ilBookableFilter {
 	public function courseHasProvider($provider_id, $filter_provider_id) {
 		return $provider_id == $filter_provider_id;
 	}
+
+	/**
+	 * Checks the duration filter element on valid keys
+	 *
+	 * @param string[]
+	 * @return bool
+	 */
+	public function checkDurationKeys(array $duration) {
+		if(array_key_exists("start", $duration)
+			&& array_key_exists("end", $duration)
+			&& $duration["start"] != ""
+			&& $duration["end"] != ""
+		) {
+			return true;
+		}
+
+		return false;
+	}
 }
 
 /**
