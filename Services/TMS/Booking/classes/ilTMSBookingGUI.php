@@ -162,7 +162,7 @@ abstract class ilTMSBookingGUI {
 
 			$translations = new \ILIAS\TMS\TranslationsImpl(
 				array(
-					Wizard\Player::TXT_TITLE => $this->g_lng->txt('booking_with_approval'),
+					Wizard\Player::TXT_TITLE => sprintf($this->g_lng->txt('title_booking_with_approval'), \ilObjUser::_lookupFullname($usr_id)),
 					Wizard\Player::TXT_CONFIRM => $this->g_lng->txt('booking_confirm_with_approval'),
 					'booking_request_created' => $this->g_lng->txt('booking_request_created'),
 					'no_approvers_for_user' => $this->g_lng->txt('no_approvers_for_user')
