@@ -27,7 +27,8 @@ class ilTrainingSearchGUI {
 			Helper::F_TITLE,
 			Helper::F_TYPE,
 			Helper::F_TOPIC,
-			Helper::F_DURATION,
+			Helper::F_DURATION_START,
+			Helper::F_DURATION_END,
 			Helper::F_SORT_VALUE,
 			Helper::F_ONLY_BOOKABLE,
 			Helper::F_IDD_RELEVANT
@@ -146,6 +147,7 @@ class ilTrainingSearchGUI {
 	protected function show() {
 		$get = $_GET;
 		$filter = $this->helper->getFilterValuesFrom($get);
+		$this->saveParameter($filter);
 		$bookable_trainings = $this->getBookableTrainings($filter);
 		$bookable_trainings = $this->helper->sortBookableTrainings(array(Helper::F_SORT_VALUE => Helper::S_DEFAULT), $bookable_trainings);
 		$this->showTrainings($bookable_trainings, self::CMD_SHOW);
@@ -161,6 +163,7 @@ class ilTrainingSearchGUI {
 	protected function showUserResult() {
 		$get = $_GET;
 		$filter = $this->helper->getFilterValuesFrom($get);
+		$this->saveParameter($filter);
 		$bookable_trainings = $this->getBookableTrainings($filter);
 		$bookable_trainings = $this->helper->sortBookableTrainings(array(Helper::F_SORT_VALUE => Helper::S_DEFAULT), $bookable_trainings);
 		$this->showTrainings($bookable_trainings, self::CMD_CHANGE_USER);
@@ -174,6 +177,7 @@ class ilTrainingSearchGUI {
 	public function filter() {
 		$post = $_POST;
 		$filter = $this->helper->getFilterValuesFrom($post);
+		$this->saveParameter($filter);
 		$bookable_trainings = $this->getBookableTrainings($filter);
 		$this->showTrainings($bookable_trainings, self::CMD_FILTER);
 	}
@@ -186,6 +190,7 @@ class ilTrainingSearchGUI {
 	protected function sort() {
 		$get = $_GET;
 		$filter = $this->helper->getFilterValuesFrom($get);
+		$this->saveParameter($filter);
 		$bookable_trainings = $this->getBookableTrainings($filter);
 		$bookable_trainings = $this->helper->sortBookableTrainings($get, $bookable_trainings);
 		$this->showTrainings($bookable_trainings, self::CMD_SORT);
@@ -199,8 +204,21 @@ class ilTrainingSearchGUI {
 	public function quickFilter() {
 		$get = $_GET;
 		$filter = $this->helper->getFilterValuesFrom($get);
+		$this->saveParameter($filter);
 		$bookable_trainings = $this->getBookableTrainings($filter);
 		$this->showTrainings($bookable_trainings, self::CMD_QUICKFILTER);
+	}
+
+	/**
+	 * Add missing filter params to flat post, since trees may not be saved.
+	 */
+	protected function saveParameter(array $filter_params)
+	{
+		foreach ($filter_params as $param => $value) {
+			if(in_array($param, self::$save_parameter)) {
+				$this->g_ctrl->setParameter($this, $param, $value);
+			}
+		}
 	}
 
 	/**
@@ -223,8 +241,6 @@ class ilTrainingSearchGUI {
 
 		$view_control = array($button1);
 		$view_control = $this->addSortationObjects($view_control);
-
-		$this->g_ctrl->saveParameter($this, self::$save_parameter);
 
 		$link = $this->g_ctrl->getLinkTarget($this, $cmd, "", false, false);
 		$pagination = $this->g_f->viewControl()->pagination()
