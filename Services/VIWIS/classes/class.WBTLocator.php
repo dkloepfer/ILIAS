@@ -8,6 +8,7 @@ class WBTLocator
 {
 	const WBT_TYPE_SINGLESCO = 'singlesco';
 	const WBT_TYPE_MULTISCO = 'multisco';
+	const WBT_TYPE_MULTISCO_2004 = 'multisco_2004';
 
 	public function __construct(ilDB $db)
 	{
@@ -30,6 +31,8 @@ class WBTLocator
 				return $this->extractJumpTosSinglesco($slm_id, $this->getManifestSinglesco($slm_id));
 			case self::WBT_TYPE_MULTISCO:
 				return $this->extractJumpTosMultisco($slm_id, $this->getManifestMultisco($slm_id));
+			case self::WBT_TYPE_MULTISCO_2004:
+				return $this->extractJumpTosMultisco2004($slm_id, $this->getManifestMultisco($slm_id));
 			default:
 				throw new WBTLocatorException('unknown type '.$type);
 		}
@@ -73,6 +76,50 @@ class WBTLocator
 				if (!isset($return[$q_id]) && $q_id) {
 					//echo $q_id.'<br>';
 					$return[$q_id] = $id_sco;
+				}
+			}
+			foreach ($item->item as $sub_item) {
+				array_push($items, $sub_item);
+			}
+		}
+		return $return;
+	}
+
+	protected function extractJumpTosMultisco2004($slm_id, $a_xml)
+	{
+		$return = array();
+		$xml = new SimpleXMLElement($a_xml);
+		$items = array();
+		foreach ($xml->organizations->organization->item as $item) {
+			$items[] = $item;
+		}
+		while ($item = array_shift($items)) {
+			$ident = $item['identifier'];
+			$title = $item->title[0];
+			if ($item->metadata) {
+				foreach ($item->metadata->children('imsmd', true) as $lom) {
+					if ($lom->getName() === 'lom') {
+						foreach ($lom->children('imsmd', true) as $general) {
+							if ($general->getName() === 'general') {
+								foreach ($general->children('imsmd', true) as $catalogentry) {
+									if ($catalogentry->getName() === 'catalogentry') {
+										foreach ($catalogentry->children('imsmd', true) as $entry) {
+											foreach ($entry->children('imsmd', true) as $langstring) {
+												foreach (explode(',', $langstring) as $q_id) {
+													$q_id = trim($q_id);
+													if ($q_id !== '') {
+														if (!isset($return[$q_id]) && $q_id) {
+															$return[$q_id] = $ident;
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
 				}
 			}
 			foreach ($item->item as $sub_item) {
