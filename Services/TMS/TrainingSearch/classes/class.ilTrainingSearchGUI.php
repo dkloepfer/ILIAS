@@ -23,7 +23,8 @@ class ilTrainingSearchGUI {
 	const PAGINATION_PARAM = "pagination";
 	const DROPDOWN_AT_PAGES = 1;
 
-	static protected $save_parameter = array(Helper::S_USER,
+	static protected $save_parameter = array(
+			Helper::S_USER,
 			Helper::F_TITLE,
 			Helper::F_TYPE,
 			Helper::F_TOPIC,
@@ -232,13 +233,13 @@ class ilTrainingSearchGUI {
 		require_once("Services/TMS/TrainingSearch/classes/class.ilTrainingSearchTableGUI.php");
 		$table = new ilTrainingSearchTableGUI($this, $this->helper, $this->search_user_id);
 		$table->setData($bookable_trainings);
+		$this->g_ctrl->saveParameter($this, self::$save_parameter);
 
 		$modal = $this->prepareModal();
 		$button1 = $this->g_f->button()->standard($this->g_lng->txt('search'), '#')
 			->withOnClick($modal->getShowSignal());
 
 		$current_page = (int)$_GET[self::PAGINATION_PARAM];
-
 		$view_control = array($button1);
 		$view_control = $this->addSortationObjects($view_control);
 
