@@ -259,6 +259,7 @@ class gevDesktopGUI
 			case "toMyAssessments":
 			case "toAllAssessments":
 			case 'redirectToViwis':
+			case 'redirectToViwis2004':
 			case "toMyVAPass":
 				$this->$a_cmd();
 				break;
@@ -274,6 +275,13 @@ class gevDesktopGUI
 		$this->ctrl->saveParameterByClass('WBTLocatorGUI', 'q_ref', $_GET['q_ref']);
 		$this->ctrl->redirectByClass('WBTLocatorGUI', 'redirect_viwis');
 	}
+
+	protected function redirectToViwis2004()
+	{
+		$this->ctrl->saveParameterByClass('WBTLocatorGUI', 'q_ref', $_GET['q_ref']);
+		$this->ctrl->redirectByClass('WBTLocatorGUI', 'redirect_viwis_2004');
+	}
+
 
 	protected function toDctBuildingBlockAdm()
 	{
