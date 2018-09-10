@@ -188,7 +188,7 @@ class ilWACTokenTest extends MockeryTestCase {
 
 		$this->assertEquals(self::SALT, ilWACToken::getSALT());
 		$ilWACToken = new ilWACToken($ilWacPath->getPath(), self::CLIENT_NAME, 123456, 20);
-		$this->assertEquals('cd5a43304b232c785ef4f9796053b8bf5d6d829a', $ilWACToken->getToken());
+		$this->assertEquals('b541e2bae42ee222f9be959b7ad2ab8844cbb05b', $ilWACToken->getToken());
 		$this->assertEquals('e45b98f267dc891c8206c844f7df29ea', $ilWACToken->getHashedId());
 	}
 
