@@ -3,6 +3,6 @@ php:
     - 7.0
     - 7.1
 install:
-    cd ./libs/composer && composer install
-script: cd .. && cd .. && phpunit -v --bootstrap libs/composer/vendor/autoload.php tests/
+    cd ./libs/composer && composer install && cd .. && cd ..
+script: ./run_tests.sh
 

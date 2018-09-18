@@ -25,10 +25,6 @@ abstract class ilPlugin
 	 */
 	protected $id = '';
 
-	// cat-tms-patch start
-	protected static $cached_plugins = array();
-	// cat-tms-patch end
-
 	public function __construct()
 	{
 		$this->__init();
@@ -1057,19 +1053,10 @@ abstract class ilPlugin
 
 		if (is_file($file))
 		{
-			// cat-tms-patch start
-			if(isset(self::$cached_plugins[$a_ctype][$a_cname][$a_slot_id][$a_pname])
-				&& is_object(self::$cached_plugins[$a_ctype][$a_cname][$a_slot_id][$a_pname])
-			) {
-				return self::$cached_plugins[$a_ctype][$a_cname][$a_slot_id][$a_pname];
-			}
-
 			include_once($file);
 			$class = "il".$a_pname."Plugin";
 			$plugin = new $class();
-			self::$cached_plugins[$a_ctype][$a_cname][$a_slot_id][$a_pname] = $plugin;
 			return $plugin;
-			// cat-tms-patch end
 		}
 
 		return null;

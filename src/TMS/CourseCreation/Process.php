@@ -130,7 +130,9 @@ class Process {
 
 		foreach ($sub_nodes as $sub) {
 			$configs = $request->getConfigurationFor($mappings[$sub]);
-			$this->setOwnerToSubObjects((int)$sub, (int)$mappings[$sub]);
+			if(array_key_exists($sub, $mappings)) {
+				$this->setOwnerToSubObjects((int)$sub, (int)$mappings[$sub]);
+			}
 
 			if ($configs === null) {
 				continue;
