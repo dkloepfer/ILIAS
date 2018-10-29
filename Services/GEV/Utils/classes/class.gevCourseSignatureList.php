@@ -56,9 +56,17 @@ class gevCourseSignatureList extends fpdf {
 	*/
 	protected function buildParticipantsTable() {
 
-		$this->SetWidths(array(35,35,120));
+		$this->SetWidths(array(35,35,65,55));
 		$this->SetFont('Arial','B',10);
-		$this->Row(array($this->gLng->txt("lastname"),$this->gLng->txt("firstname"),$this->gLng->txt("gev_signature")));
+		$this->Row(
+			array(
+				$this->gLng->txt("lastname"),
+				$this->gLng->txt("firstname"),
+				$this->gLng->txt("cost_centre"),
+				$this->gLng->txt("gev_signature")
+			)
+		);
+
 		$this->SetFont('Arial','',10);
 		$y0 = $this->GetY();
 		$participants = array();
@@ -66,7 +74,12 @@ class gevCourseSignatureList extends fpdf {
 			$usr_utils = gevUserUtils::getInstance($usr_id);
 			$firstname =  $usr_utils->getFirstname();
 			$lastname = $usr_utils->getLastname();
-			$participants["$lastname $firstname"] = array($firstname, $lastname);
+			$cost_centre = $usr_utils->getFinancialAccount();
+			$orgu_sap = $usr_utils->getOrguSAP();
+			if ($orgu_sap != null) {
+				$cost_centre .= " / ".$orgu_sap;
+			}
+			$participants["$lastname $firstname"] = array($firstname, $lastname, $cost_centre);
 		}
 
 		ksort($participants, SORT_NATURAL | SORT_FLAG_CASE);

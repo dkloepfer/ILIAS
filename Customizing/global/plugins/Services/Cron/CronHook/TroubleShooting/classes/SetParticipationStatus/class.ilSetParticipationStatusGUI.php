@@ -96,7 +96,6 @@ class ilSetParticipationStatusGUI {
 				$ni->setInfo($this->txt("set_status_wbd_time_info"));
 				$ni->setRequired(true);
 				$ni->allowDecimals(false);
-				$ni->setMinValue(3);
 				$option->addSubItem($ni);
 			}
 			$group->addOption($option);
