@@ -2569,7 +2569,7 @@ class gevCourseUtils
 		$columns = array(
 			$this->gLng->txt("firstname"),
 			$this->gLng->txt("lastname"),
-			$this->gLng->txt("cost_centre")
+			$this->gLng->txt("gev_org_unit_short")
 		);
 
 		$format_wrap = $workbook->addFormat(array("bottom" => 1));
