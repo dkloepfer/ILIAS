@@ -282,7 +282,9 @@ class gevSettings
 	const USR_UDF_INACTIVE_END = 'usr_udf_inactive_end';
 	const USR_UDF_SUPERIOR_OF_USR = 'usr_udf_superior_of_usr';
 	const USR_UDF_TRAINER_PROFILE = 'usr_udf_trainer_profile';
-
+	const USR_UDF_IDD_AFFECTED_START = 'usr_udf_idd_affected_start';
+	const USR_UDF_IDD_AFFECTED_END = 'usr_udf_idd_affected_end';
+	const USR_UDF_LOCATION_MA = 'usr_udf_location_ma';
 
 
 	// private Kontaktdaten, für geschäftliche Kontaktdaten werden
@@ -372,6 +374,9 @@ class gevSettings
 		,'inaktiv bis'
 		,'Vorgesetzter'
 		,'Trainerprofil'
+		,'IDD betroffen ab'
+		,'IDD betroffen bis'
+		,'Standort MA'
 	);
 
 	public static $LOCAL_USER_MANDATORY_UDF_FIELDS = array(
