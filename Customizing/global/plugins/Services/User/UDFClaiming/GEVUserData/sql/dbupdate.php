@@ -849,3 +849,11 @@ require_once("Services/GEV/Utils/classes/class.gevUDFUtils.php");
 gevUDFUtils::renameUDFField(gevSettings::USR_UDF_TRAINER_PROFILE, "Trainersteckbrief ID");
 
 ?>
+
+<#18>
+<?php
+
+require_once("Services/GEV/Utils/classes/class.gevUDFUtils.php");
+gevUDFUtils::renameUDFField(gevSettings::USR_UDF_PERSONAL_ID, "SAP Personalnummer");
+
+?>
