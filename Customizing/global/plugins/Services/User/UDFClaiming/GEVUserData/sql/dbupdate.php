@@ -857,3 +857,70 @@ require_once("Services/GEV/Utils/classes/class.gevUDFUtils.php");
 gevUDFUtils::renameUDFField(gevSettings::USR_UDF_PERSONAL_ID, "SAP Personalnummer");
 
 ?>
+
+<#19>
+<?php
+
+require_once("Services/GEV/Utils/classes/class.gevUDFUtils.php");
+require_once("Services/User/classes/class.ilUserDefinedFields.php");
+
+$fields = array(
+	"IDD betroffen ab" => array(
+		gevSettings::USR_UDF_IDD_AFFECTED_START,
+		UDF_TYPE_TEXT,
+		array(
+			"visible" => true,
+			"changeable" => true,
+			"searchable" => true,
+			"required" => false,
+			"export" => true,
+			"course_export" => true,
+			"group_export" => true,
+			"registration_visible" => true,
+			"visible_lua" => true,
+			"changeable_lua" => true,
+			"certificate" => true
+		),
+		null
+	),
+	"IDD betroffen bis" => array(
+		gevSettings::USR_UDF_IDD_AFFECTED_END,
+		UDF_TYPE_TEXT,
+		array(
+			"visible" => true,
+			"changeable" => true,
+			"searchable" => true,
+			"required" => false,
+			"export" => true,
+			"course_export" => true,
+			"group_export" => true,
+			"registration_visible" => true,
+			"visible_lua" => true,
+			"changeable_lua" => true,
+			"certificate" => true
+		),
+		null
+	),
+	"Standort MA" => array(
+		gevSettings::USR_UDF_LOCATION_MA,
+		UDF_TYPE_TEXT,
+		array(
+			"visible" => true,
+			"changeable" => true,
+			"searchable" => true,
+			"required" => false,
+			"export" => true,
+			"course_export" => true,
+			"group_export" => true,
+			"registration_visible" => true,
+			"visible_lua" => true,
+			"changeable_lua" => true,
+			"certificate" => true
+		),
+		null
+	)
+);
+
+gevUDFUtils::createUDFFields($fields);
+
+?>

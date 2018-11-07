@@ -56,7 +56,10 @@ class ExcelUsers
 			'Inaktiv von' => UdfWrapper::PROP_INACTIVE_BEGIN,
 			'Inaktiv bis' => UdfWrapper::PROP_INACTIVE_END,
 			'Name Vorgesetzter' => UdfWrapper::PROP_SUPERIOR_OF_USR,
-			'Austrittsdatum' => UdfWrapper::PROP_EXIT_DATE
+			'Austrittsdatum' => UdfWrapper::PROP_EXIT_DATE,
+			'IDD-betroffen ab' => UdfWrapper::PROP_IDD_AFFECTED_START,
+			'IDD-betroffen bis' => UdfWrapper::PROP_IDD_AFFECTED_END,
+			'Standort' => UdfWrapper::PROP_LOCATION_MA
 			];
 
 	public static $delivered_pnrs_conversions = [
@@ -154,7 +157,10 @@ class ExcelUsers
 			$row[UdfWrapper::PROP_INACTIVE_END] !== false &&
 			$row[UdfWrapper::PROP_ENTRY_DATE_KU] !== false &&
 			$row[UdfWrapper::PROP_ENTRY_DATE_KO] !== false &&
-			$row[UdfWrapper::PROP_EXIT_DATE] !== false;
+			$row[UdfWrapper::PROP_EXIT_DATE] !== false &&
+			$row[UdfWrapper::PROP_IDD_AFFECTED_START] !== false &&
+			$row[UdfWrapper::PROP_IDD_AFFECTED_END] !== false
+		;
 		if (!$dates_set) {
 			$this->e_c->addError('Ivalid dates for user with pnr '.$row[UdfWrapper::PROP_PNR]);
 		}
@@ -207,6 +213,9 @@ class ExcelUsers
 		$row[UdfWrapper::PROP_BIRTHDAY] = $this->tryFormatDate($row[UdfWrapper::PROP_BIRTHDAY]);
 		$row[UdfWrapper::PROP_COST_CENTRE] = (string)$row[UdfWrapper::PROP_COST_CENTRE];
 		$row[UdfWrapper::PROP_SUPERIOR_OF_USR] = (string)$row[UdfWrapper::PROP_SUPERIOR_OF_USR];
+		$row[UdfWrapper::PROP_IDD_AFFECTED_START] = $this->tryFormatDate($row[UdfWrapper::PROP_IDD_AFFECTED_START]);
+		$row[UdfWrapper::PROP_IDD_AFFECTED_END] = $this->tryFormatDate($row[UdfWrapper::PROP_IDD_AFFECTED_END]);
+		$row[UdfWrapper::PROP_LOCATION_MA] = (string)$row[UdfWrapper::PROP_LOCATION_MA];
 		return $row;
 	}
 

@@ -56,6 +56,9 @@ xuoi_usr_inactive_begin#:#Inaktiv von
 xuoi_usr_inactive_end#:#Inaktiv bis
 xuoi_usr_superior_of_usr#:#Vorgesetzter
 xuoi_usr_exit_date#:#Austrittsdatum
+xoui_idd_affected_start#:#IDD betroffen ab
+xoui_idd_affected_end#:#IDD betroffen bis
+xoui_location_ma#:#Standort MA
 udf_saved#:#Udf-Einstellungen gespeichert
 function_role_config#:#Rolleneinstellungen für Funktion
 superior_functions#:#Funktion für Vorgesetze
