@@ -107,11 +107,11 @@ class ilObjReportEduBioGUI extends ilObjReportBaseGUI {
 	}
 
 	protected function insertIDDAffectedDates($tpl) {
-		$start_date = "2003-02-02";
+		$start_date = $this->object->dates["idd_affected_start"];
 		$tpl->setVariable("IDD_AFFECTED_START", $this->object->plugin->txt("idd_affected_start"));
 		$tpl->setVariable("IDD_AFFECTED_START_VALUE", $start_date);
 
-		$end_date = "2004-03-03";
+		$end_date = $this->object->dates["idd_affected_end"];
 		$tpl->setVariable("IDD_AFFECTED_END", $this->object->plugin->txt("idd_affected_end"));
 		$tpl->setVariable("IDD_AFFECTED_END_VALUE", $end_date);
 	}
