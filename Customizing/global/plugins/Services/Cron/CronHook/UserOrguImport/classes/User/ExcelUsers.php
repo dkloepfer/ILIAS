@@ -157,7 +157,10 @@ class ExcelUsers
 			$row[UdfWrapper::PROP_INACTIVE_END] !== false &&
 			$row[UdfWrapper::PROP_ENTRY_DATE_KU] !== false &&
 			$row[UdfWrapper::PROP_ENTRY_DATE_KO] !== false &&
-			$row[UdfWrapper::PROP_EXIT_DATE] !== false;
+			$row[UdfWrapper::PROP_EXIT_DATE] !== false &&
+			$row[UdfWrapper::PROP_IDD_AFFECTED_START] !== false &&
+			$row[UdfWrapper::PROP_IDD_AFFECTED_END] !== false
+		;
 		if (!$dates_set) {
 			$this->e_c->addError('Ivalid dates for user with pnr '.$row[UdfWrapper::PROP_PNR]);
 		}
