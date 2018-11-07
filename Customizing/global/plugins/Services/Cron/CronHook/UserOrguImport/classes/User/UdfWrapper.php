@@ -50,7 +50,10 @@ class UdfWrapper
 			self::PROP_INACTIVE_BEGIN,
 			self::PROP_INACTIVE_END,
 			self::PROP_SUPERIOR_OF_USR,
-			self::PROP_EXIT_DATE
+			self::PROP_EXIT_DATE,
+			self::PROP_IDD_AFFECTED_START,
+			self::PROP_IDD_AFFECTED_END,
+			self::PROP_LOCATION_MA
 		];
 	}
 
@@ -88,7 +91,10 @@ class UdfWrapper
 			self::PROP_ENTRY_INACTIVE_END,
 			self::PROP_SUPERIOR_OF_USR,
 			self::PROP_GENDER,
-			self::PROP_BIRTHDAY
+			self::PROP_BIRTHDAY,
+			self::PROP_IDD_AFFECTED_START,
+			self::PROP_IDD_AFFECTED_END,
+			self::PROP_LOCATION_MA
 		];
 	}
 
@@ -245,4 +251,7 @@ class UdfWrapper
 	const PROP_INACTIVE_END = 'xuoi_usr_inactive_end';
 	const PROP_EXIT_DATE = 'xuoi_usr_exit_date';
 	const PROP_SUPERIOR_OF_USR = 'xuoi_usr_superior_of_usr';
+	const PROP_IDD_AFFECTED_START = 'xoui_idd_affected_start';
+	const PROP_IDD_AFFECTED_END = 'xoui_idd_affected_end';
+	const PROP_LOCATION_MA = 'xoui_location_ma';
 }
