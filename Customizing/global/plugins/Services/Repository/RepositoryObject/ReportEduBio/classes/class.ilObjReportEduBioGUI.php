@@ -101,8 +101,19 @@ class ilObjReportEduBioGUI extends ilObjReportBaseGUI {
 
 	protected function renderOverview() {
 		$tpl = new ilTemplate("tpl.gev_edu_bio_overview.html", true, true, $this->object->plugin->getDirectory());
+		$this->insertIDDAffectedDates($tpl);
 		$this->insertPoints($tpl);
 		return $tpl->get();
+	}
+
+	protected function insertIDDAffectedDates($tpl) {
+		$start_date = "2003-02-02";
+		$tpl->setVariable("IDD_AFFECTED_START", $this->object->plugin->txt("idd_affected_start"));
+		$tpl->setVariable("IDD_AFFECTED_START_VALUE", $start_date);
+
+		$end_date = "2004-03-03";
+		$tpl->setVariable("IDD_AFFECTED_END", $this->object->plugin->txt("idd_affected_end"));
+		$tpl->setVariable("IDD_AFFECTED_END_VALUE", $end_date);
 	}
 
 	protected function insertPoints($tpl) {
