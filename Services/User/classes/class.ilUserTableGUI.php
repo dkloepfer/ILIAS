@@ -183,6 +183,23 @@ class ilUserTableGUI extends ilTable2GUI
 			}
 		}
 
+		// gev-patch start mantis_3767
+		$cols["idd_affected_start"] = array(
+			"txt" => $lng->txt("idd_affected_start"),
+			"default" => false
+		);
+
+		$cols["idd_affected_end"] = array(
+			"txt" => $lng->txt("idd_affected_end"),
+			"default" => false
+		);
+
+		$cols["location_ma"] = array(
+			"txt" => $lng->txt("location_ma"),
+			"default" => false
+		);
+		// gev-patch end
+
 		// fields that are always shown
 		unset($cols["username"]);
 
@@ -227,6 +244,16 @@ class ilUserTableGUI extends ilTable2GUI
 		include_once("./Services/User/classes/class.ilUserQuery.php");
 
 		$additional_fields = $this->getSelectedColumns();
+
+		// gev-patch start mantis_3767
+		$idd_affected_start = $additional_fields["idd_affected_start"];
+		$idd_affected_end = $additional_fields["idd_affected_end"];
+		$location_ma = $additional_fields["location_ma"];
+		unset($additional_fields["idd_affected_start"]);
+		unset($additional_fields["idd_affected_end"]);
+		unset($additional_fields["location_ma"]);
+		// gev-patch end
+
 		unset($additional_fields["firstname"]);
 		unset($additional_fields["lastname"]);
 		unset($additional_fields["email"]);
@@ -282,11 +309,68 @@ class ilUserTableGUI extends ilTable2GUI
 				$usr_data["set"][$k]["access_class"] = "smallred";
 			}
 			$usr_data["set"][$k]["access_until"] = $txt_access;
+
+			// gev-patch start mantis_3767
+			if (!is_null($idd_affected_start)) {
+				$user_id = (int)$usr_data["set"][$k]["usr_id"];
+				$usr_data["set"][$k]["idd_affected_start"] = $this->getIDDDateFor(
+					gevSettings::USR_UDF_IDD_AFFECTED_START,
+					$user_id
+				);
+			}
+			if (!is_null($idd_affected_end)) {
+				$user_id = (int)$usr_data["set"][$k]["usr_id"];
+				$usr_data["set"][$k]["idd_affected_end"] = $this->getIDDDateFor(
+					gevSettings::USR_UDF_IDD_AFFECTED_END,
+					$user_id
+				);
+			}
+			if (!is_null($location_ma)) {
+				$user_id = (int)$usr_data["set"][$k]["usr_id"];
+				$usr_data["set"][$k]["location_ma"] = $this->getLocationMAFor(
+					gevSettings::USR_UDF_LOCATION_MA,
+					$user_id
+				);
+			}
+			// gev-patch end
 		}
 
 		$this->setMaxCount($usr_data["cnt"]);
 		$this->setData($usr_data["set"]);
 	}
+
+	// gev-patch start mantis_3767
+	protected function getIDDDateFor($settings_name, $user_id)
+	{
+		$date = $this->getGevSettingsDataFor($settings_name, $user_id);
+		if ($date != "-") {
+			return (new DateTime($date))->format('d.m.Y');
+		}
+		return $date;
+	}
+
+	protected function getLocationMAFor($settings_name, $user_id)
+	{
+		return $this->getGevSettingsDataFor($settings_name, $user_id);
+	}
+
+	protected function getGevSettingsDataFor($settings_name, $user_id)
+	{
+		$data = "-";
+		$settings_id = $this->getSettingsId($settings_name);
+		$dat = \ilUserDefinedData::lookupData(array($user_id), array($settings_id));
+		if (count($dat) > 0) {
+			$data = $dat[$user_id][$settings_id];
+		}
+		return $data;
+	}
+
+	protected function getSettingsId($settings_name)
+	{
+		$settings = gevSettings::getInstance();
+		return $settings->get($settings_name);
+	}
+	// gev-patch end
 
 	public function getUserIdsForFilter()
 	{
