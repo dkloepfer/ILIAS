@@ -56,7 +56,10 @@ class ExcelUsers
 			'Inaktiv von' => UdfWrapper::PROP_INACTIVE_BEGIN,
 			'Inaktiv bis' => UdfWrapper::PROP_INACTIVE_END,
 			'Name Vorgesetzter' => UdfWrapper::PROP_SUPERIOR_OF_USR,
-			'Austrittsdatum' => UdfWrapper::PROP_EXIT_DATE
+			'Austrittsdatum' => UdfWrapper::PROP_EXIT_DATE,
+			'IDD-betroffen ab' => UdfWrapper::PROP_IDD_AFFECTED_START,
+			'IDD-betroffen bis' => UdfWrapper::PROP_IDD_AFFECTED_END,
+			'Standort' => UdfWrapper::PROP_LOCATION_MA
 			];
 
 	public static $delivered_pnrs_conversions = [
