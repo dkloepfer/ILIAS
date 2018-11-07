@@ -46,3 +46,5 @@ wbd_role_no_service_warning#:#Sie sind nach der Bildungsinitiative &quot;gut ber
 sum_hist_points#:#erwirkte Weiterbildungsstunden im Sinne der IDD: 
 u_access_violation_show_self#:#Sie haben nicht die Berechtigung um die Bildungsbiografie des angefragten Benutzers zu sehen. Sie sehen nun Ihre eigene.
 wb_time#:#WB-Zeit
+idd_affected_start#:#IDD betroffen ab:
+idd_affected_end#:#IDD betroffen bis:
