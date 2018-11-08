@@ -66,6 +66,11 @@ class ilObjReportEmplAtt extends ilObjReportBase
 	protected function buildQuery($query)
 	{
 		$this->filter_selections = $this->getFilterSettings();
+		$settings = gevSettings::getInstance();
+		$idd_affected_start = $settings->get(gevSettings::USR_UDF_IDD_AFFECTED_START);
+		$idd_affected_end = $settings->get(gevSettings::USR_UDF_IDD_AFFECTED_END);
+		$location_ma = $settings->get(gevSettings::USR_UDF_LOCATION_MA);
+
 		$query
 			->select("usr.lastname")
 			->select("usr.firstname")
@@ -89,6 +94,9 @@ class ilObjReportEmplAtt extends ilObjReportBase
 			->select("usrcrs.begin_date")
 			->select("usrcrs.end_date")
 			->select("crs.edu_program")
+			->select_raw("idd_affected_start.value AS idd_affected_start")
+			->select_raw("idd_affected_end.value AS idd_affected_end")
+			->select_raw("location_ma.value AS location_ma")
 			->from("hist_user usr")
 			->join("hist_usercoursestatus usrcrs")
 				->on("usr.user_id = usrcrs.usr_id AND usrcrs.hist_historic = 0")
@@ -97,7 +105,15 @@ class ilObjReportEmplAtt extends ilObjReportBase
 			->left_join("hist_userorgu orgu_all")
 				->on("orgu_all.usr_id = usr.user_id")
 			->left_join("hist_userrole role")
-				->on("role.usr_id = usr.user_id");
+				->on("role.usr_id = usr.user_id")
+			->left_join("udf_text idd_affected_start")
+				->on("idd_affected_start.usr_id = usr.user_id AND idd_affected_start.field_id = ".$idd_affected_start)
+			->left_join("udf_text idd_affected_end")
+				->on("idd_affected_end.usr_id = usr.user_id AND idd_affected_end.field_id = ".$idd_affected_end)
+			->left_join("udf_text location_ma")
+				->on("location_ma.usr_id = usr.user_id AND location_ma.field_id = ".$location_ma)
+		;
+
 		if ($this->orgusFiltered()) {
 			$query->join("hist_userorgu orgu_filter")
 				->on("orgu_filter.usr_id = usr.user_id "
@@ -174,11 +190,14 @@ class ilObjReportEmplAtt extends ilObjReportBase
 			->column("lastname", $this->plugin->txt("lastname"), true)
 			->column("firstname", $this->plugin->txt("firstname"), true)
 			->column("email", $this->plugin->txt("email"), true)
+			->column("idd_affected_start", $this->plugin->txt("idd_affected_start"), true)
+			->column("idd_affected_end", $this->plugin->txt("idd_affected_end"), true)
 			->column("mobile_phone_nr", $this->plugin->txt("mobile_phone_nr"), true)
 			->column("adp_number", $this->plugin->txt("adp_number"), true)
 			->column("job_number", $this->plugin->txt("job_number"), true)
 			->column("od_bd", $this->plugin->txt("od_bd"), true, "", false, false)
 			->column("org_unit", $this->plugin->txt("org_unit_short"), true)
+			->column("lacation_ma", $this->plugin->txt("location_ma"), true)
 			->column("roles", $this->plugin->txt("roles"), true)
 			->column("status", $this->plugin->txt("status"), true)
 			->column("custom_id", $this->plugin->txt("training_id"), true)
