@@ -67,6 +67,11 @@ class ilCourseBookingMembersTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("name"), "name");
 		$this->addColumn($this->lng->txt("login"), "login");
 		$this->addColumn($this->lng->txt("objs_orgu"), "org");
+		// gev-patch start mantis_3767
+		$this->addColumn($this->lng->txt("idd_affected_start"), "idd_affected_start");
+		$this->addColumn($this->lng->txt("idd_affected_end"), "idd_affected_end");
+		$this->addColumn($this->lng->txt("location_ma"), "location_ma");
+		// gev-patch end
 		$this->addColumn($this->lng->txt("crsbook_admin_status"), "status");
 		$this->addColumn($this->lng->txt("crsbook_admin_status_change"), "status_change");
 		
@@ -121,6 +126,20 @@ class ilCourseBookingMembersTableGUI extends ilTable2GUI
 				,"login" => $item["login"]
 				,"org" => $item["org_unit"]
 				,"org_txt" => $item["org_unit_txt"]
+				// gev-patch start mantis_3767
+				, "idd_affected_start" => $this->getIDDDateFor(
+					gevSettings::USR_UDF_IDD_AFFECTED_START,
+					$item["user_id"]
+				)
+				, "idd_affected_end" => $this->getIDDDateFor(
+					gevSettings::USR_UDF_IDD_AFFECTED_END,
+					$item["user_id"]
+				)
+				, "location_ma" => $this->getLocationMAFor(
+					gevSettings::USR_UDF_LOCATION_MA,
+					$item["user_id"]
+				)
+				// gev-patch end
 				,"status" => $item["status"]
 				,"status_txt" => $status_map[$item["status"]]
 				,"status_change" => $item["status_changed_on"]
@@ -132,7 +151,40 @@ class ilCourseBookingMembersTableGUI extends ilTable2GUI
 		}
 		$this->setData($data);
 	}
-	
+
+	// gev-patch start mantis_3767
+	protected function getIDDDateFor($settings_name, $user_id)
+	{
+		$date = $this->getGevSettingsDataFor($settings_name, $user_id);
+		if ($date != "-") {
+			return (new DateTime($date))->format('d.m.Y');
+		}
+		return $date;
+	}
+
+	protected function getLocationMAFor($settings_name, $user_id)
+	{
+		return $this->getGevSettingsDataFor($settings_name, $user_id);
+	}
+
+	protected function getGevSettingsDataFor($settings_name, $user_id)
+	{
+		$data = "-";
+		$settings_id = $this->getSettingsId($settings_name);
+		$dat = \ilUserDefinedData::lookupData(array($user_id), array($settings_id));
+		if (count($dat) > 0) {
+			$data = $dat[$user_id][$settings_id];
+		}
+		return $data;
+	}
+
+	protected function getSettingsId($settings_name)
+	{
+		$settings = gevSettings::getInstance();
+		return $settings->get($settings_name);
+	}
+	// gev-patch end
+
 	/**
 	 * Get user action link
 	 * 
@@ -162,6 +214,11 @@ class ilCourseBookingMembersTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("TXT_NAME", $a_set["name"]);		
 		$this->tpl->setVariable("TXT_LOGIN", $a_set["login"]);		
 		$this->tpl->setVariable("TXT_ORG", $a_set["org_txt"]);	
+		// gev-patch start mantis_3767
+		$this->tpl->setVariable("TXT_IDD_AFFECTED_START", $a_set["idd_affected_start"]);
+		$this->tpl->setVariable("TXT_IDD_AFFECTED_END", $a_set["idd_affected_end"]);
+		$this->tpl->setVariable("TXT_LOCATION_MA", $a_set["location_ma"]);
+		// gev-patch end
 		$this->tpl->setVariable("TXT_STATUS", $a_set["status_txt"]);		
 		$this->tpl->setVariable("TXT_CHANGE", $a_set["status_change_txt"]);		
 	
