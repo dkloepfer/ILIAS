@@ -33,6 +33,7 @@ class ilObjReportEmplEduBiosTableGUI extends catTableGUI {
 		$this->tpl->setVariable("VAL_JOB_NUMBER", $a_set['job_number']);
 		$this->tpl->setVariable("VAL_OD_BD", $a_set['od_bd']);
 		$this->tpl->setVariable("VAL_ORG_UNIT", $a_set['org_unit']);
+		$this->tpl->setVariable("VAL_LOCATION_MA", $a_set['location_ma']);
 		$this->tpl->setVariable("VAL_ROLES", $a_set['roles']);
 	}
 }
