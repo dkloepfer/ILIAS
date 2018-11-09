@@ -9,6 +9,7 @@ class ilObjReportEmplEduBios extends ilObjReportBase
 
 	protected $relevant_parameters = array();
 	const EARLIEST_CERT_START = "2013-09-01";
+	const LESS_CREDIT_POINTS = "60"; // corresponds to 15 idd hours
 
 	public function initType()
 	{
@@ -103,9 +104,10 @@ class ilObjReportEmplEduBios extends ilObjReportBase
 			.'		ON location_ma.usr_id = usr.user_id AND location_ma.field_id = '.$location_ma
 			.$this->whereConditions();
 
-		$query .= '	GROUP BY usr.user_id'
+		$query .= '	GROUP BY usr.user_id'.PHP_EOL;
+		$query .= $this->possiblyAddIddLessFifteenHours();
+		$query .= $this->queryOrder();
 
-					.'	'.$this->queryOrder();
 		return $query;
 	}
 
@@ -113,10 +115,42 @@ class ilObjReportEmplEduBios extends ilObjReportBase
 	{
 		$where =
 			'	WHERE '.$this->gIldb->in('usr.user_id', $this->relevant_users, false, 'integer')
-			.' 		AND usr.hist_historic = 0';
+			.' 		AND usr.hist_historic = 0'
+		;
+		$where = $this->possiblyAddIDDRelevantCondition($where);
 		$where = $this->possiblyAddLastnameCondition($where);
 		$where = $this->possiblyAddYearCondition($where);
 		return $where;
+	}
+
+	private function possiblyAddIDDRelevantCondition($where) {
+		$only_idd_relevant = $this->filter_selections['only_idd_relevant'];
+
+		if ($only_idd_relevant) {
+			$selection  = $this->filter_selections['year'];
+			if(is_null($selection) || empty($selection)) {
+				$selection = date("Y");
+			}
+			$start = $selection."-01-01";
+			$end = ++$selection."-01-01";
+
+			$where .=
+				 " 	AND ((idd_affected_start.value >= ".$this->gIldb->quote($start, "text").PHP_EOL
+				."			AND idd_affected_start.value < ".$this->gIldb->quote($end, "text").")".PHP_EOL
+				."		OR (idd_affected_end.value >= ".$this->gIldb->quote($start, "text").PHP_EOL
+				."			AND idd_affected_end.value < ".$this->gIldb->quote($end, "text")."))".PHP_EOL
+			;
+		}
+
+		return $where;
+	}
+
+	private function possiblyAddIddLessFifteenHours()
+	{
+		$idd_less_fifteen_hours = $this->filter_selections['idd_less_fifteen_hours'];
+		if ($idd_less_fifteen_hours) {
+			return "	HAVING cp_passed < ".self::LESS_CREDIT_POINTS.PHP_EOL;
+		}
 	}
 
 	private function possiblyAddYearCondition($where)
@@ -218,6 +252,14 @@ class ilObjReportEmplEduBios extends ilObjReportBase
 
 		return
 			$f->sequence(
+				$f->option(
+					$txt('only_idd_relevant'),
+					''
+				),
+				$f->option(
+					$txt('idd_less_fifteen_hours'),
+					''
+				),
 				$f->multiselect(
 					$lng->txt("gev_org_unit_short"),
 					'',
@@ -232,14 +274,18 @@ class ilObjReportEmplEduBios extends ilObjReportBase
 					'',
 					$this->yearOptions()
 				)->default_choice((int)date('Y'))
-			)->map(function ($orgu_selection, $lastname, $year) use ($self) {
+			)->map(function ($only_idd_relevant, $idd_less_fifteen_hours, $orgu_selection, $lastname, $year) use ($self) {
 								return array(
+									'only_idd_relevant' => $only_idd_relevant,
+									'idd_less_fifteen_hours' => $idd_less_fifteen_hours,
 									'orgu_selection' => $orgu_selection,
 									'lastname' => $lastname,
 									'year' => $year
 								);
 			}, $tf->dict(
 				array(
+					'only_idd_relevant' => $tf->bool(),
+					'idd_less_fifteen_hours' => $tf->bool(),
 					'orgu_selection' => $tf->lst($tf->int()),
 					'lastname' => $tf->string(),
 					'year' => $tf->int()
