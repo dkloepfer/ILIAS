@@ -557,6 +557,22 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 				foreach($fields as $field_id => $value)
 				{
 					$a_user_data[$usr_id]['udf_' . $field_id] = $value;
+
+					// gev-patch start mantis_3767
+					$settings = gevSettings::getInstance();
+					$idd_affected_start_id = $settings->get(gevSettings::USR_UDF_IDD_AFFECTED_START);
+					$idd_affected_end_id = $settings->get(gevSettings::USR_UDF_IDD_AFFECTED_END);
+
+					if ($field_id == $idd_affected_start_id) {
+						$date = new ilDate($value, IL_CAL_DATE);
+						$a_user_data[$usr_id]['udf_' . $field_id] = ilDatePresentation::formatDate($date);
+					}
+
+					if ($field_id == $idd_affected_end_id) {
+						$date = new ilDate($value, IL_CAL_DATE);
+						$a_user_data[$usr_id]['udf_' . $field_id] = ilDatePresentation::formatDate($date);
+					}
+					// gev-patch end
 				}
 			}
 		}

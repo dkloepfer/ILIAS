@@ -172,6 +172,16 @@ class ilObjReportEmplAtt34iGUI extends ilObjReportBaseGUI
 				break;
 		}
 
+		if ($rec["idd_affected_start"] != null && $rec["idd_affected_start"] != "") {
+			$idd_affected_start = new ilDate($rec["idd_affected_start"], IL_CAL_DATE);
+			$rec["idd_affected_start"] = ilDatePresentation::formatDate($idd_affected_start);
+		}
+
+		if ($rec["idd_affected_end"] != null && $rec["idd_affected_end"] != "") {
+			$idd_affected_end = new ilDate($rec["idd_affected_end"], IL_CAL_DATE);
+			$rec["idd_affected_end"] = ilDatePresentation::formatDate($idd_affected_end);
+		}
+
 		return parent::transformResultRow($rec);
 	}
 }

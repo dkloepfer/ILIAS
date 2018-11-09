@@ -42,3 +42,6 @@ status#:#Status
 filter_no_wbd_imported#:#Keine Trainings aus der WBD
 is_local#:#Lokale Auswertung
 wb_time#:#WB-Zeit
+idd_affected_start#:#IDD betroffen ab
+idd_affected_end#:#IDD betroffen bis
+location_ma#:#Standort MA

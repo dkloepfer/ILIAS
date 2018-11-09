@@ -11,6 +11,7 @@
 
 require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 require_once("Services/GEV/WBD/classes/class.gevWBD.php");
+require_once 'Services/GEV/Utils/classes/class.gevSettings.php';
 
 class gevUserProfileGUI
 {
@@ -111,6 +112,12 @@ class gevUserProfileGUI
 
 				$this->user_utils->setJobNumber($form->getInput('job_number'));
 
+				$settings = gevSettings::getInstance();
+				$location_ma_id = $settings->get(gevSettings::USR_UDF_LOCATION_MA);
+				$this->user->setUserDefinedData(array(
+					$location_ma_id => $form->getInput('location_ma')
+				));
+				$this->user->updateUserDefinedFields();
 				$this->user->readUserDefinedFields();
 				$this->user->update();
 
@@ -262,6 +269,17 @@ class gevUserProfileGUI
 		$org_unit = new ilNonEditableValueGUI($this->lng->txt("gev_org_unit"), "", true);
 		$org_unit->setValue(implode("<br />", $this->user_utils->getAllOrgUnitTitlesUserIsMember()));
 		$form->addItem($org_unit);
+
+		$settings = gevSettings::getInstance();
+		$location_ma_id = $settings->get(gevSettings::USR_UDF_LOCATION_MA);
+		$dat = $this->user->getUserDefinedData();
+		$lma = "";
+		if (count($dat) > 0) {
+			$lma = $dat["f_".$location_ma_id];
+		}
+		$location_ma = new ilTextInputGUI($this->lng->txt("location_ma"), "location_ma");
+		$location_ma->setValue($lma);
+		$form->addItem($location_ma);
 
 		$section2 = new ilFormSectionHeaderGUI();
 		$section2->setTitle($this->lng->txt("gev_business_contact"));

@@ -5,6 +5,7 @@ require_once 'Services/GEV/Utils/classes/class.gevUserUtils.php';
 require_once 'Services/GEV/Utils/classes/class.gevSettings.php';
 require_once 'Services/GEV/Utils/classes/class.gevCourseUtils.php';
 require_once 'Services/UserCourseStatusHistorizing/classes/class.ilCertificateStorage.php';
+require_once 'Services/User/classes/class.ilUserDefinedData.php';
 
 ini_set("memory_limit", "2048M");
 ini_set('max_execution_time', 0);
@@ -133,7 +134,37 @@ class ilObjReportEduBio extends ilObjReportBase
 	{
 		parent::prepareReport();
 		$this->target_user_utils = gevUserUtils::getInstance($this->target_user_id);
+		$this->dates = $this->getIDDAffectedDates();
 		$this->points = $this->getPoints();
+	}
+
+	public function getIDDAffectedDates()
+	{
+		$dates = array();
+		$settings = gevSettings::getInstance();
+		$start_id = $settings->get(gevSettings::USR_UDF_IDD_AFFECTED_START);
+		$end_id = $settings->get(gevSettings::USR_UDF_IDD_AFFECTED_END);
+		$id = $this->target_user_id;
+
+		$dat = \ilUserDefinedData::lookupData(
+			array($id),
+			array($start_id, $end_id)
+		);
+
+		$dates['idd_affected_start'] = "-";
+		$dates['idd_affected_end'] = "-";
+
+		if (count($dat) > 0) {
+			$start_date = $dat[$id][$start_id];
+			$start_date = new ilDate($start_date, IL_CAL_DATE);
+			$dates['idd_affected_start'] = ilDatePresentation::formatDate($start_date);
+
+			$end_date = $dat[$id][$end_id];
+			$end_date = new ilDate($end_date, IL_CAL_DATE);
+			$dates['idd_affected_end'] = ilDatePresentation::formatDate($end_date);
+		}
+
+		return $dates;
 	}
 
 	/**

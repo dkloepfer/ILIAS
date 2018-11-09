@@ -14344,3 +14344,6 @@ ecs#:#ecs_refresh_participants#:#ECS-Teilnehmer aktualisieren
 mass#:#mass_grade_self#:#Eigene Bewertung eintragen
 mass#:#mass_grade_self_info#:#Erlaubt dem Teilnehmer seine Bewertung selbst vorzunehmen.
 crs#:#cost_centre#:#Kostenstelle / Organisationseinheit SAP
+common#:#idd_affected_start#:#IDD betroffen ab
+common#:#idd_affected_end#:#IDD betroffen bis
+common#:#location_ma#:#Standort MA
