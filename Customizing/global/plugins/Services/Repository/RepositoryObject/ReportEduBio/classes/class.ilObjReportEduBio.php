@@ -156,9 +156,12 @@ class ilObjReportEduBio extends ilObjReportBase
 
 		if (count($dat) > 0) {
 			$start_date = $dat[$id][$start_id];
+			$start_date = new ilDate($start_date, IL_CAL_DATE);
+			$dates['idd_affected_start'] = ilDatePresentation::formatDate($start_date);
+
 			$end_date = $dat[$id][$end_id];
-			$dates['idd_affected_start'] = (new DateTime($start_date))->format('d.m.Y');
-			$dates['idd_affected_end'] = (new DateTime($end_date))->format('d.m.Y');
+			$end_date = new ilDate($end_date, IL_CAL_DATE);
+			$dates['idd_affected_end'] = ilDatePresentation::formatDate($end_date);
 		}
 
 		return $dates;
