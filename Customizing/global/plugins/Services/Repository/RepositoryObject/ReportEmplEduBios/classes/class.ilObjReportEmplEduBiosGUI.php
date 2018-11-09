@@ -122,6 +122,16 @@ class ilObjReportEmplEduBiosGUI extends ilObjReportBaseGUI
 		$rec["cp_passed"] = gevCourseUtils::convertCreditpointsToFormattedDuration($rec['cp_passed']);
 		$rec["edu_bio_link"] = ilObjReportEduBio::getEduBioLinkFor($rec["user_id"]);
 
+		if ($rec["idd_affected_start"] != null && $rec["idd_affected_start"] != "") {
+			$idd_affected_start = new ilDate($rec["idd_affected_start"], IL_CAL_DATE);
+			$rec["idd_affected_start"] = ilDatePresentation::formatDate($idd_affected_start);
+		}
+
+		if ($rec["idd_affected_end"] != null && $rec["idd_affected_end"] != "") {
+			$idd_affected_end = new ilDate($rec["idd_affected_end"], IL_CAL_DATE);
+			$rec["idd_affected_end"] = ilDatePresentation::formatDate($idd_affected_end);
+		}
+
 		return parent::transformResultRow($rec);
 	}
 
@@ -141,6 +151,16 @@ class ilObjReportEmplEduBiosGUI extends ilObjReportBaseGUI
 		}
 		$rec["cp_passed"] = gevCourseUtils::convertCreditpointsToFormattedDuration($rec['cp_passed']);
 		$rec = self::getODBD($rec);
+
+		if ($rec["idd_affected_start"] != null && $rec["idd_affected_start"] != "") {
+			$idd_affected_start = new ilDate($rec["idd_affected_start"], IL_CAL_DATE);
+			$rec["idd_affected_start"] = ilDatePresentation::formatDate($idd_affected_start);
+		}
+
+		if ($rec["idd_affected_end"] != null && $rec["idd_affected_end"] != "") {
+			$idd_affected_end = new ilDate($rec["idd_affected_end"], IL_CAL_DATE);
+			$rec["idd_affected_end"] = ilDatePresentation::formatDate($idd_affected_end);
+		}
 
 		return parent::transformResultRowXLSX($rec);
 	}

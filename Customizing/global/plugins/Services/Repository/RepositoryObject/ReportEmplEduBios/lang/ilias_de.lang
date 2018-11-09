@@ -39,4 +39,7 @@ overall_points_goa#:#Gesamtpunktzahl GOA
 filter_no_wbd_imported#:#Keine Trainings aus der WBD
 cp_passed#:#erwirkte Weiterbildungsstunden im Sinne der IDD
 filter_year#:#Jahr
+sap_personal_number#:#SAP Personalnummer
+idd_affected_start#:#IDD betroffen ab
+idd_affected_end#:#IDD betroffen bis
 location_ma#:#Standort MA

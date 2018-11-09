@@ -56,6 +56,9 @@ class ilObjReportEmplEduBios extends ilObjReportBase
 	public function buildQueryStatement()
 	{
 		$settings = gevSettings::getInstance();
+		$sap_personal_number = $settings->get(gevSettings::USR_UDF_PERSONAL_ID);
+		$idd_affected_start = $settings->get(gevSettings::USR_UDF_IDD_AFFECTED_START);
+		$idd_affected_end = $settings->get(gevSettings::USR_UDF_IDD_AFFECTED_END);
 		$location_ma = $settings->get(gevSettings::USR_UDF_LOCATION_MA);
 
 		$query =
@@ -70,7 +73,10 @@ class ilObjReportEmplEduBios extends ilObjReportBase
 			.'	,orgu_all.org_unit_above1'
 			.'	,orgu_all.org_unit_above2'
 			.'	,usr.begin_of_certification'
+			.'	,sap_personal_number.value AS sap_personal_number'
 			.'	,location_ma.value AS location_ma'
+			.'	,idd_affected_start.value AS idd_affected_start'
+			.'	,idd_affected_end.value AS idd_affected_end'
 			.'	,SUM(IF(usrcrs.participation_status = '.$this->gIldb->quote('teilgenommen', "text")
 			.'     ,usrcrs.credit_points,0)) AS cp_passed'
 			.'	FROM hist_user usr'
@@ -87,6 +93,12 @@ class ilObjReportEmplEduBios extends ilObjReportBase
 			.'			AND usrcrs.credit_points > 0'
 			.'			AND usrcrs.booking_status = \'gebucht\''
 			.'			'.$this->filterWBDImported()
+			.'	LEFT JOIN udf_text AS sap_personal_number'
+			.'		ON sap_personal_number.usr_id = usr.user_id AND sap_personal_number.field_id = '.$sap_personal_number
+			.'	LEFT JOIN udf_text AS idd_affected_start'
+			.'		ON idd_affected_start.usr_id = usr.user_id AND idd_affected_start.field_id = '.$idd_affected_start
+			.'	LEFT JOIN udf_text AS idd_affected_end'
+			.'		ON idd_affected_end.usr_id = usr.user_id AND idd_affected_end.field_id = '.$idd_affected_end
 			.'	LEFT JOIN udf_text AS location_ma'
 			.'		ON location_ma.usr_id = usr.user_id AND location_ma.field_id = '.$location_ma
 			.$this->whereConditions();
@@ -316,12 +328,15 @@ class ilObjReportEmplEduBios extends ilObjReportBase
 						->column("firstname", $this->plugin->txt("firstname"), true)
 						->column("login", $this->plugin->txt("login"), true)
 						->column("cp_passed", $this->txt("cp_passed"), true)
+						->column("sap_personal_number", $this->txt("sap_personal_number"), true)
 						->column("adp_number", $this->plugin->txt("adp_number"), true)
 						->column("job_number", $this->plugin->txt("job_number"), true)
 						->column("od_bd", $this->plugin->txt("od_bd"), true, "", false, false)
 						->column("org_unit", $this->plugin->txt("orgu_short"), true)
 						->column("lacation_ma", $this->plugin->txt("location_ma"), true)
-						->column("roles", $this->plugin->txt("roles"), true);
+						->column("roles", $this->plugin->txt("roles"), true)
+						->column("idd_affected_start", $this->plugin->txt("idd_affected_start"), true)
+						->column("idd_affected_end", $this->plugin->txt("idd_affected_end"), true);
 		return parent::buildTable($table);
 	}
 
