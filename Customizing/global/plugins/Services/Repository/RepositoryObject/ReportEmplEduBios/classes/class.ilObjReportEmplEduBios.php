@@ -1,5 +1,6 @@
 <?php
 require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportBase/class.ilObjReportBase.php';
+require_once 'Services/GEV/Utils/classes/class.gevSettings.php';
 
 ini_set("memory_limit", "2048M");
 ini_set('max_execution_time', 0);
@@ -54,6 +55,9 @@ class ilObjReportEmplEduBios extends ilObjReportBase
 
 	public function buildQueryStatement()
 	{
+		$settings = gevSettings::getInstance();
+		$location_ma = $settings->get(gevSettings::USR_UDF_LOCATION_MA);
+
 		$query =
 			'SELECT'
 			.'	usr.user_id'
@@ -66,6 +70,7 @@ class ilObjReportEmplEduBios extends ilObjReportBase
 			.'	,orgu_all.org_unit_above1'
 			.'	,orgu_all.org_unit_above2'
 			.'	,usr.begin_of_certification'
+			.'	,location_ma.value AS location_ma'
 			.'	,SUM(IF(usrcrs.participation_status = '.$this->gIldb->quote('teilgenommen', "text")
 			.'     ,usrcrs.credit_points,0)) AS cp_passed'
 			.'	FROM hist_user usr'
@@ -82,6 +87,8 @@ class ilObjReportEmplEduBios extends ilObjReportBase
 			.'			AND usrcrs.credit_points > 0'
 			.'			AND usrcrs.booking_status = \'gebucht\''
 			.'			'.$this->filterWBDImported()
+			.'	LEFT JOIN udf_text AS location_ma'
+			.'		ON location_ma.usr_id = usr.user_id AND location_ma.field_id = '.$location_ma
 			.$this->whereConditions();
 
 		$query .= '	GROUP BY usr.user_id'
@@ -313,6 +320,7 @@ class ilObjReportEmplEduBios extends ilObjReportBase
 						->column("job_number", $this->plugin->txt("job_number"), true)
 						->column("od_bd", $this->plugin->txt("od_bd"), true, "", false, false)
 						->column("org_unit", $this->plugin->txt("orgu_short"), true)
+						->column("lacation_ma", $this->plugin->txt("location_ma"), true)
 						->column("roles", $this->plugin->txt("roles"), true);
 		return parent::buildTable($table);
 	}
