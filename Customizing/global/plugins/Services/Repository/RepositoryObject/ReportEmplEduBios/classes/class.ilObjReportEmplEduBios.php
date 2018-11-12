@@ -105,7 +105,8 @@ class ilObjReportEmplEduBios extends ilObjReportBase
 			.$this->whereConditions();
 
 		$query .= '	GROUP BY usr.user_id'.PHP_EOL;
-		$query .= $this->possiblyAddIddLessFifteenHours();
+
+		$query = $this->possiblyAddIddLessFifteenHours($query);
 		$query .= $this->queryOrder();
 
 		return $query;
@@ -135,22 +136,21 @@ class ilObjReportEmplEduBios extends ilObjReportBase
 			$end = ++$selection."-01-01";
 
 			$where .=
-				 " 	AND ((idd_affected_start.value >= ".$this->gIldb->quote($start, "text").PHP_EOL
-				."			AND idd_affected_start.value < ".$this->gIldb->quote($end, "text").")".PHP_EOL
-				."		OR (idd_affected_end.value >= ".$this->gIldb->quote($start, "text").PHP_EOL
-				."			AND idd_affected_end.value < ".$this->gIldb->quote($end, "text")."))".PHP_EOL
+				 "	AND idd_affected_start.value <= ".$this->gIldb->quote($end, "text").PHP_EOL
+				."	AND idd_affected_end.value >= ".$this->gIldb->quote($start, "text").PHP_EOL
 			;
 		}
 
 		return $where;
 	}
 
-	private function possiblyAddIddLessFifteenHours()
+	private function possiblyAddIddLessFifteenHours($query)
 	{
 		$idd_less_fifteen_hours = $this->filter_selections['idd_less_fifteen_hours'];
 		if ($idd_less_fifteen_hours) {
-			return "	HAVING cp_passed < ".self::LESS_CREDIT_POINTS.PHP_EOL;
+			$query .= "	HAVING cp_passed < ".self::LESS_CREDIT_POINTS.PHP_EOL;
 		}
+		return $query;
 	}
 
 	private function possiblyAddYearCondition($where)
