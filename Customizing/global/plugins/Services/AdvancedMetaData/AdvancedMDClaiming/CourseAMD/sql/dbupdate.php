@@ -1050,3 +1050,49 @@ $amdutils = gevAMDUtils::getInstance();
 $amdutils->updateOptionsOfAMDField(gevSettings::CRS_AMD_TOPIC, $options);
 
 ?>
+
+<#37>
+<?php
+require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+$options = array(
+	  "SUHK - Privatkunden"
+	, "SUHK - Firmenkunden"
+	, "Leben und Rente"
+	, "Betriebliche Altersvorsorge"
+	, "Akquise / Verkauf"
+	, "Beratungs- und Tarifierungstools"
+	, "Büromanagement"
+	, "Neue Medien"
+	, "Agenturmanagement"
+	, "Führung"
+	, "VA-Ausbildung"
+	, "Azubi-Ausbildung"
+	, "Qualifizierungsprogramme"
+	, "Assistanceleistungen"
+	, "Investment"
+	, "Kranken und Pflege"
+	, "Rechtsschutz"
+	, "Bausparen und Finanzieren"
+	, "Sprachtrainings"
+	, "GDS-Werkstatt"
+	, "Soziale Kompetenz"
+	, "Persönliche Kompetenz"
+	, "Methodenkompetenz"
+	, "PC- / IT-Kompetenz (ID)"
+	, "Sprachkompetenz"
+	, "Impulsvorträge"
+	, "Führungskompetenz ID (Persönlichkeit)"
+	, "Führungskompetenz ID (Skills und Tools)"
+	, "Accelerating Technical Excellence (GATE)"
+	, "Developing Insurance Culture (GATE)"
+	, "Shaping the industry (GATE)"
+	, "Externe Veranstaltung"
+);
+
+sort($options);
+
+$amdutils = gevAMDUtils::getInstance();
+$amdutils->updateOptionsOfAMDField(gevSettings::CRS_AMD_TOPIC, $options);
+
+?>
