@@ -292,7 +292,7 @@ class gevWBDDataCollector implements WBDDataCollector
 		$res = $db->query($this->newEduRecordListQuery());
 
 		while ($rec = $db->fetchAssoc($res)) {
-			$data["learning_time"] = $data["credit_points"] * 15;
+			$rec["learning_time"] = $rec["credit_points"] * 15;
 			$object = gevWBDRequestBildungszeitMeldung::getInstance($rec);
 			if (is_array($object)) {
 				foreach ($object as $error) {
@@ -586,7 +586,6 @@ class gevWBDDataCollector implements WBDDataCollector
 					.", hist_course.title, hist_user.bwv_id\n"
 				." HAVING errors = 0\n"
 				." ORDER BY hist_usercoursestatus.row_id\n";
-
 		return $sql;
 	}
 
@@ -1000,16 +999,16 @@ class gevWBDDataCollector implements WBDDataCollector
 				." hist_version,\n"
 				." created_ts,\n"
 				." creator_user_id,\n"
-		 		." is_template,\n"
-		 		." crs_id,\n"
-		 		." title,\n"
-		 		." type, \n"
-		 		." wbd_topic,\n"
-		 		." begin_date,\n"
-		 		." end_date,\n"
-		 		." custom_id,\n"
-		 		." template_title,\n"
-		 		." max_credit_points\n"
+				 ." is_template,\n"
+				 ." crs_id,\n"
+				 ." title,\n"
+				 ." type, \n"
+				 ." wbd_topic,\n"
+				 ." begin_date,\n"
+				 ." end_date,\n"
+				 ." custom_id,\n"
+				 ." template_title,\n"
+				 ." max_credit_points\n"
 			." )\n"
 			." VALUES\n"
 			." (\n"
@@ -1021,12 +1020,12 @@ class gevWBDDataCollector implements WBDDataCollector
 				."".$this->gDB->quote($crs_id, "integer").",\n"
 				."".$this->gDB->quote($title, "text").",\n"
 				."".$this->gDB->quote($type, "text").",\n"
-		 		."".$this->gDB->quote($wbd_topic, "text").",\n"
-		 		."".$this->gDB->quote($begin_date, "date").",\n"
-		 		."".$this->gDB->quote($end_date, "date").",\n"
-		 		." '-empty-',\n"
-		 		." '-empty-',\n"
-		 		." '-empty-'\n"
+				 ."".$this->gDB->quote($wbd_topic, "text").",\n"
+				 ."".$this->gDB->quote($begin_date, "date").",\n"
+				 ."".$this->gDB->quote($end_date, "date").",\n"
+				 ." '-empty-',\n"
+				 ." '-empty-',\n"
+				 ." '-empty-'\n"
 			.")";
 
 		if (! $this->gDB->query($sql)) {
@@ -1063,18 +1062,18 @@ class gevWBDDataCollector implements WBDDataCollector
 				."created_ts,\n"
 				."creator_user_id,\n"
 				."usr_id,\n"
-		 		."crs_id,\n"
-		 		."credit_points,\n"
-		 		."hist_historic,\n"
-		 		."hist_version,\n"
-		 		."okz,\n"
-		 		."function,\n"
-		 		."booking_status,\n"
-		 		."participation_status,\n"
-		 		."begin_date,\n"
-		 		."end_date,\n"
-		 		."bill_id,\n"
-		 		."certificate\n"
+				 ."crs_id,\n"
+				 ."credit_points,\n"
+				 ."hist_historic,\n"
+				 ."hist_version,\n"
+				 ."okz,\n"
+				 ."function,\n"
+				 ."booking_status,\n"
+				 ."participation_status,\n"
+				 ."begin_date,\n"
+				 ."end_date,\n"
+				 ."bill_id,\n"
+				 ."certificate\n"
 			.") \n"
 			."VALUES \n"
 			."(\n"
