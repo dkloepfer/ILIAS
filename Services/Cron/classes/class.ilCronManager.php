@@ -20,7 +20,7 @@ class ilCronManager
 		// separate log for cron
 		// $this->log->setFilename($_COOKIE["ilClientId"]."_cron.txt");
 		
-		$ilLog->write("CRON - batch start");
+		$ilLog->write("CRON - batch start thread ".self::getCurrentCronThreadId());
 		
 		$ts = time();
 		$ilSetting->set("last_cronjob_start_ts", $ts);
@@ -56,7 +56,7 @@ class ilCronManager
 			self::runJob($item[0], $item[1]);
 		}		
 		
-		$ilLog->write("CRON - batch end");
+		$ilLog->write("CRON - batch end thread ".self::getCurrentCronThreadId());
 	}
 	
 	/**
@@ -174,14 +174,14 @@ class ilCronManager
                 } catch (\Exception $e) {
                     $result = new \ilCronJobResult();
                     $result->setStatus(\ilCronJobResult::STATUS_CRASHED);
-                    $result->setMessage(sprintf("Exception: %s", $e->getMessage()));
-                    
+                    $result->setMessage(sprintf("Exception: %s", $e->getMessage())." in thread ".self::getCurrentCronThreadId());
+
                     $ilLog->log($e->getTraceAsString());
                 } catch (\Throwable $e) { // Could be appended to the catch block with a | in PHP 7.1
                     $result = new \ilCronJobResult();
                     $result->setStatus(\ilCronJobResult::STATUS_CRASHED);
-                    $result->setMessage(sprintf("Exception: %s", $e->getMessage()));
-                    
+                    $result->setMessage(sprintf("Exception: %s", $e->getMessage())." in thread ".self::getCurrentCronThreadId());
+
                     $ilLog->log($e->getTraceAsString());
                 }
 				$ts_dur = self::getMicrotime()-$ts_in;
