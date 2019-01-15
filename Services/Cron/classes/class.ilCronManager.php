@@ -53,7 +53,7 @@ class ilCronManager
 		// plugins
 		foreach(self::getPluginJobs(true) as $item)
 		{
-			self::runJob($item[0], $item[1]);
+			self::runJob($item[0]);
 		}		
 		
 		$ilLog->write("CRON - batch end thread ".self::getCurrentCronThreadId());
