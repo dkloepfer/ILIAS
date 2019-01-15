@@ -9,7 +9,10 @@
  * @ingroup ServicesCron
  */
 class ilCronManager
-{		
+{
+
+	protected static $cron_thread_id;
+
 	/**
 	 * Run all active jobs
 	 */
@@ -241,8 +244,6 @@ class ilCronManager
 		return $did_run;
 	}
 
-
-	protected static $cron_thread_id;
 	/**
 	 * Get the cron thread id of current thread
 	 *
@@ -267,9 +268,10 @@ class ilCronManager
 		assert('is_string($a_job_id)');
 		global $ilDB;
 		$rec = $ilDB->fetchAssoc(
-					$ilDB->query("SELECT executing_thread_id"
-								."	FROM cron_job"
-								."	WHERE job_id = ".$ilDB->quote($a_job_id, "text")
+					$ilDB->query(
+						"SELECT executing_thread_id"
+						."	FROM cron_job"
+						."	WHERE job_id = ".$ilDB->quote($a_job_id, "text")
 					)
 				);
 
