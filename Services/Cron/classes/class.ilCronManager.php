@@ -169,21 +169,21 @@ class ilCronManager
 				// OK, no other thread claimed the execution of this job in the meantime. Safe to run.
 				$ilLog->write("CRON - job ".$a_job_data["job_id"]." started by thread ".self::getCurrentCronThreadId());
 				$ts_in = self::getMicrotime();
-                try {
-                    $result = $a_job->run();
-                } catch (\Exception $e) {
-                    $result = new \ilCronJobResult();
-                    $result->setStatus(\ilCronJobResult::STATUS_CRASHED);
-                    $result->setMessage(sprintf("Exception: %s", $e->getMessage())." in thread ".self::getCurrentCronThreadId());
+				try {
+					$result = $a_job->run();
+				} catch (\Exception $e) {
+					$result = new \ilCronJobResult();
+					$result->setStatus(\ilCronJobResult::STATUS_CRASHED);
+					$result->setMessage(sprintf("Exception: %s", $e->getMessage())." in thread ".self::getCurrentCronThreadId());
 
-                    $ilLog->log($e->getTraceAsString());
-                } catch (\Throwable $e) { // Could be appended to the catch block with a | in PHP 7.1
-                    $result = new \ilCronJobResult();
-                    $result->setStatus(\ilCronJobResult::STATUS_CRASHED);
-                    $result->setMessage(sprintf("Exception: %s", $e->getMessage())." in thread ".self::getCurrentCronThreadId());
+					$ilLog->log($e->getTraceAsString());
+				} catch (\Throwable $e) { // Could be appended to the catch block with a | in PHP 7.1
+					$result = new \ilCronJobResult();
+					$result->setStatus(\ilCronJobResult::STATUS_CRASHED);
+					$result->setMessage(sprintf("Exception: %s", $e->getMessage())." in thread ".self::getCurrentCronThreadId());
 
-                    $ilLog->log($e->getTraceAsString());
-                }
+					$ilLog->log($e->getTraceAsString());
+				}
 				$ts_dur = self::getMicrotime()-$ts_in;
 
 				// no proper result 
