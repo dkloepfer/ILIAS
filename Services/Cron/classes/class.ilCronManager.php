@@ -251,7 +251,7 @@ class ilCronManager
 	protected static function getCurrentCronThreadId()
 	{
 		if(self::$cron_thread_id === null) {
-			self::$cron_thread_id = self::getUUID();
+			self::$cron_thread_id = self::generateId();
 		}
 		return self::$cron_thread_id;
 	}
@@ -284,7 +284,7 @@ class ilCronManager
 	 *
 	 * @return string
 	 */
-	protected static function getUUID()
+	protected static function generateId()
 	{
 		return bin2hex(random_bytes(16));
 	}
