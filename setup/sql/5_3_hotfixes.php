@@ -396,3 +396,16 @@ $ilCtrlStructureReader->getStructure();
 require_once 'Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
 ilDBUpdateNewObjectType::applyInitialPermissionGuideline('iass', true, false);
 ?>
+
+<#26>
+<?php
+if(!$ilDB->tableColumnExists('cron_job', 'executing_thread_id')) {
+	$field = array(
+		"type" => "text",
+		"length" => 256,
+		"notnull" => false,
+		"default" => null
+	);
+	$ilDB->addTableColumn('cron_job', 'executing_thread_id', $field);
+}
+?>
