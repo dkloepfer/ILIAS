@@ -286,7 +286,7 @@ class ilCronManager
 	 */
 	protected static function getUUID()
 	{
-		return uniqid(CLIENT_ID,true);
+		return bin2hex(random_bytes(16));
 	}
 
 	/**
