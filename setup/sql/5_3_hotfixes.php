@@ -397,7 +397,7 @@ require_once 'Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObject
 ilDBUpdateNewObjectType::applyInitialPermissionGuideline('iass', true, false);
 ?>
 
-<#26>
+<#27>
 <?php
 if(!$ilDB->tableColumnExists('cron_job', 'executing_thread_id')) {
 	$field = array(
