@@ -23,6 +23,9 @@ class ilCertificatePathFactory
             case 'exc':
                 $certificatePath = ilCertificatePathConstants::EXERCISE_PATH . $object->getId() . '/';
                 break;
+            case 'prg':
+                $certificatePath = ilCertificatePathConstants::STUDY_PROGRAMME_PATH . $object->getId() . '/';
+                break;
             default:
                 throw new ilException(sprintf(
                     'The type "%s" is currently not supported for certificates',
