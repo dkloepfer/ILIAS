@@ -14,9 +14,10 @@ require_once('./Modules/StudyProgramme/classes/class.ilObjStudyProgrammeAdmin.ph
  * @ilCtrl_Calls ilObjStudyProgrammeAdminGUI: ilPermissionGUI
  */
 
-protected $type_gui;
 
 class ilObjStudyProgrammeAdminGUI extends ilObjectGUI {
+
+	protected $type_gui;
 
 	/**
 	 * @var ilSetupErrorHandling

@@ -64,7 +64,6 @@ extends ilCertificateAdapter
 		{
 			$insert_tags["[".$id."]"] = $caption;
 		}
-		die(var_dump($vars));
 		return $insert_tags;
 	}
 	
@@ -101,7 +100,7 @@ extends ilCertificateAdapter
 	*/
 	public function getAdapterType()
 	{
-		return "studyProgramme";
+		return "StudyProgramme";
 	}
 
 	/**
