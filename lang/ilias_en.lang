@@ -15251,4 +15251,10 @@ book#:#book_pool_selection#:#Booking Pool Selection
 book#:#book_booked_in#:#Booked in
 obj#:#obj_tool_booking#:#Resources
 obj#:#obj_tool_booking_info#:#Use the booking pools to book resources.
-book#:#book_all_pools_need_schedules#:#Settings not saved. All assigned pools need to have at least one schedule.
+book#:#book_all_pools_need_schedules#:#Settings not saved. All assigned pools need to have at least one schedule.prg#:#assignment_date#:#Assignment Date
+prg#:#completion_date#:#Completion Date
+prg#:#prg_no_deadline#:#No fixed prozessing time
+prg#:#prg_deadline_period#:#Processing time is determined inividually
+prg#:#prg_deadline_period_desc#:#The programme must be finished within a given timespan.
+prg#:#prg_deadline_date#:#Processing time expires at fixed date
+prg#:#prg_deadline_date_desc#:#The programme must be finished until a given date.
