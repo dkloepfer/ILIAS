@@ -165,11 +165,18 @@ class Factory implements Field\Factory
         return new DateTime($this->data_factory, $this->refinery, $label, $byline);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function duration($label, $byline = null)
-    {
-        return new Duration($this->data_factory, $this->refinery, $this, $label, $byline);
-    }
+	/**
+	 * @inheritdoc
+	 */
+	public function duration($label, $byline = null) {
+		return new Duration($this->data_factory, $this->refinery, $this, $label, $byline);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function dateTimeInterval($label, $byline = null) {
+		return new DateTimeInterval($this->data_factory, $this->validation_factory, $this->transformation_factory, $this, $label, $byline);
+	}
+
 }

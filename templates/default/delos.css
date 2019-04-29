@@ -10201,6 +10201,17 @@ footer {
 .il-link.link-bulky .bulky-label {
   color: #333333;
 }
+.il-input-duration .form-group.row {
+    width: 50%;
+    float: left;
+}
+.il-input-interval .form-group.row {
+    width: unset;
+    float: left;
+}
+.il-input-interval .form-group.row label {
+    display: none;
+}
 /*		Color scheme
 		Dark BLue: #0f2152;
 		Mid Blue: #4c6586;
