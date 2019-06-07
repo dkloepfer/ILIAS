@@ -95,6 +95,7 @@ class ilContainerReferenceAppEventListener  implements ilAppEventListener
 				case 'grpr':
 	 			case 'crsr':
 	 			case 'catr':
+	 			case 'prgr':
 	 				$parent_id = $tree->getParentId($ref_id);
 	 				$instance->delete();
 	 				$ilLog->write(__METHOD__.': Deleted reference object of type '.$instance->getType().' with Id '.$instance->getId());

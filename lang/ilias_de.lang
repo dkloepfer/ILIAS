@@ -15282,3 +15282,8 @@ prg#:#prg_restart_assignments_temporal_progress_desc#:#Bucht Teilnehmer neu auf 
 prg#:#prg_invalidate_expired_progresses_title#:#Zeitlich begrenzte Lernfortschritte im Studienprogramm
 prg#:#prg_invalidate_expired_progresses_desc#:#Markiert abgelaufene Lernfortschritte an Studienprogrammen als 'nicht bestanden'
 prg#:#prg_orgus#:#Organisationseinheit(en)
+common#:#obj_prgr#:#Link zum Studienprogramm
+common#:#obj_prgrs#:#Links zu Studienprogrammen
+prg#:#prgr_new#:#Neuer Link zum Studienprogramm
+prg#:#prgr_edit_info#:#Bitte wählen Sie das Studienprogramm aus, für das Sie einen Link erstellen möchten.
+prg#:#prgr_may_not_create_circular_reference#:#Das verlinken dieses Programms ist hierher nicht möglich, da das Beinhaltende Programm darin erhalten ist.
