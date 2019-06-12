@@ -34,6 +34,12 @@ class ilStudyProgrammeDIC
 		$dic['model.Assignment.ilStudyProgrammeAssignmentRepository'] = function($dic) use ($DIC) {
 			return new ilStudyProgrammeAssignmentDBRepository($DIC['ilDB']);
 		};
+		$dic['model.AutoMemberships.ilStudyProgrammeAutoMembershipsRepository'] = function($dic) use ($DIC) {
+			return new ilStudyProgrammeAutoMembershipsDBRepository(
+				$DIC['ilDB'],
+				(int)$DIC['ilUser']->getId()
+			);
+		};
 		$dic['model.Type.ilStudyProgrammeTypeRepository'] = function($dic) use ($DIC) {
 			return new ilStudyProgrammeTypeDBRepository(
 				$DIC['ilDB'],
@@ -78,6 +84,20 @@ class ilStudyProgrammeDIC
 				$dic['ilObjStudyProgrammeIndividualPlanGUI']
 			);
 		};
+
+		$dic['ilObjStudyProgrammeAutoMembershipsGUI'] = function($dic) use ($DIC) {
+			return new ilObjStudyProgrammeAutoMembershipsGUI(
+				$DIC['tpl'],
+				$DIC['ilCtrl'],
+				$DIC['ilToolbar'],
+				$DIC['lng'],
+				$DIC->ui()->factory(),
+				$DIC->ui()->renderer(),
+				$DIC->http()->request(),
+				$DIC['tree']
+			);
+		};
+
 		$dic['ilObjStudyProgrammeTreeGUI'] = function($dic) use ($DIC) {
 			return new ilObjStudyProgrammeTreeGUI(
 				$DIC['tpl'],

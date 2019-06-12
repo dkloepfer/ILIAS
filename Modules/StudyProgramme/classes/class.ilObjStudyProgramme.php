@@ -52,6 +52,8 @@ class ilObjStudyProgramme extends ilContainer {
 			ilStudyProgrammeDIC::dic()['model.Progress.ilStudyProgrammeProgressRepository'];
 		$this->auto_categories_repository =
 			ilStudyProgrammeDIC::dic()['model.AutoCategories.ilStudyProgrammeAutoCategoriesRepository'];
+		$this->auto_memberships_repository =
+			ilStudyProgrammeDIC::dic()['model.AutoMemberships.ilStudyProgrammeAutoMembershipsRepository'];
 
 		$this->progress_db = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserProgressDB'];
 		$this->assignment_db = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserAssignmentDB'];
@@ -253,6 +255,7 @@ class ilObjStudyProgramme extends ilContainer {
 		}
 
 		$this->deleteAllAutomaticContentCategories();
+		$this->deleteAllAutomaticMembershipSources();
 
 		return true;
 	}
@@ -1295,7 +1298,6 @@ class ilObjStudyProgramme extends ilContainer {
 	/**
 	 * Store a Category with auto-content for this StudyProgramme;
 	 * a category can only be referenced once (per programme).
-	 * @param string $title
 	 * @param int $category_ref_id
 	 */
 	public function storeAutomaticContentCategory(int $category_ref_id) {
@@ -1360,7 +1362,7 @@ class ilObjStudyProgramme extends ilContainer {
 
 	/**
 	 * Get all StudyProgrammes monitoring this category.
-	 * @param int $crs_ref_id
+	 * @param int $cat_ref_id
 	 * @return ilObjStudyProgramme[]
 	 */
 	protected static function getProgrammesMonitoringCategory(int $cat_ref_id): array
@@ -1402,6 +1404,69 @@ class ilObjStudyProgramme extends ilContainer {
 		return $valid_status && $crslnk_allowed;
 	}
 
+
+
+	////////////////////////////////////
+	// AUTOMATIC MEMBERSHIPS
+	////////////////////////////////////
+
+	/**
+	 * Get sources for auto-memberships.
+	 * @return ilStudyProgrammeAutoMembershipSource[]
+	 */
+	public function getAutomaticMembershipSources(): array
+	{
+		return $this->auto_memberships_repository->readFor($this->getId());
+	}
+
+	/**
+	 * Store a source to be monitored for automatic memberships.
+	 * @param string $type
+	 * @param int $src_id
+	 */
+	public function storeAutomaticMembershipSource(string $type, int $src_id) {
+		$ams = $this->auto_memberships_repository->create($this->getId(), $type, $src_id, false);
+		$this->auto_memberships_repository->update($ams);
+	}
+
+	/**
+	 * Delete a membership source.
+	 * @param string $type
+	 * @param int $src_id
+	 */
+	public function deleteAutomaticMembershipSource(string $type, int $src_id)
+	{
+		return $this->auto_memberships_repository->delete($this->getId(), $type, $src_id);
+	}
+
+	/**
+	 * Delete all membership sources of this StudyProgramme;
+	 */
+	public function deleteAllAutomaticMembershipSources()
+	{
+		return $this->auto_memberships_repository->deleteFor($this->getId());
+	}
+
+	/**
+	 * Disable a membership source.
+	 * @param string $type
+	 * @param int $src_id
+	 */
+	public function disableAutomaticMembershipSource(string $type, int $src_id)
+	{
+		$ams = $this->auto_memberships_repository->create($this->getId(), $type, $src_id, false);
+		$this->auto_memberships_repository->update($ams);
+	}
+	/**
+	 * Enable a membership source.
+	 * @param string $type
+	 * @param int $src_id
+	 */
+	public function enableAutomaticMembershipSource(string $type, int $src_id)
+	{
+		$ams = $this->auto_memberships_repository->create($this->getId(), $type, $src_id, true);
+		$this->auto_memberships_repository->update($ams);
+	}
 
 
 	////////////////////////////////////
