@@ -257,6 +257,7 @@ class ilObjStudyProgramme extends ilContainer {
 		$this->deleteAllAutomaticContentCategories();
 		$this->deleteAllAutomaticMembershipSources();
 
+		$this->events->raise('delete',['object' => $this,'obj_id' => $this->getId()]);
 		return true;
 	}
 
