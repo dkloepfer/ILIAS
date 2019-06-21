@@ -1457,6 +1457,7 @@ class ilObjStudyProgramme extends ilContainer {
 		$ams = $this->auto_memberships_repository->create($this->getId(), $type, $src_id, false);
 		$this->auto_memberships_repository->update($ams);
 	}
+
 	/**
 	 * Enable a membership source.
 	 * @param string $type
@@ -1466,6 +1467,37 @@ class ilObjStudyProgramme extends ilContainer {
 	{
 		$ams = $this->auto_memberships_repository->create($this->getId(), $type, $src_id, true);
 		$this->auto_memberships_repository->update($ams);
+
+		//TODO: add all members of source
+		foreach ($this->getMembersOfMembershipSource() as $usr_id) {
+			if (!$this->hasAssignmentOf($usr_id)) {
+				//TODO: $prg->assignUser($usr_id, $assigned_by);
+				$this->assignUser($usr_id);
+			}
+		}
+	}
+
+	/**
+	 * Get member-ids of a certain source.
+	 * @param string $type
+	 * @param int $src_id
+	 * @return int[]
+	 */
+	protected function getMembersOfMembershipSource(string $src_type, int $src_id): array
+	{
+		//TODO: getMembersOfMembershipSource
+		$usr_ids = [];
+		switch ($src_type) {
+			case ilStudyProgrammeAutoMembershipSource::TYPE_ROLE:
+				break;
+			case ilStudyProgrammeAutoMembershipSource::TYPE_GROUP:
+			case ilStudyProgrammeAutoMembershipSource::TYPE_COURSE:
+				break;
+			case ilStudyProgrammeAutoMembershipSource::TYPE_ORGU:
+				break;
+
+		}
+		return $usr_ids;
 	}
 
 
@@ -1491,11 +1523,9 @@ class ilObjStudyProgramme extends ilContainer {
 	public static function addMemberToProgrammes(string $src_type, int $src_id, int $usr_id)
 	{
 		foreach (self::getProgrammesMonitoringMemberSource($src_type, $src_id) as $prg) {
-			//assigned_by should be a conversion of src_type
-			//$assigned_by = -1;
 			if (!$prg->hasAssignmentOf($usr_id)) {
-				//$prg->assignUser($usr_id, $assigned_by);
-				$prg->assignUser($usr_id);
+				$assigned_by = ilStudyProgrammeAutoMembershipSource::SOURCE_MAPPING[$src_type];
+				$prg->assignUser($usr_id, $assigned_by);
 			}
 		}
 	}
@@ -1509,6 +1539,7 @@ class ilObjStudyProgramme extends ilContainer {
 				}
 				$assignments = $prg->getAssignmentsOf($usr_id);
 				foreach ($assignments as $assignment) {
+					//TODO: check other criteria, update "assigned by"
 					$prg->removeAssignment($assignment);
 				}
 			}
