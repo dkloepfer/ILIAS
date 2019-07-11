@@ -263,3 +263,58 @@ if (!$ilDB->tableExists('prg_auto_membership'))
 	$ilDB->addPrimaryKey('prg_auto_membership', ['prg_obj_id', 'source_type', 'source_id']);
 }
 ?>
+#15>
+<?php
+ilOrgUnitOperationContextQueries::registerNewContext(ilOrgUnitOperationContext::CONTEXT_PRG, ilOrgUnitOperationContext::CONTEXT_OBJECT);
+?>
+<#16>
+<?php
+	ilOrgUnitOperationQueries::registerNewOperation(
+		ilOrgUnitOperation::OP_VIEW_MEMBERS,
+		'View Memberships of other users',
+		ilOrgUnitOperationContext::CONTEXT_PRG
+	);
+	ilOrgUnitOperationQueries::registerNewOperation(
+		ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS,
+		'View learning progress of other users',
+		ilOrgUnitOperationContext::CONTEXT_PRG
+	);
+	ilOrgUnitOperationQueries::registerNewOperation(
+		ilOrgUnitOperation::OP_VIEW_INDIVIDUAL_PLAN,
+		'View Individual Plans of other users',
+		ilOrgUnitOperationContext::CONTEXT_PRG
+	);
+	ilOrgUnitOperationQueries::registerNewOperation(
+		ilOrgUnitOperation::OP_EDIT_INDIVIDUAL_PLAN,
+		'Edit Individual Plans of other users',
+		ilOrgUnitOperationContext::CONTEXT_PRG
+	);
+	ilOrgUnitOperationQueries::registerNewOperation(
+		ilOrgUnitOperation::OP_MANAGE_MEMBERS,
+		'Manage Memberships of other users',
+		ilOrgUnitOperationContext::CONTEXT_PRG
+	);
+?>
+
+<#17>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+
+<#18>
+<?php
+global $DIC;
+$db = $DIC['ilDB'];
+if(!$db->tableColumnExists('prg_settings','access_ctrl_org_pos')) {
+	$db->addTableColumn(
+			'prg_settings',
+			'access_ctrl_org_pos',
+			[
+				'type' => 'integer',
+				'length' => 1,
+				'notnull' => true,
+				'default' => 0
+			]
+		);
+}
+?> 

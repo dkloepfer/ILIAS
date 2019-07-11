@@ -15312,3 +15312,10 @@ prg#:#membership_source_id_byline_refid#:#Please use the <b>reference-id</b>
 prg#:#modal_automembership_title#:#Automatismus hinzufügen
 prg#:#membership_source_type#:#Source
 prg#:#prg_autoassingment#:#(auto)
+orgu#:#org_op_view_members#:#View Members
+orgu#:#org_op_view_individual_plan#:#View Individual Plan
+orgu#:#org_op_edit_individual_plan#:#Edit Individual Plan
+prg#:#some_users_may_not_be_accredited#:#Partcially marked users accredited.
+prg#:#some_users_may_not_be_unmarked_accredited#:#Particially unmarked users accredited.
+prg#:#some_users_may_not_be_marked_relevant#:#Particially marked relevant.
+prg#:#some_users_may_not_be_marked_not_relevant#:#Particially unmarked relevant.
