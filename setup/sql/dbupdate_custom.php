@@ -263,6 +263,7 @@ if (!$ilDB->tableExists('prg_auto_membership'))
 	$ilDB->addPrimaryKey('prg_auto_membership', ['prg_obj_id', 'source_type', 'source_id']);
 }
 ?>
+
 #15>
 <?php
 ilOrgUnitOperationContextQueries::registerNewContext(ilOrgUnitOperationContext::CONTEXT_PRG, ilOrgUnitOperationContext::CONTEXT_OBJECT);
@@ -317,4 +318,21 @@ if(!$db->tableColumnExists('prg_settings','access_ctrl_org_pos')) {
 			]
 		);
 }
-?> 
+?>
+
+<#19>
+<?php
+global $DIC;
+$db = $DIC['ilDB'];
+if(!$db->tableColumnExists('prg_usr_progress','invalidated')) {
+	$db->addTableColumn(
+			'prg_usr_progress',
+			'invalidated',
+			[
+				'type' => 'integer',
+				'length' => 1,
+				'notnull' => false
+			]
+		);
+}
+?>

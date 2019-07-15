@@ -158,12 +158,9 @@ class ilStudyProgrammeAppEventListener {
 		if ($node_type == "crsr" && $parent_type == "prg") {
 			self::adjustProgrammeLPMode($parent_ref_id);
 		}
-		if ($node_type == "prg" && $parent_type == "prg") {
+		if (in_array($node_type , ["prg", "prgr"]) && $parent_type == "prg") {
 			self::addMissingProgresses($parent_ref_id);
 		}
-        if ($node_type == "prgr" && $parent_type == "prg") {
-            self::addMissingProgresses($parent_ref_id);
-        }
 		if ($node_type == "crs" && $parent_type == "cat") {
 			self::addCrsToProgrammes($node_ref_id, $parent_ref_id);
 		}
@@ -244,10 +241,6 @@ class ilStudyProgrammeAppEventListener {
 
 	private static function addMemberToProgrammes(string $src_type, array $params)
 	{
-		global $DIC;
-		$DIC->logger()->root()->log("ADD MEMBERS: $src_type");
-		$DIC->logger()->root()->dump($params);
-
 		$usr_id = $params['usr_id'];
 		$obj_id = $params['obj_id'];
 		if($src_type === ilStudyProgrammeAutoMembershipSource::TYPE_ROLE) {
@@ -259,10 +252,6 @@ class ilStudyProgrammeAppEventListener {
 
 	private static function removeMemberFromProgrammes(string $src_type, array $params)
 	{
-		global $DIC;
-		$DIC->logger()->root()->log("REMOVE MEMBERS: $src_type");
-		$DIC->logger()->root()->dump($params);
-
 		$usr_id = $params['usr_id'];
 		$obj_id = $params['obj_id'];
 		if($src_type === ilStudyProgrammeAutoMembershipSource::TYPE_ROLE) {
