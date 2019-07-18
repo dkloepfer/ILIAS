@@ -537,8 +537,11 @@ class ilObjStudyProgramme extends ilContainer {
 					);
 			}
 			foreach(
-				array_map(function($data) {return $data['child'];},
-					array_unique($ref_child_ref_ids)
+				array_unique(
+					array_map(
+						function($data) {return $data['child'];},
+						array_filter($ref_child_ref_ids, function($data) {return $data["deleted"] === null;})
+					)
 				) as $prg_ref_id
 			) {
 				$this->reference_children[] =
@@ -602,11 +605,13 @@ class ilObjStudyProgramme extends ilContainer {
 		$current = $this;
 		$parents = [];
 		$queque = [$current];
-
 		while($element = array_shift($queque)) {
 			$parent = $element->getParent();
 			if ($parent === null || $include_references) {
 				foreach ($this->getReferencesTo($element) as $reference) {
+					if($this->tree->isDeleted($reference->getRefId())) {
+						continue;
+					}
 					$r_parent = $reference->getParent();
 					array_push($queque,$r_parent);
 					$parents[] = $r_parent;
