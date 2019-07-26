@@ -2006,7 +2006,7 @@ badge#:#badge_assignment_deletion_confirmation#:#Wollen Sie wirklich die folgend
 badge#:#badge_award_badge#:#Badge verleihen
 badge#:#badge_backpack_connect_failed#:#Das Mozilla Backpack konnte nicht für %s angefragt werden.
 badge#:#badge_backpack_email#:#Mozilla Backpack Account (E-Mail)
-badge#:#badge_backpack_gallery_info#:#Dies sind die veröffentlichten Badge-Kollektionen ihres Mozilla Backpacks.
+badge#:#badge_backpack_gallery_info#:#Dies sind die veröffentlichten Badge-Kollektionen deines Mozilla Backpacks.
 badge#:#badge_backpack_list#:#Mein Backpack
 badge#:#badge_backpack_no_groups#:#Das Mozilla Backpack ist leer bzw. nicht öffentlich.
 badge#:#badge_badge#:#Badge
@@ -9302,7 +9302,7 @@ lhist#:#lhist_first_login#:#Erstes Login
 lhist#:#lhist_learning_history#:#Lernverlauf
 lhist#:#lhist_lhist#:#Lernverlauf
 lhist#:#lhist_manual#:#Manual
-lhist#:#lhist_no_entries#:#Verfolgen Sie weiter Ihre Ziele! Lernen Sie heute etwas, um Ihren Lernverlauf zu erweitern.
+lhist#:#lhist_no_entries#:#Verfolge weiter Deine Ziele! Lerne heute etwas, um Deinen Lernverlauf zu erweitern.
 lhist#:#lhist_period#:#Period
 lhist#:#lhist_selected#:#Selected
 lhist#:#lhist_show_more#:#Mehr anzeigen
@@ -11251,17 +11251,6 @@ prg#:#some_users_may_not_be_marked_relevant#:#Fortschritte ausgewählter Benutze
 prg#:#some_users_may_not_be_marked_not_relevant#:#Fortschritte ausgewählter Benutzer wurden teilweise als nicht relevant markiert.
 prg#:#access_ctr_by_orgu_position#:#Berechtigungen anhand Positionen in Organisationseinheiten
 prg#:#could_not_add_users_no_permissons#:#Konnte %d Benutzer wegen mangelnder Berechtigung nicht hinzufügen.
-prg#:#prg_title_column#:#Titel
-prg#:#prg_memships_column#:#Mitgliedschaften
-prg#:#prg_distinct_members_column#:#Mitglieder
-prg#:#prg_in_progress_memships_column#:#Mitgliedschaftsstatus in Bearbeitung
-prg#:#prg_in_progress_memships_rel_column#:#Anteil Mitgliedschaftsstatus in Bearbeitung (%)
-prg#:#prg_completed_memships_column#:#Mitgliedschaftsstatus abgeschloßen
-prg#:#prg_completed_memships_rel_column#:#Anteil Mitgliedschaftsstatus abgeschloßen (%)
-prg#:#prg_failed_memships_column#:#Mitgliedschaftsstatus nicht bestanden 
-prg#:#prg_failed_memships_rel_column#:#Anteil Mitgliedschaftsstatus nicht bestanden  (%)
-prg#:#prg_distinct_members_qualified_rel_column#:#Anteil Mitglieder mit gültiger Qualifikation
-prg#:#prg_reports#:#Reports
 prtf#:#pdf_export#:#PDF Export
 prtf#:#prtf_add_blog#:#Blog hinzufügen
 prtf#:#prtf_add_existing_blog#:#Vorhandenes Blog nutzen
@@ -13131,7 +13120,7 @@ skmg#:#skmg_sure_delete_self_evaluation#:#Möchten Sie die folgenden Selbsteinsc
 skmg#:#skmg_target_level#:#Profil-Zielausprägung
 skmg#:#skmg_trigger#:#Auslöser
 skmg#:#skmg_type#:#Typ
-skmg#:#skmg_type_of_formation#:#Erhebungsart
+skmg#:#skmg_type_of_formation#:#Type of Formation
 skmg#:#skmg_update_order#:#Reihenfolge speichern
 skmg#:#skmg_usage#:#Gebrauch
 skmg#:#skmg_usage_obj_objects#:#Objekt(e)
@@ -15115,6 +15104,7 @@ grp#:#grp_lim_assigned#:#Already assigned to associated group "%s".###25 04 2019
 certificate#:#learning_progress_deactivated#:#Der Lernfortschritt für dieses Objekt ist deaktiviert. Zum Bearbeiten der Zertifikatsvorlage und zum Erlhalten von Nutzerzertifikaten muss der Lernfortschritt aktiviert sein.
 content#:#msg_no_page_access#:#Sie sind nicht berechtigt auf diese Seite zuzugreifen.
 forum#:#frm_move_invalid_file_type#:#Das ausgewählte Thema "%s" hat einen nicht unterstützten Dateitypen im Dateianhang. Entfernen Sie diese Datei oder kontaktieren Sie den Administrator, um den Dateitypen zur Positivliste hinzuzufügen.
+<<<<<<< HEAD
 prg#:#prg_orgus#:#Organisationseinheit(en)
 prg#:#content_automation_title#:#Kurse dieser Kategorien automatisch hinzufügen/entfernen
 prg#:#content_automation#:#Inhaltsautomatisierung
@@ -15135,6 +15125,9 @@ prg#:#membership_source_id_byline_objid#:#Bitte verwenden Sie die <b>Objekt-Id</
 prg#:#membership_source_id_byline_refid#:#Bitte verwenden Sie die <b>Referenz-Id</b>
 prg#:#modal_automembership_title#:#Automatismus hinzufügen
 prg#:#membership_source_type#:#Quelle
-prg#:#prg_autoassingment#:#(automatisch)crs#:#crs_objective_result_summary_initial#:#Einstiegstest: %1$s (%2$s benötigt)
+prg#:#prg_autoassingment#:#(automatisch)
+=======
+crs#:#crs_objective_result_summary_initial#:#Einstiegstest: %1$s (%2$s benötigt)
 crs#:#crs_objective_result_summary_qualifying#:#Abschlusstest: %1$s (%2$s benötigt)
 crs#:#crs_objective_result_details#:#« Details anzeigen
+>>>>>>> d2aac42f6873af53f30019cf519a9cb5922ed110

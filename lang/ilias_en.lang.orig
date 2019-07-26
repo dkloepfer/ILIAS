@@ -13009,7 +13009,7 @@ rbac#:#wiki_activate_wiki_protection#:#Set Wiki Pages to Read-Only
 rbac#:#wiki_wiki_html_export#:#Export Wiki as HTML
 crs#:#crs_loc_settings_it_type#:#Initial Test
 crs#:#crs_loc_settings_type_it_placement_all#:#Comprehensive Placement Test Covering all Objectives
-crs#:#crs_loc_settings_it_start_object#:#Initial Test is Start Object
+crs#:#crs_loc_settings_it_start_object#:#Initial Test is Start Objects
 crs#:#crs_loc_settings_type_it_placement_sel#:#Separate Placement Test for Each Objective
 crs#:#crs_loc_settings_type_it_qualifying_all#:#Comprehensive Achievement Test Covering all Objectives
 crs#:#crs_loc_settings_type_it_qualifying_sel#:#Separate Achievement Test for Each Objective
@@ -13025,9 +13025,9 @@ crs#:#crs_loc_btn_new_assignment#:#New Test Assignment
 crs#:#crs_objective_tbl_col_final_tsts#:#Final Tests
 crs#:#crs_objective_action_qtest_sep#:#Assign Final Test
 crs#:#crs_loc_settings_tbl_its_q_all#:#Initial Qualifying Test (all Objecives)
-crs#:#crs_loc_settings_tbl_its_nq_all#:#Initial Placement Test (all Objectives)
+crs#:#crs_loc_settings_tbl_its_nq_all#:#Initial Diagnostic Test (all Objectives)
 crs#:#crs_loc_settings_tbl_it_q#:#Initial Qualifying Test (per Objective)
-crs#:#crs_loc_settings_tbl_it_nq#:#Initial Placement Test (per Objective)
+crs#:#crs_loc_settings_tbl_it_nq#:#Initial Diagnostic Test (per Objective)
 crs#:#crs_loc_settings_tbl_qts_all#:#Final Test (all objectives)
 crs#:#crs_loc_settings_tbl_qt#:#Final Test (per objective)
 crs#:#crs_loc_objective_passed_confirmation#:#You have already passed this learning objective. Starting a new test run will reset the result. Do you really want to start a new test run?
@@ -13316,17 +13316,6 @@ prg#:#some_users_may_not_be_marked_relevant#:#Partially marked relevant.
 prg#:#some_users_may_not_be_marked_not_relevant#:#Partially unmarked relevant.
 prg#:#access_ctr_by_orgu_position#:#Access conrol according to Organisational Unit Positions
 prg#:#could_not_add_users_no_permissons#:#Could not assign %d Users due to lacking permissions.
-prg#:#prg_title_column#:#Title
-prg#:#prg_memships_column#:#Memberships
-prg#:#prg_distinct_members_column#:#Members
-prg#:#prg_in_progress_memships_column#:#Ammount of memberships in progress
-prg#:#prg_in_progress_memships_rel_column#:#Relative ammount of memberships in progress (%)
-prg#:#prg_completed_memships_column#:#Ammount of completed memberships
-prg#:#prg_completed_memships_rel_column#:#Relative ammount of completed memberships (%)
-prg#:#prg_failed_memships_column#:#Ammount of failed memberships
-prg#:#prg_failed_memships_rel_column#:#Relative ammount of failed memberships (%)
-prg#:#prg_distinct_members_qualified_rel_column#:#Relative ammount of members with a valid qualification (%)
-prg#:#prg_reports#:#Reports
 common#:#obj_prg_select#:#-- Please select one study programme --
 common#:#obj_prg#:#Study Programme
 common#:#obj_prgs#:#Study Programmes
@@ -15114,6 +15103,7 @@ certificate#:#certificate_learning_progress_must_be_active#:#Only objects with a
 certificate#:#learning_progress_deactivated#:#The Learning Progress for this object is deactivated. To edit the certificate template and achieve user certificates the learning progress for this object must be activated.
 content#:#msg_no_page_access#:#You do not have the permission to access this page.
 forum#:#frm_move_invalid_file_type#:#The thread "%s" has an unsupported file type attached. Remove the file or contact the administrator of the system to add this file type to the file type whitelist.
+<<<<<<< HEAD
 prg#:#prg_orgus#:#Organisational Units
 prg#:#content_automation_title#:#Automatically add and remove Courses from these categories
 prg#:#content_automation#:#Content Automation
@@ -15134,6 +15124,9 @@ prg#:#membership_source_id_byline_objid#:#Please use the <b>object-id</b>
 prg#:#membership_source_id_byline_refid#:#Please use the <b>reference-id</b>
 prg#:#modal_automembership_title#:#Automatismus hinzufügen
 prg#:#membership_source_type#:#Source
-prg#:#prg_autoassingment#:#(auto)crs#:#crs_objective_result_summary_initial#:#Placement Test: %1$s (%2$s required)
+prg#:#prg_autoassingment#:#(auto)
+=======
+crs#:#crs_objective_result_summary_initial#:#Placement Test: %1$s (%2$s required)
 crs#:#crs_objective_result_summary_qualifying#:#Achievement Test: %1$s (%2$s required)
 crs#:#crs_objective_result_details#:#« Show Details
+>>>>>>> d2aac42f6873af53f30019cf519a9cb5922ed110
