@@ -11,6 +11,7 @@ require_once('./Modules/StudyProgramme/classes/class.ilObjStudyProgrammeAdmin.ph
  * @author       Stefan Hecken <stefan.hecken@concepts-and-training.de>
  *
  * @ilCtrl_Calls ilObjStudyProgrammeAdminGUI: ilStudyProgrammeTypeGUI
+ * @ilCtrl_Calls ilObjStudyProgrammeAdminGUI: ilStudyProgrammeReportsGUI
  * @ilCtrl_Calls ilObjStudyProgrammeAdminGUI: ilPermissionGUI
  */
 
@@ -37,6 +38,7 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI {
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 		$this->lng->loadLanguageModule('prg');
 		$this->type_gui = ilStudyProgrammeDIC::dic()['ilStudyProgrammeTypeGUI'];
+		$this->reports_gui = ilStudyProgrammeDIC::dic()['ilStudyProgrammeReportsGUI'];
 	}
 
 
@@ -61,6 +63,10 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI {
 				$this->tabs_gui->setTabActive('prg_subtypes');
 				$this->type_gui->setParentGUI($this);
 				$this->ctrl->forwardCommand($this->type_gui);
+				break;
+			case 'ilstudyprogrammereportsgui':
+				$this->tabs_gui->setTabActive('prg_reports');
+				$this->ctrl->forwardCommand($this->reports_gui->withAdminGUI($this));
 				break;
 			default:
 				if(!$cmd || $cmd == "view")
@@ -136,12 +142,31 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI {
 		 */
 
 		if ($rbacsystem->checkAccess('visible,read', $this->object->getRefId())) {
-			$this->tabs_gui->addTarget('settings', $this->ctrl->getLinkTargetByClass('ilObjStudyProgrammeAdminGUI', 'view'));
+			$this->tabs_gui->addTarget(
+				'settings',
+				$this->ctrl->getLinkTargetByClass('ilObjStudyProgrammeAdminGUI', 'view')
+			);
 
-			$this->tabs_gui->addTarget('prg_subtypes', $this->ctrl->getLinkTargetByClass(array(
-				'ilObjStudyProgrammeAdminGUI',
-				'ilStudyProgrammeTypeGUI'
-			), 'listTypes'));
+			$this->tabs_gui->addTarget(
+				'prg_subtypes',
+				$this->ctrl->getLinkTargetByClass(
+					[
+						'ilObjStudyProgrammeAdminGUI',
+						'ilStudyProgrammeTypeGUI'
+					],
+					'listTypes'
+				)
+			);
+			$this->tabs_gui->addTarget(
+				'prg_reports',
+				$this->ctrl->getLinkTargetByClass(
+					[
+						'ilObjStudyProgrammeAdminGUI',
+						'ilStudyProgrammeReportsGUI'
+					],
+					ilStudyProgrammeReportsGUI::CMD_SHOW
+				)
+			);
 		}
 		if ($rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
 			$this->tabs_gui->addTarget('perm_settings', $this->ctrl->getLinkTargetByClass('ilpermissiongui', 'perm'), array(), 'ilpermissiongui');

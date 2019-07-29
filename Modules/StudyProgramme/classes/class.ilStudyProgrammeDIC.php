@@ -106,6 +106,28 @@ class ilStudyProgrammeDIC
 			);
 		};
 
+
+		$dic['ilStudyProgrammeReportsGUI'] = function($dic) use ($DIC) {
+			return new ilStudyProgrammeReportsGUI(
+				$DIC['ilCtrl'],
+				$DIC['ilAccess'],
+				$DIC['lng'],
+				$DIC['ilTabs'],
+				$dic['ilStudyProgrammeQuotaReportGUI']
+			);
+		};
+		$dic['ilStudyProgrammeQuotaReport'] = function($dic) use ($DIC) {
+			return new ilStudyProgrammeQuotaReport($DIC['ilDB']);
+		};
+		$dic['ilStudyProgrammeQuotaReportGUI'] = function($dic) use ($DIC) {
+			return new ilStudyProgrammeQuotaReportGUI(
+				$DIC['tpl'],
+				$DIC['ilCtrl'],
+				$DIC['ilAccess'],
+				$DIC['lng'],
+				$dic['ilStudyProgrammeQuotaReport']
+			);
+		};
 		$dic['ilObjStudyProgrammeTreeGUI'] = function($dic) use ($DIC) {
 			return new ilObjStudyProgrammeTreeGUI(
 				$DIC['tpl'],
