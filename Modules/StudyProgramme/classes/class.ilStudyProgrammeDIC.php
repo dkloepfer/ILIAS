@@ -75,7 +75,8 @@ class ilStudyProgrammeDIC
 				$dic['TransformationFactory'],
 				$dic['ValidationFactory'],
 				$dic['DataFactory'],
-				$dic['model.Type.ilStudyProgrammeTypeRepository']
+				$dic['model.Type.ilStudyProgrammeTypeRepository'],
+				$dic['ilStudyProgrammeForms']
 			);
 		};
 		$dic['ilObjStudyProgrammeMembersGUI'] = function($dic) use ($DIC) {
@@ -85,11 +86,15 @@ class ilStudyProgrammeDIC
 				$DIC['ilToolbar'],
 				$DIC['lng'],
 				$DIC['ilUser'],
+				$DIC->ui()->factory()->input(),
+				$DIC->ui()->renderer(),
+				$DIC->http()->request(),
 				$dic['ilStudyProgrammeUserProgressDB'],
 				$dic['ilStudyProgrammeUserAssignmentDB'],
 				$dic['ilStudyProgrammeRepositorySearchGUI'],
 				$dic['ilObjStudyProgrammeIndividualPlanGUI'],
-				$dic['ilStudyProgrammePostionBasedAccess']
+				$dic['ilStudyProgrammePostionBasedAccess'],
+				$dic['ilStudyProgrammeForms']
 			);
 		};
 
@@ -186,6 +191,14 @@ class ilStudyProgrammeDIC
 		};
 		$dic['ilStudyProgrammePostionBasedAccess'] = function($dic) {
 			return new ilStudyProgrammePostionBasedAccess(new ilOrgUnitPositionAccess());
+		};
+		$dic['ilStudyProgrammeForms'] = function($dic) use ($DIC) {
+			return new ilStudyProgrammeForms(
+				$DIC['lng'],
+				$DIC->ui()->factory()->input(),
+				$dic['ValidationFactory'],
+				$dic['DataFactory']
+			);
 		};
 		return $dic;
 	}

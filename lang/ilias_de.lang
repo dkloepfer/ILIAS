@@ -11251,6 +11251,9 @@ prg#:#some_users_may_not_be_marked_relevant#:#Fortschritte ausgewählter Benutze
 prg#:#some_users_may_not_be_marked_not_relevant#:#Fortschritte ausgewählter Benutzer wurden teilweise als nicht relevant markiert.
 prg#:#access_ctr_by_orgu_position#:#Berechtigungen anhand Positionen in Organisationseinheiten
 prg#:#could_not_add_users_no_permissons#:#Konnte %d Benutzer wegen mangelnder Berechtigung nicht hinzufügen.
+prg#:#may_not_adjust_for_some_users#:#Die Einstellung kann für manche Benutzer nicht verändert werden.
+prg#:#prg_change_expiry#:#Ablauf Qualifikation anpassen
+prg#:#prg_change_deadline#:#Stichtag anpassen
 prtf#:#pdf_export#:#PDF Export
 prtf#:#prtf_add_blog#:#Blog hinzufügen
 prtf#:#prtf_add_existing_blog#:#Vorhandenes Blog nutzen

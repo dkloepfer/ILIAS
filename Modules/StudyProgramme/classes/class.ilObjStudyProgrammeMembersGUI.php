@@ -62,17 +62,25 @@ class ilObjStudyProgrammeMembersGUI {
 		\ilToolbarGUI $ilToolbar,
 		\ilLanguage $lng,
 		\ilObjUser $user,
+		\ILIAS\UI\Component\Input\Factory $input_factory,
+		\ILIAS\UI\Renderer $renderer,
+		\GuzzleHttp\Psr7\ServerRequest $request,
 		ilStudyProgrammeUserProgressDB $sp_user_progress_db,
 		ilStudyProgrammeUserAssignmentDB $sp_user_assignment_db,
 		ilStudyProgrammeRepositorySearchGUI $repository_search_gui,
 		ilObjStudyProgrammeIndividualPlanGUI $individual_plan_gui,
-		ilStudyProgrammePostionBasedAccess $position_based_access
+		ilStudyProgrammePostionBasedAccess $position_based_access,
+		ilStudyProgrammeForms $sp_form
 	) {
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
 		$this->toolbar = $ilToolbar;
 		$this->lng = $lng;
 		$this->user = $user;
+
+		$this->input_factory = $input_factory;
+		$this->renderer = $renderer;
+		$this->request = $request;
 		$this->sp_user_assignment_db = $sp_user_assignment_db;
 		$this->sp_user_progress_db = $sp_user_progress_db;
 
@@ -81,6 +89,8 @@ class ilObjStudyProgrammeMembersGUI {
 
 		$this->progress_objects = array();
 		$this->position_based_access = $position_based_access;
+		$this->sp_form = $sp_form;
+
 		$this->object = null;
 
 		$lng->loadLanguageModule("prg");
@@ -132,6 +142,10 @@ class ilObjStudyProgrammeMembersGUI {
 					case "updateFromCurrentPlanMulti":
 					case "applyFilter":
 					case "resetFilter":
+					case "requestChangeExpiryMulti":
+					case "changeExpiryMulti":
+					case "requestChangeDeadlineMulti":
+					case "changeDeadlineMulti":
 						$cont = $this->$cmd();
 						break;
 					default:
@@ -359,7 +373,7 @@ class ilObjStudyProgrammeMembersGUI {
 			$this->showInfoMessage("no_user_selected");
 			$this->ctrl->redirect($this, "view");
 		}
-		return $prgrs_ids;
+		return array_map(function($int) {return (int)$int;},$prgrs_ids);
 	}
 
 	/**
@@ -728,6 +742,167 @@ class ilObjStudyProgrammeMembersGUI {
 		$this->ctrl->setParameter($this, "prgrs_id", null);
 		return $link;
 	}
+
+	const FORWAD_PRGRS_IDS = "prg_foward_prgrs_ids";
+
+
+	const PROP_DEADLINE = "prop_deadline";
+	protected function requestChangeDeadlineMulti()
+	{
+		$prgrs_s = array_map(
+			function($id) {return $this->sp_user_progress_db->getInstanceById($id);},
+			$this->getPostPrgsIds()
+		);
+		$errors = 0;
+		$to_change = [];
+		foreach ($prgrs_s as $prgrs) {
+			if(!$this->deadlineDateMayBeAdjusted($prgrs)) {
+				$errors++;
+				continue;
+			}
+			$to_change[] = $prgrs->getId();
+		}
+		if($errors > 0) {
+			ilUtil::sendInfo($this->lng->txt('may_not_adjust_for_some_users'));
+		}
+		$_SESSION[self::FORWAD_PRGRS_IDS] = $to_change;
+		$this->tpl->setContent($this->renderer->render($this->getAdjustDeadlineDateForm()));
+	}
+
+	protected function changeDeadlineMulti()
+	{
+		$to_change = $_SESSION[self::FORWAD_PRGRS_IDS];
+		unset($_SESSION[self::FORWAD_PRGRS_IDS]);
+		if(is_array($to_change) && count($to_change) > 0) {
+			$form = $this->getAdjustDeadlineDateForm()->withRequest($this->request);
+			$result = array_shift($form->getInputGroup()->getContent()->value())[self::PROP_DEADLINE];
+
+			if(is_array($result) &&
+				array_key_exists("value", $result) &&
+				$result["value"] === ilStudyProgrammeForms::OPT_DEADLINE_DATE) {
+				$deadline_date = $result["group_values"][ilStudyProgrammeForms::PROP_DEADLINE_DATE];
+			} elseif(is_array($result) &&
+				array_key_exists("value", $result) &&
+				$result["value"] === ilStudyProgrammeForms::OPT_DEADLINE_PERIOD) {
+				$deadline_date = new DateTime();
+				$period = $result["group_values"][ilStudyProgrammeForms::PROP_DEADLINE_PERIOD];
+				$deadline_date->add(new DateInterval("P".$period."D"));
+			} elseif($result === ilStudyProgrammeForms::OPT_NO_DEADLINE) {
+				$deadline_date = null;
+			} else {
+				throw new ilException("Invalid input");
+			}
+			foreach ($to_change as $prgrs_id) {
+				$prgrs = $this->sp_user_progress_db->getInstanceById($prgrs_id);
+				$prgrs->setDeadline($deadline_date);
+				$prgrs->recalculateFailedToDeadline();
+				$prgrs->updateProgress($this->user->getId());
+			}
+			$this->ctrl->redirect($this,"view");
+		}
+	}
+
+	protected function getAdjustDeadlineDateForm()
+	{
+		return $this->input_factory->container()->form()->standard(
+			$this->ctrl->getFormAction($this,"changeDeadlineMulti"),
+			[
+				$this->input_factory->field()->section(
+					[self::PROP_DEADLINE => $this->sp_form->getDeadlineSubform($this->object)],
+					$this->lng->txt("prg_deadline")
+				)
+			]
+		);
+	}
+
+	protected function deadlineDateMayBeAdjusted(ilStudyProgrammeUserProgress $prgrs)
+	{
+		return $prgrs->getStatus() === ilStudyProgrammeProgress::STATUS_IN_PROGRESS
+			&& (!$this->object->getAccessControlByOrguPositionsGlobal()
+				|| in_array($prgrs->getUserId(), $this->editIndividualPlan()));
+	}
+
+	const PROP_EXPIRY = "prop_expiry";
+	protected function requestChangeExpiryMulti()
+	{
+		$prgrs_s = array_map(
+			function($id) {return $this->sp_user_progress_db->getInstanceById($id);},
+			$this->getPostPrgsIds()
+		);
+		$errors = 0;
+		$to_change = [];
+		foreach ($prgrs_s as $prgrs) {
+			if(!$this->expiryDateMayBeAdjusted($prgrs)) {
+				$errors++;
+				continue;
+			}
+			$to_change[] = $prgrs->getId();
+		}
+		if($errors > 0) {
+			ilUtil::sendInfo($this->lng->txt('may_not_adjust_for_some_users'));
+		}
+		$_SESSION[self::FORWAD_PRGRS_IDS] = $to_change;
+		$this->tpl->setContent($this->renderer->render($this->getAdjustExpiryDateForm()));
+	}
+
+	protected function changeExpiryMulti()
+	{
+		$to_change = $_SESSION[self::FORWAD_PRGRS_IDS];
+		unset($_SESSION[self::FORWAD_PRGRS_IDS]);
+		if(is_array($to_change) && count($to_change) > 0) {
+			$form = $this->getAdjustExpiryDateForm()->withRequest($this->request);
+			$result = array_shift($form->getInputGroup()->getContent()->value())[self::PROP_EXPIRY];
+			if(is_array($result) &&
+				array_key_exists("value", $result) &&
+				$result["value"] === ilStudyProgrammeForms::OPT_VALIDITY_OF_QUALIFICATION_DATE) {
+				$vq_date = $result["group_values"][ilStudyProgrammeForms::PROP_VALIDITY_OF_QUALIFICATION_DATE];
+			} elseif(is_array($result) &&
+				array_key_exists("value", $result) && $result["value"] === ilStudyProgrammeForms::OPT_VALIDITY_OF_QUALIFICATION_PERIOD) {
+				$vq_date = new DateTime();
+				$period = $result["group_values"][ilStudyProgrammeForms::PROP_VALIDITY_OF_QUALIFICATION_PERIOD];
+				$vq_date->add(new DateInterval("P".$period."D"));
+			} elseif($result === ilStudyProgrammeForms::OPT_NO_VALIDITY_OF_QUALIFICATION) {
+				$vq_date = null;
+			} else {
+				throw new ilException("Invalid input");
+			}
+			foreach ($to_change as $prgrs_id) {
+				$prgrs = $this->sp_user_progress_db->getInstanceById($prgrs_id);
+				$prgrs->setValidityOfQualification($vq_date);
+				$prgrs->updateProgress($this->user->getId());
+			}
+			$this->ctrl->redirect($this,"view");
+		}
+	}
+
+	protected function getAdjustExpiryDateForm()
+	{
+		return $this->input_factory->container()->form()->standard(
+			$this->ctrl->getFormAction($this,"changeExpiryMulti"),
+			[
+				$this->input_factory->field()->section(
+					[self::PROP_EXPIRY => $this->sp_form->getValidityOfQualificationSubform($this->object)],
+					$this->lng->txt("prg_validity_of_qualification")
+				)
+			]
+		);
+	}
+
+	protected static $expiry_adjustable_status = [
+		ilStudyProgrammeProgress::STATUS_ACCREDITED,
+		ilStudyProgrammeProgress::STATUS_COMPLETED
+	];
+
+	protected function expiryDateMayBeAdjusted(ilStudyProgrammeUserProgress $prgrs)
+	{
+		return in_array($prgrs->getStatus(), self::$expiry_adjustable_status)
+			&& !$prgrs->isInvalidated()
+			&& (!$this->object->getAccessControlByOrguPositionsGlobal()
+				|| in_array($prgrs->getUserId(), $this->editIndividualPlan()));
+	}
+
+
+	// Orgu postions based permissions
 
 	public function visibleUsers()
 	{

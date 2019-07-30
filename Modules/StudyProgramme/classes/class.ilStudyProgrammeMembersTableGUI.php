@@ -489,7 +489,9 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 			'removeUserMulti' => $this->lng->txt('prg_multi_remove_user'),
 			'markRelevantMulti' => $this->lng->txt('prg_multi_mark_relevant'),
 			'markNotRelevantMulti' => $this->lng->txt('prg_multi_unmark_relevant'),
-			'updateFromCurrentPlanMulti' => $this->lng->txt('prg_multi_update_from_current_plan')
+			'updateFromCurrentPlanMulti' => $this->lng->txt('prg_multi_update_from_current_plan'),
+			'requestChangeExpiryMulti' => $this->lng->txt('prg_change_expiry'),
+			'requestChangeDeadlineMulti' => $this->lng->txt('prg_change_deadline')
 		);
 	}
 

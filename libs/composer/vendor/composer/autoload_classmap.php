@@ -6675,6 +6675,7 @@ return array(
     'ilStudyProgrammeDIC' => $baseDir . '/../../Modules/StudyProgramme/classes/class.ilStudyProgrammeDIC.php',
     'ilStudyProgrammeEvents' => $baseDir . '/../../Modules/StudyProgramme/classes/class.ilStudyProgrammeEvents.php',
     'ilStudyProgrammeExpandableProgressListGUI' => $baseDir . '/../../Modules/StudyProgramme/classes/class.ilStudyProgrammeExpandableProgressListGUI.php',
+    'ilStudyProgrammeForms' => $baseDir . '/../../Modules/StudyProgramme/classes/class.ilStudyProgrammeForms.php',
     'ilStudyProgrammeIndividualPlanProgressListGUI' => $baseDir . '/../../Modules/StudyProgramme/classes/class.ilStudyProgrammeIndividualPlanProgressListGUI.php',
     'ilStudyProgrammeIndividualPlanTableGUI' => $baseDir . '/../../Modules/StudyProgramme/classes/class.ilStudyProgrammeIndividualPlanTableGUI.php',
     'ilStudyProgrammeLP' => $baseDir . '/../../Modules/StudyProgramme/classes/class.ilStudyProgrammeLP.php',
