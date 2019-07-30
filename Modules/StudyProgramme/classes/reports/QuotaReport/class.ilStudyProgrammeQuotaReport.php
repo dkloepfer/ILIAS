@@ -24,13 +24,13 @@ class ilStudyProgrammeQuotaReport
 			$rec["prg_distinct_qualified"] = (int)$rec["prg_distinct_qualified"];
 			$rec["prg_distinct_members"] = (int)$rec["prg_distinct_members"];
 			$rec["prg_in_progress_memships_rel"] = (int)$rec["prg_memships"] > 0 ?
-				 100*(int)$rec["prg_in_progress_memships"]/(int)$rec["prg_memships"] : 0;
+				number_format(100*(int)$rec["prg_in_progress_memships"]/(int)$rec["prg_memships"],2,",","") : 0;
 			$rec["prg_completed_memships_rel"] = (int)$rec["prg_memships"] > 0 ?
-				 100*(int)$rec["prg_completed_memships"]/(int)$rec["prg_memships"] : 0;
+				number_format(100*(int)$rec["prg_completed_memships"]/(int)$rec["prg_memships"],2,",","")  : 0;
 			$rec["prg_failed_memships_rel"] = (int)$rec["prg_memships"] > 0 ?
-				 100*(int)$rec["prg_failed_memships"]/(int)$rec["prg_memships"] : 0;
+				number_format(100*(int)$rec["prg_failed_memships"]/(int)$rec["prg_memships"],2,",","")  : 0;
 			$rec["prg_distinct_members_qualified_rel"] = (int)$rec["prg_distinct_members"] > 0 ?
-				 100*(int)$rec["prg_distinct_qualified"]/(int)$rec["prg_distinct_members"] : 0;
+				number_format(100*(int)$rec["prg_distinct_qualified"]/(int)$rec["prg_distinct_members"],2,",","") : 0;
 			$return[] = $rec;
 		}
 		return $return;
@@ -86,7 +86,7 @@ class ilStudyProgrammeQuotaReport
 		return "SELECT prg.title as prg_title"
 				." ,parent.obj_id as parent"
 				." ,prg_ref.ref_id"
-				." ,COUNT(*) as prg_memships"
+				." ,COUNT(ass.id) as prg_memships"
 				." ,COUNT(DISTINCT progress.usr_id) as prg_distinct_members"
 				." ,SUM(IF(progress.status = $s_inprogress_q,1,0)) as prg_in_progress_memships"
 				." ,SUM(IF(progress.status = $s_failed_q,1,0)) as prg_failed_memships"
@@ -97,7 +97,8 @@ class ilStudyProgrammeQuotaReport
 				."	JOIN tree prg_tree ON prg_ref.ref_id = child"
 				." 	JOIN object_reference parent_ref ON parent_ref.ref_id = prg_tree.parent"
 				."	LEFT JOIN object_data parent ON parent.obj_id = parent_ref.obj_id AND parent.type = 'prg'"
-				."	JOIN prg_usr_progress progress ON prg.obj_id = progress.prg_id"
+				."	LEFT JOIN prg_usr_assignments ass ON prg.obj_id = ass.root_prg_id"
+				."	LEFT JOIN prg_usr_progress progress ON ass.root_prg_id = progress.prg_id AND progress.assignment_id = ass.id"
 				."	LEFT JOIN"
 				."		("
 				."			SELECT ass.usr_id,ass.root_prg_id prg_id FROM prg_usr_assignments ass"
