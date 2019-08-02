@@ -29,6 +29,28 @@ class ilObjStudyProgrammeReferenceGUI extends ilContainerReferenceGUI
 		ilObjStudyProgrammeGUI::_goto($target_ref_id);
 	}
 
+	public function getTabs()
+	{
+
+		if($this->access->checkAccess("write","",$this->object->getRefId())) {
+			$this->tabs_gui->addTarget(
+				"settings",
+				$this->ctrl->getLinkTarget($this, "edit"),
+				[],
+				""
+			);
+		}
+		if($this->access->checkAccess("edit_permission","",$this->object->getRefId())) {
+			$this->tabs_gui->addTarget(
+				"perm_settings",
+				$this->ctrl->getLinkTargetByClass([self::class,"ilpermissiongui"], "perm"),
+				["perm","info","owner"],
+				"ilpermissiongui"
+			);
+		}
+	}
+
+
 	/**
 	 * save object
 	 *
