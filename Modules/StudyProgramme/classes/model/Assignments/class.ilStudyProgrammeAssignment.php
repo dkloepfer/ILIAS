@@ -26,6 +26,7 @@ class ilStudyProgrammeAssignment
 	const AUTO_ASSIGNED_BY_ORGU = -2;
 	const AUTO_ASSIGNED_BY_COURSE = -3;
 	const AUTO_ASSIGNED_BY_GROUP = -4;
+	const AUTO_REASSIGNED_AFTER_EXPIRED_QUALIFICATION = -5;
 
 	/**
 	 * Id of this assignment.
@@ -149,13 +150,14 @@ class ilStudyProgrammeAssignment
 	public function setLastChangeBy(int $assingned_by_id) : ilStudyProgrammeAssignment
 	{
 
-		if (ilObject::_lookupType($assingned_by_id) != "usr" &&
-			! in_array($assingned_by_id, [
+		if (!in_array($assingned_by_id, [
 				self::AUTO_ASSIGNED_BY_ROLE,
 				self::AUTO_ASSIGNED_BY_ORGU,
 				self::AUTO_ASSIGNED_BY_COURSE,
-				self::AUTO_ASSIGNED_BY_GROUP
-			])
+				self::AUTO_ASSIGNED_BY_GROUP,
+				self::AUTO_REASSIGNED_AFTER_EXPIRED_QUALIFICATION
+			]) &&
+			ilObject::_lookupType($assingned_by_id) != "usr"
 		) {
 			throw new ilException("ilStudyProgrammeAssignment::setLastChangeBy: '$assingned_by_id' "
 								 ."is neither a user's id nor a valid membership source.");

@@ -187,8 +187,13 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 					if(is_null($assigned_by)) {
 						$srcs = array_flip(ilStudyProgrammeAutoMembershipSource::SOURCE_MAPPING);
 						$assignment_src = (int)$a_set['prg_assingment_origin'];
+						if(array_key_exists($assignment_src, $srcs)) {
+							$src = $srcs[$assignment_src];
+						} elseif($assignment_src === ilStudyProgrammeAssignment::AUTO_REASSIGNED_AFTER_EXPIRED_QUALIFICATION) {
+							$src = 'auto_rebook';
+						}
 						$assigned_by = $this->lng->txt('prg_autoassingment')
-							.' '.$this->lng->txt($srcs[$assignment_src]);
+							.' '.$this->lng->txt($src);
 					}
 					$this->tpl->setVariable("ASSIGNED_BY", $assigned_by);
 					break;
