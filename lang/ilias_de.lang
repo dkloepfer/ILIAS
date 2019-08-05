@@ -11215,7 +11215,7 @@ prg#:#prg_validity_of_qualification#:#Gültigkeit einer erreichten Qualifikation
 prg#:#prg_no_validity_qalification#:#Kein Ablauf der Qualifikation
 prg#:#validity_qalification_period#:#Ablauf der Qualifikation individuell festgelegt
 prg#:#validity_qalification_period_desc#:#Tage nach erfolgreicher Teilnahme
-prg#:#validity_qalification_date#:#Die Qualifikation läuft zu einem Stichtag ab
+prg#:#validity_qalification_date#:#Datum des Ablaufs der Qualifikation (letzter Tag der Gültigkeit)
 prg#:#validity_qalification_date_desc#:#Datum des Ablaufs der Qualifikation
 prg#:#prg_no_restart#:#Keine Automatische Wiederaufnahme nach Ablauf der Qualifikation
 prg#:#restart_period#:#Automatische Wiederaufnahme vor Ablauf der Qualifikation
@@ -11230,7 +11230,7 @@ prg#:#prg_completion_date#:#Abschlußdatum
 prg#:#prg_expiry_date#:#Ablauf Qualifikation
 prg#:#prg_validity#:#Gültigkeit Qualifikation
 prg#:#prg_still_valid#:#Qualifikation gültig
-prg#:#prg_renewal_required#:#Erneuerung der Qualifikation notwendig
+prg#:#prg_renewal_required#:#Qualifikation ungültig
 prg#:#prg_restart_assignments_temporal_progress_title#:#Neubuchung auslaufender Qualifikationen im Studienprogramm
 prg#:#prg_restart_assignments_temporal_progress_desc#:#Bucht Teilnehmer neu auf Studienprogramme mit auslaufender Qualifikation
 prg#:#prg_invalidate_expired_progresses_title#:#Zeitlich begrenzte Lernfortschritte im Studienprogramm

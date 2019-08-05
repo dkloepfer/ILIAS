@@ -318,7 +318,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 				   ."     , prgrs.completion_by completion_by_id"
 				   ."     , prgrs.assignment_id assignment_id"
 				   ."     , prgrs.completion_date"
-				   ."     , prgrs.vq_date"
+				   ."     , DATE_FORMAT(prgrs.vq_date,'%Y-%m-%d') vq_date"
 				   ."     , prgrs.deadline prg_deadline"
 				   ."     , ass.root_prg_id root_prg_id"
 				   ."     , ass.last_change prg_assign_date"
