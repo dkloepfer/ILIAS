@@ -13319,6 +13319,8 @@ prg#:#could_not_add_users_no_permissons#:#Could not assign %d Users due to lacki
 prg#:#may_not_adjust_for_some_users#:#May not adjust the setting for some users.
 prg#:#prg_change_expiry#:#Adjust expiry
 prg#:#prg_change_deadline#:#Adjust deadline
+prg#:#not_a_valid_cat_id#:#%s is not a valid ref-id of a category.
+prg#:#auto_rebook#:#restart
 common#:#obj_prg_select#:#-- Please select one study programme --
 common#:#obj_prg#:#Study Programme
 common#:#obj_prgs#:#Study Programmes

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 
 class ilStudyProgrammeAssignmentDBRepository
@@ -27,7 +27,7 @@ implements ilStudyProgrammeAssignmentRepository
 	 */
 	public function createFor(int $root_prg_id, int $usr_id, int $assigning_usr_id) : ilStudyProgrammeAssignment
 	{
-		if (ilObject::_lookupType($usr_id) != "usr") {
+		if ($usr_id !== ilStudyProgrammeAssignment::AUTO_REASSIGNED_AFTER_EXPIRED_QUALIFICATION && ilObject::_lookupType($usr_id) != "usr") {
 			throw new ilException("ilStudyProgrammeAssignment::createFor: '$usr_id' "
 								 ."is no id of a user.");
 		}
@@ -157,10 +157,10 @@ implements ilStudyProgrammeAssignmentRepository
 
 	protected function assignmentByRow(array $row) : ilStudyProgrammeAssignment
 	{
-		return (new ilStudyProgrammeAssignment($row[self::FIELD_ID]))
-			->setRootId($row[self::FIELD_ROOT_PRG_ID])
-			->setUserId($row[self::FIELD_USR_ID])
-			->setLastChangeBy($row[self::FIELD_LAST_CHANGE_BY])
+		return (new ilStudyProgrammeAssignment((int)$row[self::FIELD_ID]))
+			->setRootId((int)$row[self::FIELD_ROOT_PRG_ID])
+			->setUserId((int)$row[self::FIELD_USR_ID])
+			->setLastChangeBy((int)$row[self::FIELD_LAST_CHANGE_BY])
 			->setLastChange(DateTime::createFromFormat(
 				ilStudyProgrammeAssignment::DATE_TIME_FORMAT,$row[self::FIELD_LAST_CHANGE]))
 			->setRestartDate(
@@ -168,7 +168,7 @@ implements ilStudyProgrammeAssignmentRepository
 				DateTime::createFromFormat(ilStudyProgrammeAssignment::DATE_TIME_FORMAT,$row[self::FIELD_RESTART_DATE]) :
 				null
 			)
-			->setRestartedAssignmentId($row[self::FIELD_RESTARTED_ASSIGNMENT_ID]);
+			->setRestartedAssignmentId((int)$row[self::FIELD_RESTARTED_ASSIGNMENT_ID]);
 	}
 
 	protected function loadByFilterDB(array $filter)

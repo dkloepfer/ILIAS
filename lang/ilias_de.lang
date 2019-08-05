@@ -11215,7 +11215,7 @@ prg#:#prg_validity_of_qualification#:#Gültigkeit einer erreichten Qualifikation
 prg#:#prg_no_validity_qalification#:#Kein Ablauf der Qualifikation
 prg#:#validity_qalification_period#:#Ablauf der Qualifikation individuell festgelegt
 prg#:#validity_qalification_period_desc#:#Tage nach erfolgreicher Teilnahme
-prg#:#validity_qalification_date#:#Die Qualifikation läuft zu einem Stichtag ab
+prg#:#validity_qalification_date#:#Datum des Ablaufs der Qualifikation (letzter Tag der Gültigkeit)
 prg#:#validity_qalification_date_desc#:#Datum des Ablaufs der Qualifikation
 prg#:#prg_no_restart#:#Keine Automatische Wiederaufnahme nach Ablauf der Qualifikation
 prg#:#restart_period#:#Automatische Wiederaufnahme vor Ablauf der Qualifikation
@@ -11230,8 +11230,8 @@ prg#:#prg_completion_date#:#Abschlußdatum
 prg#:#prg_expiry_date#:#Ablauf Qualifikation
 prg#:#prg_validity#:#Gültigkeit Qualifikation
 prg#:#prg_still_valid#:#Qualifikation gültig
-prg#:#prg_renewal_required#:#Erneuerung der Qualifikation notwendig
-prg#:#prg_restart_assignments_temporal_progress_title#:#Neubuchung auslaufender Qulifikationen im Studienprogramm
+prg#:#prg_renewal_required#:#Qualifikation ungültig
+prg#:#prg_restart_assignments_temporal_progress_title#:#Neubuchung auslaufender Qualifikationen im Studienprogramm
 prg#:#prg_restart_assignments_temporal_progress_desc#:#Bucht Teilnehmer neu auf Studienprogramme mit auslaufender Qualifikation
 prg#:#prg_invalidate_expired_progresses_title#:#Zeitlich begrenzte Lernfortschritte im Studienprogramm
 prg#:#prg_invalidate_expired_progresses_desc#:#Markiert abgelaufene Lernfortschritte an Studienprogrammen als 'nicht bestanden'
@@ -11254,6 +11254,8 @@ prg#:#could_not_add_users_no_permissons#:#Konnte %d Benutzer wegen mangelnder Be
 prg#:#may_not_adjust_for_some_users#:#Die Einstellung kann für manche Benutzer nicht verändert werden.
 prg#:#prg_change_expiry#:#Ablauf Qualifikation anpassen
 prg#:#prg_change_deadline#:#Stichtag anpassen
+prg#:#not_a_valid_cat_id#:#%s entspricht keiner Kategorie.
+prg#:#auto_rebook#:#Wiederaufnahme
 prtf#:#pdf_export#:#PDF Export
 prtf#:#prtf_add_blog#:#Blog hinzufügen
 prtf#:#prtf_add_existing_blog#:#Vorhandenes Blog nutzen

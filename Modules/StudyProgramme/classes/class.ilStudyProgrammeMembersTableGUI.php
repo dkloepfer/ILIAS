@@ -86,7 +86,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 		$this->setTopCommands(false);
 		$this->setEnableHeader(true);
 		// TODO: switch this to internal sorting/segmentation
-		$this->setExternalSorting(true);
+		$this->setExternalSorting(false);
 		$this->setExternalSegmentation(true);
 		$this->setRowTemplate("tpl.members_table_row.html", "Modules/StudyProgramme");
 		$this->setShowRowsSelector(false);
@@ -187,8 +187,13 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 					if(is_null($assigned_by)) {
 						$srcs = array_flip(ilStudyProgrammeAutoMembershipSource::SOURCE_MAPPING);
 						$assignment_src = (int)$a_set['prg_assingment_origin'];
+						if(array_key_exists($assignment_src, $srcs)) {
+							$src = $srcs[$assignment_src];
+						} elseif($assignment_src === ilStudyProgrammeAssignment::AUTO_REASSIGNED_AFTER_EXPIRED_QUALIFICATION) {
+							$src = 'auto_rebook';
+						}
 						$assigned_by = $this->lng->txt('prg_autoassingment')
-							.' '.$this->lng->txt($srcs[$assignment_src]);
+							.' '.$this->lng->txt($src);
 					}
 					$this->tpl->setVariable("ASSIGNED_BY", $assigned_by);
 					break;
@@ -313,7 +318,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 				   ."     , prgrs.completion_by completion_by_id"
 				   ."     , prgrs.assignment_id assignment_id"
 				   ."     , prgrs.completion_date"
-				   ."     , prgrs.vq_date"
+				   ."     , DATE_FORMAT(prgrs.vq_date,'%Y-%m-%d') vq_date"
 				   ."     , prgrs.deadline prg_deadline"
 				   ."     , ass.root_prg_id root_prg_id"
 				   ."     , ass.last_change prg_assign_date"
@@ -327,14 +332,6 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 		$query .= $this->getFrom();
 		$query .= $this->getWhere($a_prg_id);
 		$query .= $this->getFilterWhere($filter);
-
-		if($order_column !== null) {
-			$query .= " ORDER BY $order_column";
-
-			if($order_direction !== null) {
-				$query .= " $order_direction";
-			}
-		}
 
 		if($limit !== null) {
 			$this->db->setLimit($limit, $offset !== null ? $offset : 0);

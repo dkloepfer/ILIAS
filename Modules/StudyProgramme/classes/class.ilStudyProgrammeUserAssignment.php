@@ -99,7 +99,8 @@ class ilStudyProgrammeUserAssignment {
 	 */
 	public function restartAssignment()
 	{
-		$restarted = $this->getStudyProgramme()->assignUser($this->getUserId(),$this->getUserId());
+		$restarted = $this->getStudyProgramme()
+			->assignUser($this->getUserId(),ilStudyProgrammeAssignment::AUTO_REASSIGNED_AFTER_EXPIRED_QUALIFICATION);
 		$this->assignment_repository->update(
 			$this->assignment->setRestartedAssignmentId($restarted->getId())
 		);
