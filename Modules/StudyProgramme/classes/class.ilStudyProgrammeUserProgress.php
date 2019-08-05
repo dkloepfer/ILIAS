@@ -541,6 +541,9 @@ class ilStudyProgrammeUserProgress {
 	 * @return viod
 	 */
 	public function recalculateFailedToDeadline() {
+		if($this->getStatus() !== ilStudyProgrammeProgress::STATUS_IN_PROGRESS) {
+			return;
+		}
 		$deadline = $this->getDeadline();
 		$today = date(ilStudyProgrammeProgress::DATE_FORMAT);
 
