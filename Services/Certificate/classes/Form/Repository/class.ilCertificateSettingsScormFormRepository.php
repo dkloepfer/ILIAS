@@ -85,7 +85,7 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
      * @throws ilException
      * @throws ilWACException
      */
-    public function createForm(ilCertificateGUI $certificateGUI)
+    public function createForm(ilCertificateGUI $certificateGUI, ilCertificate $certificateObject)
     {
         $form = $this->settingsFromFactory->createForm($certificateGUI);
 

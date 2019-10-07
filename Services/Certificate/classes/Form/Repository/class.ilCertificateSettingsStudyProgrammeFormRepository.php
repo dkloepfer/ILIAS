@@ -32,13 +32,14 @@ class ilCertificateSettingsStudyProgrammeFormRepository implements ilCertificate
 	public function __construct(
 		ilObject $object,
 		string $certificatePath,
+		bool $hasAdditionalElements,
 		ilLanguage $language,
-		ilTemplate $template,
 		ilCtrl $controller,
 		ilAccess $access,
 		ilToolbarGUI $toolbar,
 		ilCertificatePlaceholderDescription $placeholderDescriptionObject,
-		ilCertificateSettingsFormRepository $settingsFormFactory = null
+        ilCertificateSettingsFormRepository $settingsFormRepository = null,
+        ilSetting $setting = null
 	) {
 		$this->object = $object;
 		$this->language = $language;
@@ -47,8 +48,8 @@ class ilCertificateSettingsStudyProgrammeFormRepository implements ilCertificate
 			$settingsFormFactory = new ilCertificateSettingsFormRepository(
 				$object->getId(),
 				$certificatePath,
+				$hasAdditionalElements,
 				$language,
-				$template,
 				$controller,
 				$access,
 				$toolbar,
@@ -57,6 +58,10 @@ class ilCertificateSettingsStudyProgrammeFormRepository implements ilCertificate
 		}
 
 		$this->settingsFromFactory = $settingsFormFactory;
+		if (null === $setting) {
+			$setting = new ilSetting('prg');
+		}
+		$this->setting = $setting;
 	}
 
 	/**
@@ -68,9 +73,9 @@ class ilCertificateSettingsStudyProgrammeFormRepository implements ilCertificate
 	 * @throws ilException
 	 * @throws ilWACException
 	 */
-	public function createForm(ilCertificateGUI $certificateGUI, ilCertificate $certificateObject)
+	public function createForm(ilCertificateGUI $certificateGUI)
 	{
-		$form = $this->settingsFromFactory->createForm($certificateGUI, $certificateObject);
+		$form = $this->settingsFromFactory->createForm($certificateGUI);
 		return $form;
 	}
 
