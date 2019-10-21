@@ -2581,6 +2581,10 @@ if ($ilDB->tableColumnExists("lng_log", "identifier")) {
 ?>
 <#5559>
 <?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5560>
+<?php
 global $DIC;
 $db = $DIC['ilDB'];
 if(!$db->tableColumnExists('prg_settings','deadline_period')) {
@@ -2607,7 +2611,7 @@ if(!$db->tableColumnExists('prg_settings','deadline_date')) {
 }
 ?>
 
-<#5560>
+<#5561>
 <?php
 global $DIC;
 $db = $DIC['ilDB'];
@@ -2623,7 +2627,7 @@ if(!$db->tableColumnExists('prg_usr_progress','assignment_date')) {
 }
 ?>
 
-<#5561>
+<#5562>
 <?php
 global $DIC;
 $db = $DIC['ilDB'];
@@ -2637,7 +2641,7 @@ if($db->tableColumnExists('prg_usr_progress','assignment_date') && $db->tableCol
 }
 ?>
 
-<#5562>
+<#5563>
 <?php
 global $DIC;
 $db = $DIC['ilDB'];
@@ -2653,7 +2657,7 @@ if(!$db->tableColumnExists('prg_usr_progress','completion_date')) {
 }
 ?>
 
-<#5563>
+<#5564>
 <?php
 global $DIC;
 $db = $DIC['ilDB'];
@@ -2693,7 +2697,7 @@ if(!$db->tableColumnExists('prg_settings','vq_restart_period')) {
 }
 ?>
 
-<#5564>
+<#5565>
 <?php
 global $DIC;
 $db = $DIC['ilDB'];
@@ -2709,7 +2713,7 @@ if(!$db->tableColumnExists('prg_usr_progress','vq_date')) {
 }
 ?>
 
-<#5565>
+<#5566>
 <?php
 global $DIC;
 $db = $DIC['ilDB'];
@@ -2725,7 +2729,7 @@ if(!$db->tableColumnExists('prg_usr_assignments','restart_date')) {
 }
 ?>
 
-<#5566>
+<#5567>
 <?php
 global $DIC;
 $db = $DIC['ilDB'];
@@ -2742,7 +2746,7 @@ if(!$db->tableColumnExists('prg_usr_assignments','restarted_assignment_id')) {
 }
 ?>
 
-<#5567>
+<#5568>
 <?php
 if(!$ilDB->tableExists('prg_auto_content')) {
 	$ilDB->createTable('prg_auto_content', array(
@@ -2770,7 +2774,7 @@ if(!$ilDB->tableExists('prg_auto_content')) {
 }
 ?>
 
-<#5568>
+<#5569>
 <?php
 require_once './Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
 
@@ -2790,7 +2794,7 @@ ilDBUpdateNewObjectType::addRBACCreate('create_prgr', 'Create Study Programme Re
 ]);
 ?>
 
-<#5569>
+<#5570>
 <?php
 if (!$ilDB->tableExists('prg_auto_membership'))
 {
@@ -2830,12 +2834,12 @@ if (!$ilDB->tableExists('prg_auto_membership'))
 }
 ?>
 
-<#5570>
+<#5571>
 <?php
 	ilOrgUnitOperationContextQueries::registerNewContext(ilOrgUnitOperationContext::CONTEXT_PRG, ilOrgUnitOperationContext::CONTEXT_OBJECT);
 ?>
 
-<#5571>
+<#5572>
 <?php
 ilOrgUnitOperationQueries::registerNewOperation(
 	ilOrgUnitOperation::OP_VIEW_MEMBERS,
@@ -2864,7 +2868,7 @@ ilOrgUnitOperationQueries::registerNewOperation(
 );
 ?>
 
-<#5572>
+<#5573>
 <?php
 global $DIC;
 $db = $DIC['ilDB'];
@@ -2882,7 +2886,7 @@ if(!$db->tableColumnExists('prg_settings','access_ctrl_org_pos')) {
 }
 ?>
 
-<#5573>
+<#5574>
 <?php
 global $DIC;
 $db = $DIC['ilDB'];
@@ -2899,7 +2903,7 @@ if(!$db->tableColumnExists('prg_usr_progress','invalidated')) {
 }
 ?>
 
-<#5540>
+<#5575>
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
