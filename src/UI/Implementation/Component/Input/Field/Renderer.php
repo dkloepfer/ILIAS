@@ -150,19 +150,17 @@ class Renderer extends AbstractComponentRenderer
              * @var $group Section
              */
             return $this->renderSection($group, $default_renderer);
+        } elseif ($group instanceof Component\Input\Field\Duration) {
+            /**
+             * @var $group Duration
+             */
+            return $this->renderDurationInput($group, $default_renderer);
+        }
 
-		} elseif ($group instanceof Component\Input\Field\Duration) {
-			/**
-			 * @var $group Duration
-			 */
-			return $this->renderDurationInput($group, $default_renderer);
-
-		} elseif ($group instanceof Component\Input\Field\DateTimeInterval) {
-			/**
-			 * @var $group DateTimeInterval
-			 */
-			return $this->renderIntervalInput($group, $default_renderer);
-		}
+        $inputs = "";
+        foreach ($group->getInputs() as $input) {
+            $inputs .= $default_renderer->render($input);
+        }
 
         return $inputs;
     }
@@ -807,66 +805,27 @@ JS;
         return $tpl->get();
     }
 
-
-	protected function renderIntervalInput(
-		DateTimeInterval $input,
-		RendererInterface $default_renderer
-	): string {
-		$tpl = $this->getTemplate("tpl.context_form.html", true, true);
-		$tpl_interval = $this->getTemplate("tpl.interval.html", true, true);
-
-		if ($input->getName()) {
-			$tpl->setVariable("NAME", $input->getName());
-		} else {
-			$tpl->setVariable("NAME", "");
-		}
-
-		$tpl->setVariable("LABEL", $input->getLabel());
-
-		if ($input->getByline() !== null) {
-			$tpl->setCurrentBlock("byline");
-			$tpl->setVariable("BYLINE", $input->getByline());
-			$tpl->parseCurrentBlock();
-		}
-
-		if ($input->isRequired()) {
-			$tpl->touchBlock("required");
-		}
-
-		if ($input->getError() !== null) {
-			$tpl->setCurrentBlock("error");
-			$tpl->setVariable("ERROR", $input->getError());
-			$tpl->parseCurrentBlock();
-		}
-
-		$input_html = $default_renderer->render($input->getInputs());
-		$tpl_interval->setVariable('INTERVAl', $input_html);
-		$tpl->setVariable("INPUT", $tpl_interval->get());
-		return $tpl->get();
-	}
-
-
-	/**
-	 * @inheritdoc
-	 */
-	protected function getComponentInterfaceName() {
-		return [
-			Component\Input\Field\Text::class,
-			Component\Input\Field\Numeric::class,
-			Component\Input\Field\Group::class,
-			Component\Input\Field\OptionalGroup::class,
-			Component\Input\Field\SwitchableGroup::class,
-			Component\Input\Field\Section::class,
-			Component\Input\Field\Checkbox::class,
-			Component\Input\Field\Tag::class,
-			Component\Input\Field\Password::class,
-			Component\Input\Field\Select::class,
-			Component\Input\Field\Radio::class,
-			Component\Input\Field\Textarea::class,
-			Component\Input\Field\MultiSelect::class,
-			Component\Input\Field\DateTime::class,
-			Component\Input\Field\Duration::class,
-			Component\Input\Field\DateTimeInterval::class
-		];
-	}
+    /**
+     * @inheritdoc
+     */
+    protected function getComponentInterfaceName()
+    {
+        return [
+            Component\Input\Field\Text::class,
+            Component\Input\Field\Numeric::class,
+            Component\Input\Field\Group::class,
+            Component\Input\Field\OptionalGroup::class,
+            Component\Input\Field\SwitchableGroup::class,
+            Component\Input\Field\Section::class,
+            Component\Input\Field\Checkbox::class,
+            Component\Input\Field\Tag::class,
+            Component\Input\Field\Password::class,
+            Component\Input\Field\Select::class,
+            Component\Input\Field\Radio::class,
+            Component\Input\Field\Textarea::class,
+            Component\Input\Field\MultiSelect::class,
+            Component\Input\Field\DateTime::class,
+            Component\Input\Field\Duration::class
+        ];
+    }
 }
