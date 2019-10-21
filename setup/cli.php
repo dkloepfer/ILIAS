@@ -125,6 +125,10 @@ function build_container_for_setup() {
 			public function duration($label, $byline = null) {
 				throw new \LogicException("The CLI-setup does not support the UI-Framework.");
 			}
+			public function dateTimeInterval($label, $byline = null)
+			{
+				throw new \LogicException("The CLI-setup does not support the UI-Framework.");
+			}
 		};
 	};
 

@@ -150,12 +150,6 @@ class Renderer extends AbstractComponentRenderer
              * @var $group Section
              */
             return $this->renderSection($group, $default_renderer);
-        } elseif ($group instanceof Component\Input\Field\Duration) {
-            /**
-             * @var $group Duration
-             */
-            return $this->renderDurationInput($group, $default_renderer);
-        }
 
 		} elseif ($group instanceof Component\Input\Field\Duration) {
 			/**
